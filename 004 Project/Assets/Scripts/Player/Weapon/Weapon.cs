@@ -14,7 +14,6 @@ public class Weapon : MonoBehaviour, IWeapon
     protected BaseAnimationToWeapon weaponAnimationToWeapon;
 
 
-
     public PlayerShieldState GetPlayerShieldState()
     {
         return shieldState;
@@ -92,6 +91,4 @@ public class Weapon : MonoBehaviour, IWeapon
     {
         collisionHandler.OnColliderDetected -= HandleCollision;
     }
-
-
 }

@@ -12,5 +12,4 @@ public class CharacterStatsData
     public float attackDamage;
     public float attackSpeed;
     public float defense;
-    public float moveSpeed;
 }

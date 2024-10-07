@@ -105,20 +105,17 @@ public class MeleeAttackState : AttackState
             }
             else
             {
-                if(!GameManager.SharedCombatDataManager.IsPlayerNotHitState)
-                    GameManager.SharedCombatDataManager.SetPlayerHit(true);
-                
+                GameManager.SharedCombatDataManager.SetPlayerHit(true);
+
                 if (damageable != null)
                 {
-                    damageable.NonElementDamage(AttackDamage, collision.transform);
+                    damageable.Damage(AttackDamage);
                 }
 
-                if (!GameManager.SharedCombatDataManager.IsPlayerNotKnockback)
+
+                if (knockbackable != null)
                 {
-                    if (knockbackable != null)
-                    {
-                        knockbackable.Knockback(stateData.knockbackAngle, stateData.knockbackStrength, Movement.FacingDirection);
-                    }
+                    knockbackable.Knockback(stateData.knockbackAngle, stateData.knockbackStrength, Movement.FacingDirection);
                 }
             }
             //SharedCombatDataManager.Instance.SetPlayerHit(true);

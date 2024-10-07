@@ -2,42 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StunState : MonsterState
+public class StunState : MonoBehaviour
 {
-
-    D_StunState stateData;
-    protected float stunTime = 0f;
-    public StunState(Entity entity, MonsterStateMachine stateMachine, string animBoolName, D_StunState stateData) : base(entity, stateMachine, animBoolName)
+    // Start is called before the first frame update
+    void Start()
     {
-        this.stateData = stateData;
-    }
-    public override void DoCheck()
-    {
-        base.DoCheck();
+        
     }
 
-    public override void Enter()
+    // Update is called once per frame
+    void Update()
     {
-        base.Enter();
-        startTime = Time.time;
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
-    public override void LogicUpdate()
-    {
-        base.LogicUpdate();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-    public void SetStunTime(float time)
-    {
-        stunTime = time;
+        
     }
 }

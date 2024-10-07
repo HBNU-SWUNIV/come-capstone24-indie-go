@@ -38,8 +38,8 @@ public class SkillDataManager
             if (skillJson.spearData != null)
                 data.AddData(skillJson.spearData);
 
-            if (skillJson.explosionData != null)
-                data.AddData(skillJson.explosionData);
+            if (skillJson.fireData != null)
+                data.AddData(skillJson.fireData);
             // 다른 스킬 데이터를 불러오는 메서드 추가
             skillDataDict[skillEntry.Key] = data;
         }

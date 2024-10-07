@@ -12,11 +12,12 @@ public class GameManager : MonoBehaviour
     ResourceManager resource = new ResourceManager();
     PlayerManager player;
     SharedCombatDataManager sharedData = new SharedCombatDataManager();
-
+    ElementalManager elemental = new ElementalManager();
     public static DataManager Data { get{ return Instance.data; } }
     public static ResourceManager Resource { get { return Instance.resource; } }
     public static PlayerManager PlayerManager { get { return Instance.player; } }
     public static SharedCombatDataManager SharedCombatDataManager { get { return Instance.sharedData; } }
+    public static ElementalManager ElementalManager { get { return Instance.elemental; } }
     void Start()
     {
         Init();

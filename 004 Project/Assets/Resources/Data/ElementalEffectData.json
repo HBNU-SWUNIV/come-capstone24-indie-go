@@ -1,0 +1,72 @@
+{
+  "effects": [
+    {
+      "key": "fireEffect",
+      "value": {
+        "level1": {
+          "Fire_dotDamage": 0.2,
+          "Fire_duration": 5.0,
+          "Fire_maxStacks": 3
+        },
+        "level2": {
+          "Fire_dotDamage": 0.3,
+          "Fire_duration": 6.0,
+          "Fire_maxStacks": 4
+        },
+        "level3": {
+          "Fire_dotDamage": 0.4,
+          "Fire_duration": 7.0,
+          "Fire_maxStacks": 5
+        }
+      }
+    },
+    {
+      "key": "iceEffect",
+      "value": {
+        "level1": {
+          "Ice_slowEffect": 0.5,
+          "Ice_duration": 3.0
+        },
+        "level2": {
+          "Ice_slowEffect": 0.6,
+          "Ice_duration": 4.0
+        },
+        "level3": {
+          "Ice_slowEffect": 0.7,
+          "Ice_duration": 5.0
+        }
+      }
+    },
+    {
+      "key": "landEffect",
+      "value": {
+        "level1": {
+          "Land_decreaseAttackSpeed": 0.4,
+          "Land_increaseAttackDamage": 0.3
+        },
+        "level2": {
+          "Land_decreaseAttackSpeed": 0.2,
+          "Land_increaseAttackDamage": 0.4
+        },
+        "level3": {
+          "Land_decreaseAttackSpeed": 0.1,
+          "Land_increaseAttackDamage": 0.5
+        }
+      }
+    },
+    {
+      "key": "lightningEffect",
+      "value": {
+        "level1": {
+          "Lightning_stunDuration": 2.0
+        },
+        "level2": {
+          "Lightning_stunDuration": 3.0
+        },
+        "level3": {
+          "Lightning_stunDuration": 4.0
+        }
+      }
+    }
+  ]
+}

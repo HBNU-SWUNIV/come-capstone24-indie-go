@@ -29,9 +29,7 @@ public class SkillDamage : SkillComponent<SkillDamageData>, IAttackable
         {
             collisionHandler = prefab.GetComponent<CollisionHandler>();//transform.parent.GetComponentInChildren<CollisionHandler>();
             if (collisionHandler != null)
-            {
-                
-
+            {     
                 collisionHandler.OnColliderDetected += CheckAttack;
             }
             else
@@ -47,12 +45,17 @@ public class SkillDamage : SkillComponent<SkillDamageData>, IAttackable
 
         if (damageable != null)
         {
-            damageable.Damage(currentSkillData.Damage * playerStats.AttackDamage);
+            float baseDamage = currentSkillData.Damage * playerStats.AttackDamage;
+            Element attackerElement = playerStats.Element; // 플레이어의 속성
+            float attackerAttackStat = playerStats.AttackDamage;
+
+            damageable.SkillDamage(baseDamage, attackerElement, attackerAttackStat, gameObject, collision.transform);
             Debug.Log("스킬 데미지 : " + currentSkillData.Damage * playerStats.AttackDamage);
         }
         IKnockbackable knockbackable = collision.GetComponentInChildren<IKnockbackable>();
         if (knockbackable != null)
         {
+            //넉백이 대상의 velocity가 0이 아닐 경우, 밀리는 수준이 달라짐.
             knockbackable.Knockback(currentSkillData.knockbackAngle, currentSkillData.knockbackStrength, CoreMovement.FacingDirection);
         }
     }

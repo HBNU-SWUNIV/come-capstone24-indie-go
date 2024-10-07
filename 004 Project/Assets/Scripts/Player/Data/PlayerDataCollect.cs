@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerDataCollect
 {
-    public Dictionary<string, int> actionData = new Dictionary<string, int>()
+    private Dictionary<string, int> actionData = new Dictionary<string, int>()
     {
         { PlayerDataCollectName.ParryAttempt, 0 },
         { PlayerDataCollectName.ParrySuccess, 0 },
@@ -23,8 +23,7 @@ public class PlayerDataCollect
         if (actionData.ContainsKey(actionType))
         {
             actionData[actionType]++;
-            PlayerDataAnalyze.instance.AnalyzePlayerData(actionData);
-            Debug.Log($"{actionType} count : {actionData[actionType]}");
+          //  Debug.Log($"{actionType} count : {actionData[actionType]}");
         }
     }
 

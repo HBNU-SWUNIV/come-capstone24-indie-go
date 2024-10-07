@@ -10,10 +10,13 @@ public class SharedCombatDataManager : MonoBehaviour
 
     public bool IsPlayerHit { get; private set; }
 
+    public bool IsPlayerNotHitState { get;  set; }
+    public bool IsPlayerNotKnockback { get;  set; }
 
     public Entity Attacker { get; private set; }
     public D_MeleeAttackState AttackStateData { get; private set; }
     public Collider2D Collision { get; private set; }
+
 
     public void TakeDamage(Entity attacker, D_MeleeAttackState stateData, Collider2D collision)
     {

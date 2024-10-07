@@ -35,7 +35,7 @@ public class DefensiveWeapon : Weapon
         ShieldEnterState = new ShieldEnterState(this, shieldState, stateMachine, weaponData, ShieldStateName.Enter);
         ShieldExitState = new ShieldExitState(this, shieldState,  stateMachine, weaponData, ShieldStateName.Exit);
         ShieldHoldState = new ShieldHoldState(this, shieldState, stateMachine, weaponData, ShieldStateName.Hold);
-        ShieldParryState = new ShieldParryState(this, shieldState, stateMachine, weaponData, ShieldStateName.Parry);
+        ShieldParryState = new ShieldParryState(this, shieldState, stateMachine, weaponData, ShieldStateName.Parry, playerStats);
 
         weaponAnimationToWeapon.OnAction += AnimationActionTrigger;
         weaponAnimationToWeapon.OnFinish += AnimationFinishTrigger;
@@ -314,7 +314,7 @@ public class ShieldHoldState : ShieldState
         if (playerDamageable != null)
         {
          //   Debug.Log("홀드 피해 감소");
-            playerDamageable.DamageWithShield(attackDamage); // 피해 감소
+            playerDamageable.DamageWithShield(attackDamage, go.transform); // 피해 감소
         }
 
         // 플레이어 넉백
@@ -330,10 +330,11 @@ public class ShieldHoldState : ShieldState
 
 public class ShieldParryState : ShieldState
 {
-
+    private CharacterStats<PlayerStatsData> stats;
     private bool isDone;
-    public ShieldParryState(DefensiveWeapon weapon, PlayerShieldState playerShieldState, ShieldStateMachine stateMachine, Shield_WeaponData weaponData, string animBoolName) : base(weapon, playerShieldState, stateMachine, weaponData, animBoolName)
+    public ShieldParryState(DefensiveWeapon weapon, PlayerShieldState playerShieldState, ShieldStateMachine stateMachine, Shield_WeaponData weaponData, string animBoolName, CharacterStats<PlayerStatsData> stats) : base(weapon, playerShieldState, stateMachine, weaponData, animBoolName)
     {
+        this.stats = stats;
     }
 
     public override void Enter()
@@ -367,7 +368,7 @@ public class ShieldParryState : ShieldState
         if (damageable != null)
         {
             //Debug.Log("패링");
-            damageable.Damage(weaponData.parryDamage); // 패링 시 적에게 피해 줌
+            damageable.Damage(weaponData.parryDamage, stats.Element, stats.AttackDamage, weapon.gameObject,go.transform); // 패링 시 적에게 피해 줌
         }
         //적에게 넉백
         IKnockbackable knockbackable = go.GetComponentInChildren<IKnockbackable>();

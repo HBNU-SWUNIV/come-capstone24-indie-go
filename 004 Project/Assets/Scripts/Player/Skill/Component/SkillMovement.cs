@@ -13,8 +13,8 @@ public class SkillMovement : SkillComponent<SkillMovementData>
     {
         if (currentSkillData != null)
         {
-            CoreMovement.SetVelocityX(currentSkillData.Velocity);
-            //CoreMovement.SetVelocity(currentSkillData.Velocity, currentSkillData.Direction, CoreMovement.FacingDirection);
+            //CoreMovement.SetVelocityX(currentSkillData.Velocity);
+            CoreMovement.SetVelocity(currentSkillData.Velocity, currentSkillData.Direction, CoreMovement.FacingDirection);
         }
     }
 

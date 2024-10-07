@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void Damage(float amount);
-    void DamageWithShield(float amount);
+    void NonElementDamage(float amount, Transform defender);
+    void SkillDamage(float baseDamage, Element attackerElement, float attackerDamageStats, GameObject attacker, Transform defender);
+    void Damage(float baseDamage, Element attackerElement, float attackerDamageStats, GameObject attacker, Transform defender);
+    void DamageWithShield(float amount, Transform defender);
 }

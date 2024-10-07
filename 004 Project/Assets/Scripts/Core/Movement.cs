@@ -11,6 +11,7 @@ public class Movement : CoreComponent
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
 
+    private float effect;
     protected override void Awake()
     {
         base.Awake();
@@ -26,9 +27,27 @@ public class Movement : CoreComponent
     }
 
     #region SetFunctions
+    public void SetVelocityXEffect(float velocity)
+    {
+        effect = velocity;
+        Debug.Log(" effect : " + effect);
+
+    }
+    public void SetVelocityZeroEffect()
+    {
+        effect = 0f;
+    }
+
     public void SetVelocityZero()
     {
         workspace = Vector2.zero;
+        SetFinalVelocity();
+    }
+
+    public void SetVelocity(float velocity, int direction)
+    {
+
+        workspace.Set(velocity * direction, workspace.y);
         SetFinalVelocity();
     }
     public void SetVelocity(float velocity, Vector2 angle, int direction)
@@ -65,6 +84,10 @@ public class Movement : CoreComponent
     {
         if(CanSetVelocity)
         {
+            if (effect != 0)
+            {
+                workspace.Set(workspace.x * effect, workspace.y);
+            }
             RB.velocity = workspace;
             CurrentVelocity = workspace;
         }

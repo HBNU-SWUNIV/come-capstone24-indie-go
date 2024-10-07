@@ -4,10 +4,11 @@
             "key": 1001,
             "value": {
                 "id" :  1001,
-                "curHp": 30,
-                "maxHp": 30,
+                "curHp": 180,
+                "maxHp": 180,
                 "attackDamage": 10.0,
                 "attackSpeed": 1.0,
+                "moveSpeed": 1,
                 "defense": 5.0
             }
         },
@@ -19,6 +20,7 @@
                 "maxHp": 50,
                 "attackDamage": 20.0,
                 "attackSpeed": 1.5,
+                "moveSpeed": 1,
                 "defense": 10.0
             }
         }

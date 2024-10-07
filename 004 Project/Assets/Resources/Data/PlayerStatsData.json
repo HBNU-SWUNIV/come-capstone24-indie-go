@@ -9,6 +9,7 @@
                 "attackDamage": 10.0,
                 "attackSpeed": 1.0,
                 "defense": 5.0,
+                "moveSpeed": 1,
                 "level" :  1
             }
         },
@@ -21,6 +22,7 @@
                 "attackDamage": 20.0,
                 "attackSpeed": 1.5,
                 "defense": 10.0,
+                "moveSpeed": 1.1,
                 "level" :  2
             }
         }

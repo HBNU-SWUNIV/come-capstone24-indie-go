@@ -11,7 +11,6 @@ public class AggressiveWeapon : Weapon, IWeapon
 
     protected int CurrentAttackCounter { get => currentAttackCounter; set => currentAttackCounter = value >= weaponData.numberOfAttacks ? 0 : value; }
     private int currentAttackCounter;
-    private bool setAttackSpeed = false;
 
     protected CoroutineHandler coroutineHandler;
 
@@ -49,22 +48,8 @@ public class AggressiveWeapon : Weapon, IWeapon
     {
         if (checkAttackReInputCor != null)
             coroutineHandler.StopCoroutine(checkAttackReInputCor);
-
-        // 공격속도가 1.0보다 크면 reInputTime이 감소하고, 1.0보다 작으면 증가
-        // 하지만 변화 폭을 제한해서 너무 급격한 변화를 방지함
-        float minAttackSpeed = 0.2f; // 공격 속도가 너무 느려지지 않도록 제한
-        float maxAttackSpeed = 3.0f; // 공격 속도가 너무 빨라지지 않도록 제한
-
-        // playerStats.AttackSpeed 값을 클램핑(최소와 최대값 사이로 제한)
-        float clampedAttackSpeed = Mathf.Clamp(playerStats.AttackSpeed, minAttackSpeed, maxAttackSpeed);
-
-        // 새로운 reInputTime 계산: 공격 속도가 빠를수록 시간은 줄어들고, 느릴수록 증가
-        float adjustedReInputTime = reInputTime * (1 + (1 - clampedAttackSpeed) + 0.15f);
-
-        // 코루틴 시작
-        checkAttackReInputCor = coroutineHandler.StartManagedCoroutine(CheckAttackReInputCoroutine(adjustedReInputTime), ResetAttackCounter);
+        checkAttackReInputCor = coroutineHandler.StartManagedCoroutine(CheckAttackReInputCoroutine(reInputTime), ResetAttackCounter);
     }
-
 
     private IEnumerator CheckAttackReInputCoroutine(float reInputTime)
     {
@@ -78,7 +63,7 @@ public class AggressiveWeapon : Weapon, IWeapon
 
     private void ResetAttackCounter()
     {
-     //   Debug.Log("ResetAttackCounter");
+        Debug.Log("ResetAttackCounter");
         resetCounter = true;
         CurrentAttackCounter = 0;
 
@@ -96,7 +81,7 @@ public class AggressiveWeapon : Weapon, IWeapon
     public override void AnimationActionTrigger()
     {
         base.AnimationActionTrigger();
-        attackState.Movement?.SetVelocityZero();
+
       //  aggressiveWeaponHitboxToWeapon.resetAlreadyHit();
 
     }
@@ -132,10 +117,7 @@ public class AggressiveWeapon : Weapon, IWeapon
 
         if (damageable != null)
         {
-            float baseDamage = weaponData.attackDamage[CurrentAttackCounter] * playerStats.AttackDamage;
-            Element attackerElement = playerStats.Element; // 플레이어의 속성
-            float attackerAttackStat = playerStats.AttackDamage;
-            damageable.Damage(baseDamage, attackerElement, attackerAttackStat, gameObject, collision.transform); // 기본 데미지와 공격자의 속성 및 공격력 스탯 전달
+            damageable.Damage(weaponData.attackDamage[CurrentAttackCounter] * playerStats.AttackDamage); // 공격 계수 * playerAttackDamage
             Debug.Log("데미지 : " + weaponData.attackDamage[CurrentAttackCounter] * playerStats.AttackDamage);
             //detectedDamageable.Add(damageable);
             GameManager.PlayerManager.PlayerDataCollect.RecordAction(PlayerDataCollectName.AttackSuccess);
@@ -145,15 +127,5 @@ public class AggressiveWeapon : Weapon, IWeapon
         {
             knockbackable.Knockback(weaponData.knockbackAngle, weaponData.knockbackStrength, attackState.Movement.FacingDirection); // 적의 체급에 따른 넉백 정도
         }
-    }
-
-    private void OnEnable()
-    {
-        if (setAttackSpeed)
-        {
-            baseAnimator.SetFloat("AttackSpeed", playerStats.AttackSpeed);
-            weaponAnimator.SetFloat("AttackSpeed", playerStats.AttackSpeed);
-        }
-        setAttackSpeed = true;
     }
 }

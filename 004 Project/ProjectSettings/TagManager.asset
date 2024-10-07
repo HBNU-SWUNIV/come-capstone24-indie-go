@@ -63,6 +63,3 @@ TagManager:
   - name: FrontDecorator
     uniqueID: 896697001
     locked: 0
-  - name: Particle
-    uniqueID: 2946724271
-    locked: 0

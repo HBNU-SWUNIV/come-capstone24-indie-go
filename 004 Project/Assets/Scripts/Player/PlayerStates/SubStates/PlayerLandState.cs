@@ -8,12 +8,6 @@ public class PlayerLandState : PlayerGroundedState
     {
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-        Movement?.SetVelocityZero();
-
-    }
     public override void LogicUpdate()
     {
         base.LogicUpdate();

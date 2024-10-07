@@ -16,10 +16,6 @@ public class SkillAnimEventHandler : MonoBehaviour
     private void StopMovementTrigger() => OnStopMovement?.Invoke();
     private void SkillActionTrigger() => OnSkillAction?.Invoke();
 
-    public void AnimationFinishedTriggerFunc()
-    {
-        OnFinish?.Invoke();
-    }
     public Delegate[] GetOnFinishInvocationList()
     {
         return OnFinish?.GetInvocationList();

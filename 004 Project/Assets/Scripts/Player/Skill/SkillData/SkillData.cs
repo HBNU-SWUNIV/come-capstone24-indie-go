@@ -5,10 +5,7 @@ using UnityEngine;
 public static class SkillNames
 {
     public const string SpearSkill = "SpearSkill";
-    public const string FireSkill = "FireSkill";
-    public const string IceSkill = "IceSkill";
-    public const string LandSkill = "LandSkill";
-    public const string LightSkill = "LightSkill";
+    public const string ExplosionSkill = "ExplosionSkill";
     // 필요한 다른 스킬 이름도 여기에 추가
 }
 public class SkillData
@@ -18,8 +15,8 @@ public class SkillData
 public class SkillDamageData : SkillData
 {
     public float Damage;
-    public Vector2 knockbackAngle;
-    public float knockbackStrength;
+    public Vector2 knockbackAngle = Vector2.one;
+    public float knockbackStrength = 10f;
 }
 
 public class SkillCooldownData : SkillData
@@ -39,19 +36,7 @@ public class SkillSpearData : SkillData
     public float ThrowDistance;
 }
 
-public class SkillFireData : SkillData
+public class SkillExplosionData : SkillData
 {
-    public float FireDistance;
-}
-public class SkillIceData : SkillData
-{
-  //  public float FireDistance;
-}
-public class SkillLandData : SkillData
-{
-  //  public float FireDistance;
-}
-public class SkillLightData : SkillData
-{
-  //  public float FireDistance;
+    public float ExplosionDistance;
 }

@@ -24,7 +24,7 @@ public class Death : CoreComponent
     {
         foreach (var particles in deathParticles)
         {
-            ParticleManager.StartParticles(particles, gameObject.transform);
+            ParticleManager.StartParticles(particles);
         }
         core.transform.parent.gameObject.SetActive(false);
     }

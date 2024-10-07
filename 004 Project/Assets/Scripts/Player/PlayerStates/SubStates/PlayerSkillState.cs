@@ -25,16 +25,6 @@ public class PlayerSkillState : PlayerAbilityState
         base.Exit();
     }
 
-    public override void LogicUpdate()
-    {
-        base.LogicUpdate();
-        if (GameManager.SharedCombatDataManager.IsPlayerHit)
-        {
-            skill.ExitSkill();
-            stateMachine.ChangeState(player.HitState);
-        }
-    }
-  
     private void HoldHandler()
     {
         if (player.InputHandler.SkillHoldInput)
@@ -50,7 +40,6 @@ public class PlayerSkillState : PlayerAbilityState
         isAbilityDone = true;
     }
 
-    
     public bool CanSkill()
     {
         return true;

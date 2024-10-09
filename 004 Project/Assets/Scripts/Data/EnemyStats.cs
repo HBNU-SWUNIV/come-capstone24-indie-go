@@ -5,7 +5,13 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
     protected override void Start()
     {
         base.Start();
+        //Element = Element.Land;
+        ChangeElement(Element.Land, fireLevel);
+
+        //animator = transform.root.GetComponent<Animator>();
+
         InitializeMonsterStats();
+
     }
 
     private void InitializeMonsterStats()

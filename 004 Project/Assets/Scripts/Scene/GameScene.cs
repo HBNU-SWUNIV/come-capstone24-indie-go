@@ -9,7 +9,7 @@ public class GameScene : BaseScene
         base.Init();
 
         SceneType = Define.Scene.Game;
-        GameManager.Instance.CreatePlayerManager();
+        // GameManager.Instance.CreatePlayerManager();
     }
 
 }

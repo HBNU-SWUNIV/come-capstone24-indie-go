@@ -9,7 +9,7 @@ public class PlayerDataAnalyze : MonoBehaviour
     public string playerType;
     private void Awake()
     {
-        playerType = "High_dash";
+        // playerType = "High_dash";
         if (instance == null)
         {
             instance = this;

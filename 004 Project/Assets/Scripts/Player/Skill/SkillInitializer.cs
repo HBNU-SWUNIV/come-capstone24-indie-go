@@ -17,14 +17,12 @@ public abstract class SkillInitializer
         this.prefabParent = prefabParent;
         this.playerTransform = playerTransform;
         this.prefabOffset = prefabOffset;
-       // Debug.Log("여기는어떤가?" + prefab.name);
     }
 
-    public void Initialize(SkillDataEx data)
+    public void Initialize(SkillDataEx data, string skillName)
     {
         // 스킬 데이터를 설정
-      //  Debug.Log($"prefab이 비었나? : {prefab.name}");
-        generator.InitializeSkill(skill, data, prefab);
+        generator.InitializeSkill(skillName, skill, data, prefab);
         
         // 구체화된 스킬을 등록하고 이벤트 할당
         RegisterEvents();

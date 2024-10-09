@@ -6,10 +6,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
+
 public class Tile_Map_Create : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
     public static Tile_Map_Create instance = null;
-    
+    int position_count = 0;
     public Tilemap Tilemap;
     public TileBase wall;
     public TileBase Floor,
@@ -19,7 +21,7 @@ public class Tile_Map_Create : MonoBehaviour
                     Ground;
     public TileBase road;
     public int horizontal = 80, vertical = 80; //변경
-
+    private bool is_spawn =false;
     [SerializeField] float minimumDevideRate = 0.4f; //공간이 나눠지는 최소 비율
     [SerializeField] float maximumDivideRate = 0.6f; //공간이 나눠지는 최대 비율
     int Max_Depth = 2;
@@ -179,6 +181,7 @@ public class Tile_Map_Create : MonoBehaviour
     }
     private void FillRoom(Map_Node parent, int x, int y, int width, int height)
     { //room의 rect정보를 받아서 tile을 set해주는 함수
+        
         for (int i = x; i < x + width; i++)
         {
             for (int j = y; j < y + height; j++)
@@ -202,29 +205,39 @@ public class Tile_Map_Create : MonoBehaviour
             }
         }
     }
-    private void ChangeRoom(Map_Node parent, int x, int y, int width, int height , string playStyle)
+    private void ChangeRoom(Map_Node parent, int x, int y, int width, int height , string playStyle=null)
     {
+        
         int startPoint = UnityEngine.Random.Range(width / 4, width / 2);
         int rand = UnityEngine.Random.Range(width / 4, width / 2);
         int altitude = UnityEngine.Random.Range(height / 4  , height / 2);
         int altitude2 = UnityEngine.Random.Range(height / 4, height / 2);
         for (int i = x; i < x+rand;i++)
-        {                     
+        {          
+            if(parent.map_type == Map_Node.Map_type.Enterance && !is_spawn) 
+            {
+                is_spawn = !is_spawn;
+                player.transform.position = new Vector3(80 * (position_count/4)+ i+4,-altitude-y+3,1);
+                Debug.Log(position_count/4);
+            }           
             parent.tile[i+3, y+ altitude] = 10;
             parent.tile[i+startPoint, y + altitude + altitude2] = 10;
         }
         if (playStyle == "High_dash")
         {
-            Debug.Log("Check");
             int WallPoint1 = UnityEngine.Random.Range(1, startPoint - 2);
             int WallPoint2 = UnityEngine.Random.Range(1, startPoint - 2);
             parent.tile[x + 3 + WallPoint1, y + altitude - 1] = 99;
             parent.tile[x + startPoint + WallPoint2, y + altitude + altitude2- 1] = 99;
         }
-            
+        position_count++; 
     }
 
 
+    public void SpawnMonster()
+    {
+        
+    }
     private void ConnectRooms(Map_Node parent, TileNode root) 
     {
         if (root.leftNode == null || root.rightNode == null)
@@ -278,10 +291,7 @@ public class Tile_Map_Create : MonoBehaviour
 
         
     }
-    public void Wall_Customize(Map_Node parent,string playStyle)
-    {
 
-    }
 
     public void MakeRoad(Map_Node parent, TileNode left,TileNode right)
     {
@@ -388,7 +398,7 @@ public class Tile_Map_Create : MonoBehaviour
             for (int y = leftCenterY; y <= rightCenterY; y++)
                 parent_Left.tile[79, y] = 11;
         }
-        for(int x =0; x<rightCenterX;x++)
+        for(int x =0; x<=rightCenterX;x++)
             if(parent_Right.tile[x, rightCenterY] != 10)parent_Right.tile[x, rightCenterY] = 11;      
     }
 
@@ -425,15 +435,15 @@ public class Tile_Map_Create : MonoBehaviour
             if (parent_Up.tile[UpCenterX, y] != 10) parent_Up.tile[UpCenterX, y] = 11;
         if(UpCenterX < DownCenterX)
         {
-            for (int x = UpCenterX; x < DownCenterX; x++)
+            for (int x = UpCenterX; x <= DownCenterX; x++)
                 parent_Up.tile[x, 79] = 11;
         }
         else
         {
-            for (int x = DownCenterX; x < UpCenterX; x++)
+            for (int x = DownCenterX; x <= UpCenterX; x++)
                 parent_Up.tile[x, 79] = 11;
         }
-        for(int y = 0;y<DownCenterY;y++)
+        for(int y = 0;y<=DownCenterY;y++)
             if (parent_Down.tile[DownCenterX, y] != 10) parent_Down.tile[DownCenterX, y] = 11;
     }
 }

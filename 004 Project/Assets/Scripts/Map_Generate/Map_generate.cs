@@ -6,7 +6,7 @@ using System.Diagnostics.Tracing;
 
 public class Map_generate : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    
     public static Map_generate instance;
     public const int max = 4;
     public Map_Node[,] map_list = new Map_Node[max, max];
@@ -172,9 +172,10 @@ public class Map_generate : MonoBehaviour
 
                 if (map_list[i, j].way == 9)
                 {
+                    // int a = Random.Range(0,4)
+
                     map_list[i, j].map_type = Map_Node.Map_type.Enterance;
-
-
+                    // Instantiate(player);
                     // player.transform.position= new Vector3(map_list[0, j].nodeRect.x,map_list[0, j].nodeRect.y,1);
                 }
 

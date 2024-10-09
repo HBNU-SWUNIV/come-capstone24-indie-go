@@ -8,6 +8,9 @@ public static class SkillStateName
     public const string Exit = "Exit";
     public const string Hold = "Hold";
     public const string Fire = "Fire";
+    public const string Attack = "Attack";
+    public const string Attack1 = "Attack1";
+    public const string Attack2 = "Attack2";
 }
 public abstract class ConcreteSkill : ISkillAction
 {
@@ -15,15 +18,11 @@ public abstract class ConcreteSkill : ISkillAction
     public Animator baseAnim;
     public Animator weaponAnim;
 
-    private GameObject prefab;
-    private Transform prefabParent;
-    private SkillStateMachine stateMachine;
-    private Transform playerTransform;
-    private Vector2 prefabOffset;
+    protected SkillStateMachine stateMachine;
+
     public SkillEnterState SkillEnterState { get; private set; }
     public SkillExitState SkillExitState { get; private set; }
-    public SkillHoldState SkillHoldState { get; private set; }
-    public SkillFireState SkillFireState { get; private set; }
+  
     public virtual void Initialize(Skill skill, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default(Vector2))
     {
         this.skill = skill;
@@ -31,19 +30,17 @@ public abstract class ConcreteSkill : ISkillAction
         weaponAnim = skill.WeaponGameObject.GetComponent<Animator>();
         stateMachine = new SkillStateMachine();
         skill.OnLogicUpdate += LogicUpdate;
-        if (prefab != null)
-            this.prefab = prefab;
-        if (prefabParent != null)
-            this.prefabParent = prefabParent;
+        if (prefab == null)
+            Debug.Log("Prefab is null");
+        if (prefabParent == null)
+            Debug.Log("prefabParent is null");
         SkillEnterState = new SkillEnterState(this, skill, stateMachine, SkillStateName.Enter);
         SkillExitState = new SkillExitState(this, skill, stateMachine, SkillStateName.Exit);
-        SkillHoldState = new SkillHoldState(this, skill, stateMachine, SkillStateName.Hold);
-        SkillFireState = new SkillFireState(this, skill, stateMachine, SkillStateName.Fire, prefab, prefabParent, playerTransform, prefabOffset);
-
+       
     }
     public virtual void Enter()
     {
-        stateMachine.Initialize(SkillEnterState);
+      //  stateMachine.Initialize(SkillEnterState);
     }
 
     public virtual void Exit()
@@ -130,18 +127,21 @@ public class SkillEnterState : SkillState
     {
     }
 
-    //피격 시 애니메이션을 수행중 이었으면 애니메이션이 끝나기 전까지 이동이 계속 이루어지는 버그 수정해야함.
     public override void Enter()
     {
         base.Enter();
         isDone = false;
         skill.EventHandler.OnStateFinish += EventHandler;
+        GameManager.SharedCombatDataManager.IsPlayerNotHitState = true;
+
+
     }
 
     public override void Exit()
     {
         base.Exit();
         skill.EventHandler.OnStateFinish -= EventHandler;
+
 
     }
     public override void LogicUpdate()
@@ -153,15 +153,7 @@ public class SkillEnterState : SkillState
     }
     protected virtual void EventHandler()
     {
-        skill.HoldSkill();
-        if(skill.hold)
-        {
-            stateMachine.ChangeState(concreteSkill.SkillHoldState);
-        }
-        else
-        {
-            stateMachine.ChangeState(concreteSkill.SkillFireState);
-        }
+
     }
 }
 
@@ -175,14 +167,14 @@ public class SkillExitState : SkillState
         base.Enter();
         //skill.EventHandler.OnFinish -= EventHandler;
         skill.EventHandler.OnFinish += EventHandler;
-
     }
 
     public override void Exit()
     {
         base.Exit();
         skill.EventHandler.OnFinish -= EventHandler;
-
+        skill.EventHandler.OnFinish -= EventHandler;
+        GameManager.SharedCombatDataManager.IsPlayerNotHitState = false;
     }
     public override void LogicUpdate()
     {
@@ -193,107 +185,8 @@ public class SkillExitState : SkillState
         //애니메이션finishTrigger를 하면 종료됨.
     }
 
-    private void EventHandler()
+    protected void EventHandler()
     {
         Exit();
     }
-}
-public class SkillHoldState : SkillState
-{
-    public SkillHoldState(ConcreteSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName) : base(concreteSkill, skill, stateMachine, animBoolName)
-    {
-    }
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-    public override void LogicUpdate()
-    {
-        skill.HoldSkill();
-        if (!skill.hold)
-        {
-            stateMachine.ChangeState(concreteSkill.SkillFireState);
-
-        }
-        if (!isExitingState)
-        {
-            skillMovement.HandleStopMovementX();
-        }
-    }
-}
-
-public class SkillFireState : SkillState
-{
-    private GameObject prefab;
-    private Transform prefabParent;
-    private Transform playerTransform;
-    private Vector2 prefabOffset;
-    public SkillFireState(ConcreteSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName, GameObject prefab, Transform prefabParent, Transform playerTransform, Vector2 prefabOffset) : base(concreteSkill, skill, stateMachine, animBoolName)
-    {
-        this.prefab = prefab;
-        this.prefabParent = prefabParent;
-        this.playerTransform = playerTransform;
-        this.prefabOffset = prefabOffset;
-    }
-    public override void Enter()
-    {
-        base.Enter();
-        skill.EventHandler.OnStateFinish += EventHandler;
-
-        int facingDirection = skillMovement.GetFacingDirection();
-
-        Vector3 spawnPosition = playerTransform.position + (Vector3)prefabOffset * facingDirection;
-
-        GameObject arrow = GameManager.Resource.Instantiate(prefab, spawnPosition, Quaternion.identity, prefabParent); // 화살 생성
-
-        if (arrow != null)
-        {
-            SkillDamage skillDamage = skill.GetComponent<SkillDamage>();
-            if (skillDamage != null)
-            {
-                skillDamage.Initialize(arrow);
-            }
-            Vector2 arrowDirection = (facingDirection == 1) ? Vector2.right : Vector2.left;
-            arrow.transform.right = Vector3.right * facingDirection;
-
-            // 화살의 Rigidbody2D에 속도 설정
-            Rigidbody2D arrowRigidbody = arrow.GetComponent<Rigidbody2D>();
-            if (arrowRigidbody != null)
-            {
-                arrowRigidbody.velocity = arrowDirection * skillSpear.GetSpearThrowSpeed();
-            }
-
-            // 화살의 최대 이동 거리 설정
-            Arrow arrowComponent = arrow.GetComponent<Arrow>();
-            if (arrowComponent != null)
-            {
-                arrowComponent.SetThrowDistance(skillSpear.GetSpearThrowDistance());
-            }
-        }
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        skill.EventHandler.OnStateFinish -= EventHandler;
-
-    }
-    public override void LogicUpdate()
-    {
-        if (!isExitingState)
-        {
-            skillMovement.HandleStopMovementX();
-        }
-    }
-
-    private void EventHandler()
-    {
-        stateMachine.ChangeState(concreteSkill.SkillExitState);
-    }
-
 }

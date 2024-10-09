@@ -25,8 +25,8 @@ public class Enemy1 : Entity
     private D_LookForPlayer lookForPlayerStateData;
     [SerializeField]
     private D_MeleeAttackState meleeAttackStateData;
-//    [SerializeField]
-//    private D_StunState stunStateData;
+    [SerializeField]
+    private D_StunState stunStateData;
 //    [SerializeField]
 //    private D_DeadState deadStateData;
 
@@ -46,7 +46,7 @@ public class Enemy1 : Entity
         chargeState = new E1_ChargeState(this, stateMachine, "Charge", chargeStateData, this);
         lookForPlayerState = new E1_LookForPlayerState(this, stateMachine, "SearchPlayer", lookForPlayerStateData, this);
         meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "MeleeAttack", meleeAttackPosition, meleeAttackStateData, this);
-        //      stunState = new E1_StunState(this, stateMachine, "stun", stunStateData, this);
+        stunState = new E1_StunState(this, stateMachine, "Stun", stunStateData, this);
         //       deadState = new E1_DeadState(this, stateMachine, "dead", deadStateData, this);
 
         meleeAttackState.SetAattackCheck(meleeAttackCheck.GetComponent<AnimationToAttackCheck>());

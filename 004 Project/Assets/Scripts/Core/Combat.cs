@@ -5,17 +5,21 @@ using UnityEngine;
 public class Combat : CoreComponent, IDamageable, IKnockbackable
 {
 
-    [SerializeField] private GameObject damageParticles;
 
     private Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     private CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
 
     private ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
+  //  private ElementalComponent ElementalComponent { get => elementalComponent ?? core.GetCoreComponent(ref elementalComponent);}
+    private ElementalComponent ElementalComponent => elementalComponent ? elementalComponent : core.GetCoreComponent(ref elementalComponent);
+
+
 
     private Movement movement;
     private CollisionSenses collisionSenses;
     private ICharacterStats stats;
     private ParticleManager particleManager;
+    private ElementalComponent elementalComponent;
 
 
     [SerializeField] private float maxKnockbackTime = 0.2f;
@@ -36,14 +40,46 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         CheckKnockback();
     }
 
-
-    public void Damage(float amount)
+    public void NonElementDamage(float amount, Transform defender)
     {
-       // Debug.Log(core.transform.parent.name + " 피격");
-       // 주는 피해량 계산.  방어력, 받는피해 감소 계산
         stats?.DecreaseHealth(amount);
-        ParticleManager?.StartParticlesWithRandomRotation(damageParticles);
+        ParticlesWithRandomRotation(ElementalComponent.damageParticles[0], defender);
     }
+    public void SkillDamage(float baseDamage, Element attackerElement, float attackerAttackStat, GameObject attacker, Transform defender)
+    {
+        ApplyDamage(baseDamage, attackerElement, attackerAttackStat, attacker, defender, ElementalComponent.damageParticles[(int)attackerElement]);
+    }
+
+    public void Damage(float baseDamage, Element attackerElement, float attackerAttackStat, GameObject attacker, Transform defender)
+    {
+        ApplyDamage(baseDamage, attackerElement, attackerAttackStat, attacker, defender, ElementalComponent.damageParticles[0]);
+    }
+
+    public void ParticlesWithRandomRotation(GameObject particle, Transform defender)
+    {
+        ParticleManager?.StartParticlesWithRandomRotation(particle, defender);
+    }
+    private void ApplyDamage(float baseDamage, Element attackerElement, float attackerAttackStat, GameObject attacker, Transform defender, GameObject particle)
+    {
+        float multiplier = ElementalComponent.GetDamageMultiplier(attackerElement);
+        float calculatedDamage = ElementalComponent.CalculateDamage(attackerElement, baseDamage, attackerAttackStat);
+        Debug.Log("속성 추가 데미지 배율 : " + multiplier);
+        Debug.Log("입히는 데미지 : " + calculatedDamage);
+        float finalDamage = calculatedDamage * multiplier;
+        Debug.Log("최종 데미지 : " + finalDamage);
+        Debug.Log("(int)attackerElement : " + (int)attackerElement);
+
+        // 전달된 파티클을 사용하여 파티클 효과 시작
+        ParticlesWithRandomRotation(particle, defender);
+
+        bool isAlive = stats?.DecreaseHealth(finalDamage) ?? false;
+        if (isAlive)
+        {
+            var attackerComponent = attacker.GetComponent<ElementalComponent>();
+            ElementalComponent.ApplyElementalEffect(attackerElement, gameObject, attackerAttackStat, attackerComponent);
+        }
+    }
+
 
     public void Knockback(Vector2 angle, float strength, int direction)
     {
@@ -64,9 +100,9 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         }
     }
 
-    public void DamageWithShield(float amount)
+    public void DamageWithShield(float amount, Transform defender)
     {
-        Damage(amount / 2);
+        NonElementDamage(amount / 2, defender);
     }
 
     public void KnockbackWithShield(Vector2 angle, float strength, int direction)

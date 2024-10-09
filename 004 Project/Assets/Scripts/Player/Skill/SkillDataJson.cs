@@ -10,7 +10,7 @@ public class SkillDataJson
     public SkillCooldownData cooldownData;
     public SkillMovementData movementData;
     public SkillSpearData spearData;
-    public SkillExplosionData explosionData;
+    public SkillFireData fireData;
 }
 
 [Serializable]

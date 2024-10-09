@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class E1_MeleeAttackState : MeleeAttackState
 {
+    private Entity a;
     private Enemy1 enemy;
     public E1_MeleeAttackState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, Transform attackPosition, D_MeleeAttackState stateData, Enemy1 enemy) : base(etity, stateMachine, animBoolName, attackPosition, stateData)
     {

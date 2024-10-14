@@ -24,9 +24,9 @@ public class PlayerDetectedState : MonsterState
         this.stateData = stateData;
     }
 
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
+        base.DoChecks();
 
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();

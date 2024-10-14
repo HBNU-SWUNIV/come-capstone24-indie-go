@@ -22,9 +22,9 @@ public class AttackState : MonsterState
         this.attackPosition = attackPosition;
     }
 
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
+        base.DoChecks();
 
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }

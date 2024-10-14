@@ -46,6 +46,13 @@ public class AnimationToAttackCheck : MonoBehaviour
             }
             GameManager.SharedCombatDataManager.SetPlayerDashing(false);
         }
+        else
+        {
+            if(!isAlreadyHit)
+            {
+                GameManager.PlayerManager.PlayerDataCollect.RecordAction(PlayerDataCollectName.RunSuccess);
+            }
+        }
 
     }
 

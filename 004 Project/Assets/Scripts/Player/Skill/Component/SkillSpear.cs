@@ -12,14 +12,14 @@ public class SkillSpear : SkillComponent<SkillSpearData>
     {
         return currentSkillData.ThrowDistance;
     }
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
     }
 
-    protected override void OnDestroy()
+    protected override void OnDisable()
     {
-        base.OnDestroy();
+        base.OnDisable();
     }
 
 }

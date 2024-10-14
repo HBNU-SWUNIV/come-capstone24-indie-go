@@ -22,7 +22,7 @@ public class MonsterState
 
     public virtual void Enter()
     {
-        DoCheck();
+        DoChecks();
         entity.Anim.SetBool(animBoolName, true);
         startTime = Time.time;
     }
@@ -30,7 +30,7 @@ public class MonsterState
     {
         entity.Anim.SetBool(animBoolName, false);
     }
-    public virtual void DoCheck()
+    public virtual void DoChecks()
     {
 
     }
@@ -40,6 +40,6 @@ public class MonsterState
     }
     public virtual void PhysicsUpdate()
     {
-        DoCheck();
+        DoChecks();
     }
 }

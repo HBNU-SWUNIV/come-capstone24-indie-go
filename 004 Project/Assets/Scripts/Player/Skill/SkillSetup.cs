@@ -55,7 +55,7 @@ public class SkillSetup
         Vector3 rockOffset = new Vector3(4.0f, 0.82f, 0); // 화살의 생성 위치 오프셋 설정
 
 
-        skillManager.RegisterSkill(SkillNames.SpearSkill, currentSkill, new SkillInitializer<SpearSkill, SpearGenerator>(currentSkill, spearGenerator, SkillNames.SpearSkill, arrow, prefabParent, player.transform, arrowOffset));
+        skillManager.RegisterSkill(SkillNames.NoneSkill, currentSkill, new SkillInitializer<SpearSkill, SpearGenerator>(currentSkill, spearGenerator, SkillNames.SpearSkill, arrow, prefabParent, player.transform, arrowOffset));
         skillManager.RegisterSkill(SkillNames.FireSkill, currentSkill, new SkillInitializer<FireSkill, FireGenerator>(currentSkill, fireGenerator, SkillNames.FireSkill));
         skillManager.RegisterSkill(SkillNames.IceSkill, currentSkill, new SkillInitializer<IceSkill, IceGenerator>(currentSkill, iceGenerator, SkillNames.IceSkill));
         skillManager.RegisterSkill(SkillNames.LandSkill, currentSkill, new SkillInitializer<LandSkill, LandGenerator>(currentSkill, landGenerator, SkillNames.FireSkill, rock, prefabParent, player.transform, rockOffset));
@@ -65,5 +65,33 @@ public class SkillSetup
     public Skill GetCurrentSkill()
     {
         return currentSkill;
+    }
+
+    public void ChangeSkill(Element newElement)
+    {
+        string newSkill = SkillNames.NoneSkill;
+        switch (newElement)
+        {
+            case Element.None:
+                newSkill = SkillNames.NoneSkill;
+                break;
+            case Element.Fire:
+                newSkill = SkillNames.FireSkill;
+                break;
+            case Element.Ice:
+                newSkill = SkillNames.IceSkill;
+                break;
+            case Element.Land:
+                newSkill = SkillNames.LandSkill;
+                break;
+            case Element.Lightning:
+                newSkill = SkillNames.LightSkill;
+                break;
+            default:
+                newSkill = SkillNames.NoneSkill;
+                break;
+
+        }
+        skillManager.ChangeSkill(newSkill);
     }
 }

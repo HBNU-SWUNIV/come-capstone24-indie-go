@@ -11,15 +11,15 @@ public class LandSkill : ConcreteSkill
     public override void Initialize(Skill skill, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default)
     {
         base.Initialize(skill, prefab, prefabParent, playerTransform, prefabOffset);
-        LandSkillEnterState = new LandSkillEnterState(this, skill, stateMachine, SkillStateName.Enter);
-        LandSkillExitState = new LandSkillExitState(this, skill, stateMachine, SkillStateName.Exit);
-        LandAttackState = new LandAttackState(this, skill, stateMachine, SkillStateName.Attack, prefab, prefabParent, playerTransform, prefabOffset);
+        LandSkillEnterState = new LandSkillEnterState(this, skill, skill.StateMachine, SkillStateName.Enter);
+        LandSkillExitState = new LandSkillExitState(this, skill, skill.StateMachine, SkillStateName.Exit);
+        LandAttackState = new LandAttackState(this, skill, skill.StateMachine, SkillStateName.Attack, prefab, prefabParent, playerTransform, prefabOffset);
     }
 
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Initialize(LandSkillEnterState);
+        skill.StateMachine.Initialize(LandSkillEnterState);
 
     }
 }
@@ -73,8 +73,11 @@ public class LandAttackState : SkillState
     private Transform prefabParent;
     private Transform playerTransform;
     private Vector2 prefabOffset;
+    private LandSkill landSkill;
+
     public LandAttackState(LandSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName, GameObject prefab, Transform prefabParent, Transform playerTransform, Vector2 prefabOffset) : base(concreteSkill, skill, stateMachine, animBoolName)
     {
+        this.landSkill = concreteSkill;
         this.prefab = prefab;
         this.prefabParent = prefabParent;
         this.playerTransform = playerTransform;
@@ -88,7 +91,11 @@ public class LandAttackState : SkillState
 
         int facingDirection = skillMovement.GetFacingDirection();
 
-        Vector3 spawnPosition = playerTransform.position + (Vector3)prefabOffset * facingDirection;
+        Vector3 spawnPosition = (Vector2)playerTransform.position + new Vector2(prefabOffset.x * facingDirection, -prefabOffset.y);
+        Debug.Log($"spawnPosition : {spawnPosition}");
+        Debug.Log($"playerTransform.position  : {playerTransform.position }");
+        Debug.Log($"(Vector3)prefabOffset : {(Vector3)prefabOffset}");
+        Debug.Log($"facingDirection : {facingDirection}");
 
         GameObject rock = GameManager.Resource.Instantiate(prefab, spawnPosition, Quaternion.identity, prefabParent);  // 
 
@@ -118,7 +125,7 @@ public class LandAttackState : SkillState
 
     private void EventHandler()
     {
-        stateMachine.ChangeState(concreteSkill.SkillExitState);
+        stateMachine.ChangeState(landSkill.LandSkillExitState);
 
 
     }

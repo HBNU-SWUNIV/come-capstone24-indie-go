@@ -30,17 +30,17 @@ public class SkillMovement : SkillComponent<SkillMovementData>
     {
         return CoreMovement.FacingDirection;
     }
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         eventHandler.OnStartMovement += HandleStartMovement;
         eventHandler.OnStopMovement += HandleStopMovement;
     }
 
-    protected override void OnDestroy()
+    protected override void OnDisable()
     {
-        base.OnDestroy();
+        base.OnDisable();
 
         eventHandler.OnStartMovement -= HandleStartMovement;
         eventHandler.OnStopMovement -= HandleStopMovement;

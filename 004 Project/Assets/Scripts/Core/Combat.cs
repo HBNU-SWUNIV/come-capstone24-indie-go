@@ -63,11 +63,11 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     {
         float multiplier = ElementalComponent.GetDamageMultiplier(attackerElement);
         float calculatedDamage = ElementalComponent.CalculateDamage(attackerElement, baseDamage, attackerAttackStat);
-        Debug.Log("속성 추가 데미지 배율 : " + multiplier);
-        Debug.Log("입히는 데미지 : " + calculatedDamage);
+       // Debug.Log("속성 추가 데미지 배율 : " + multiplier);
+      //  Debug.Log("입히는 데미지 : " + calculatedDamage);
         float finalDamage = calculatedDamage * multiplier;
         Debug.Log("최종 데미지 : " + finalDamage);
-        Debug.Log("(int)attackerElement : " + (int)attackerElement);
+   //     Debug.Log("(int)attackerElement : " + (int)attackerElement);
 
         // 전달된 파티클을 사용하여 파티클 효과 시작
         ParticlesWithRandomRotation(particle, defender);

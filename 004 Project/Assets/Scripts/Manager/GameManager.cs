@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     static GameManager s_instance;
     public static GameManager Instance { get { Init(); return s_instance; } }
-    
+
 
     DataManager data = new DataManager();
     ResourceManager resource = new ResourceManager();

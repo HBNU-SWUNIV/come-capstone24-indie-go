@@ -10,9 +10,9 @@ public class E1_IdleState : IdleState
         this.enemy = enemy;
     }
 
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
+        base.DoChecks();
     }
 
     public override void Enter()
@@ -29,7 +29,7 @@ public class E1_IdleState : IdleState
     {
         base.LogicUpdate();
 
-        if(isPlayerInMinArgoRange)
+        if(isPlayerInMinAgroRange)
         {
             stateMachine.ChangeState(enemy.playerDetectedState);
         }

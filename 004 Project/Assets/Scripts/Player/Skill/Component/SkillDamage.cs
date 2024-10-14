@@ -16,7 +16,7 @@ public class SkillDamage : SkillComponent<SkillDamageData>, IAttackable
         base.Awake();
         collisionHandler = transform.parent.GetComponentInChildren<CollisionHandler>();
     }
-    protected override void Start()
+    protected override void OnEnable()
     {
         if(collisionHandler != null)
             collisionHandler.OnColliderDetected += CheckAttack;
@@ -50,7 +50,7 @@ public class SkillDamage : SkillComponent<SkillDamageData>, IAttackable
             float attackerAttackStat = playerStats.AttackDamage;
 
             damageable.SkillDamage(baseDamage, attackerElement, attackerAttackStat, gameObject, collision.transform);
-            Debug.Log("스킬 데미지 : " + currentSkillData.Damage * playerStats.AttackDamage);
+          //  Debug.Log("스킬 데미지 : " + currentSkillData.Damage * playerStats.AttackDamage);
         }
         IKnockbackable knockbackable = collision.GetComponentInChildren<IKnockbackable>();
         if (knockbackable != null)
@@ -59,9 +59,9 @@ public class SkillDamage : SkillComponent<SkillDamageData>, IAttackable
             knockbackable.Knockback(currentSkillData.knockbackAngle, currentSkillData.knockbackStrength, CoreMovement.FacingDirection);
         }
     }
-    protected override void OnDestroy()
+    protected override void OnDisable()
     {
-        base.OnDestroy();
+        base.OnDisable();
 
         collisionHandler.OnColliderDetected -= CheckAttack;
     }

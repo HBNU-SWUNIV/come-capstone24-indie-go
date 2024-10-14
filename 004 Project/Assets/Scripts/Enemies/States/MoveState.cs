@@ -21,9 +21,9 @@ public class MoveState : MonsterState
     {
         this.stateData = stateData;
     }
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
+        base.DoChecks();
 
         isDetectingWall = CollisionSenses.WallFront;
         isDetectingLedge = CollisionSenses.LedgeVertical;

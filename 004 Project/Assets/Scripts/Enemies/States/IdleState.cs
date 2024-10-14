@@ -14,7 +14,7 @@ public class IdleState : MonsterState
 
     protected bool flipAfterIdle;
     protected bool isIdleTimeOver;
-    protected bool isPlayerInMinArgoRange;
+    protected bool isPlayerInMinAgroRange;
 
     protected float idleTime;
 
@@ -23,10 +23,10 @@ public class IdleState : MonsterState
         this.stateData = stateData;
     }
 
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
-        isPlayerInMinArgoRange = entity.CheckPlayerInMinAgroRange();
+        base.DoChecks();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Enter()

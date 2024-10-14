@@ -11,15 +11,15 @@ public class FireSkill : ConcreteSkill
     public override void Initialize(Skill skill, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default)
     {
         base.Initialize(skill, prefab, prefabParent, playerTransform, prefabOffset);
-        FireSkillEnterState = new FireSkillEnterState(this, skill, stateMachine, SkillStateName.Enter);
-        FireSkillExitState = new FireSkillExitState(this, skill, stateMachine, SkillStateName.Exit);
-        FireAttackState = new FireAttackState(this, skill, stateMachine, SkillStateName.Attack);
+        FireSkillEnterState = new FireSkillEnterState(this, skill, skill.StateMachine, SkillStateName.Enter);
+        FireSkillExitState = new FireSkillExitState(this, skill, skill.StateMachine, SkillStateName.Exit);
+        FireAttackState = new FireAttackState(this, skill, skill.StateMachine, SkillStateName.Attack);
     }
 
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Initialize(FireSkillEnterState);
+        skill.StateMachine.Initialize(FireSkillEnterState);
 
     }
 }

@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class D_StunState : MonoBehaviour
+[CreateAssetMenu(fileName = "newStunStateData", menuName = "Data/State Data/Stun State")]
+public class D_StunState : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float stunTime = 3f;
+    
+    public float stunKnockbackTime = 0.2f;
+    public float stunKnockbackSpeed = 20f;
+    public Vector2 stunKnockbackAngle;
 }

@@ -42,6 +42,11 @@ public class ElementalComponent : CoreComponent
         RemovePassiveEffect();
         Element = newElement;
         Debug.Log($"Element changed to {Element}");
+        if (gameObject.CompareTag("Player"))
+        {
+            Debug.Log($"{newElement}로 플레이어 스킬 변경");
+            GameManager.PlayerManager.ChangeSkill(Element);
+        }
         elementalManager.UpdateEffectValues(Element, level);
         ApplyPassiveEffect();
     }

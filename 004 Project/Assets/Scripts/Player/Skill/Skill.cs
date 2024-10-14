@@ -6,6 +6,8 @@ using System;
 public class Skill : MonoBehaviour
 {
     public Core Core { get; private set; }
+    public SkillStateMachine StateMachine { get; private set; }
+
 
     public event Action OnEnter;
     public event Action OnExit;
@@ -32,6 +34,7 @@ public class Skill : MonoBehaviour
         weaponAnim = WeaponGameObject.GetComponent<Animator>();
 
         EventHandler = BaseGameObject.GetComponent<SkillAnimEventHandler>();
+        StateMachine = new SkillStateMachine();
     }
     private void Start()
     {

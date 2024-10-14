@@ -5,6 +5,7 @@ using UnityEngine;
 public static class SkillNames
 {
     public const string SpearSkill = "SpearSkill";
+    public const string NoneSkill = "NoneSkill";
     public const string FireSkill = "FireSkill";
     public const string IceSkill = "IceSkill";
     public const string LandSkill = "LandSkill";

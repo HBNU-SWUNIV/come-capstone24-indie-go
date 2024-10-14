@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
     private SkillSetup skillSetup;
 
     public PlayerDataCollect PlayerDataCollect { get; private set; }
+    public PlayerDataAnalyze DataAnalyze { get; private set; }
 
     public void Initialize()
     {
@@ -22,7 +23,7 @@ public class PlayerManager : MonoBehaviour
 
 
         PlayerDataCollect = new PlayerDataCollect();
-
+        DataAnalyze = new PlayerDataAnalyze();
         Camera.main.gameObject.GetComponent<MainCameraController>().SetPlayer(player);
     }
 
@@ -34,5 +35,10 @@ public class PlayerManager : MonoBehaviour
     public Skill GetCurrentSkill()
     {
         return skillSetup.GetCurrentSkill();
+    }
+
+    public void ChangeSkill(Element newElement)
+    {
+        skillSetup.ChangeSkill(newElement);
     }
 }

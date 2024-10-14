@@ -24,9 +24,9 @@ public class ChargeState : MonsterState
 		this.stateData = stateData;
 	}
 
-	public override void DoCheck()
+	public override void DoChecks()
 	{
-		base.DoCheck();
+		base.DoChecks();
 
 		isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
 		isDetectingLedge = CollisionSenses.LedgeVertical;

@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class D_DeadState : MonoBehaviour
+[CreateAssetMenu(fileName = "newDeadStateData", menuName = "Data/State Data/Dead State")]
+public class D_DeadState : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject deathChunkParticle;
+    public GameObject deathBloodParticle;
 }

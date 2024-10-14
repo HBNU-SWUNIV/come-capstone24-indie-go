@@ -5,7 +5,7 @@ using UnityEngine;
 public class Map_Node
 {
     public enum Map_type
-    {
+    {       
         Enemy,
         Treasure,
         Enterance,

@@ -10,9 +10,9 @@ public class E1_PlayerDetectedState : PlayerDetectedState
         this.enemy = enemy;
     }
 
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
+        base.DoChecks();
     }
 
     public override void Enter()

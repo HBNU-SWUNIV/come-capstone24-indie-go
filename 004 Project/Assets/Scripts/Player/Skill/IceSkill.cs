@@ -15,16 +15,16 @@ public class IceSkill : ConcreteSkill
     public override void Initialize(Skill skill, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default)
     {
         base.Initialize(skill, prefab, prefabParent, playerTransform, prefabOffset);
-        IceSkillEnterState = new IceSkillEnterState(this, skill, stateMachine, SkillStateName.Enter);
-        IceSkillExitState = new IceSkillExitState(this, skill, stateMachine, SkillStateName.Exit);
-        IceAttack1State = new IceAttack1State(this, skill, stateMachine, SkillStateName.Attack1);
-        IceAttack2State = new IceAttack2State(this, skill, stateMachine, SkillStateName.Attack2);
+        IceSkillEnterState = new IceSkillEnterState(this, skill, skill.StateMachine, SkillStateName.Enter);
+        IceSkillExitState = new IceSkillExitState(this, skill, skill.StateMachine, SkillStateName.Exit);
+        IceAttack1State = new IceAttack1State(this, skill, skill.StateMachine, SkillStateName.Attack1);
+        IceAttack2State = new IceAttack2State(this, skill, skill.StateMachine, SkillStateName.Attack2);
     }
 
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Initialize(IceSkillEnterState);
+        skill.StateMachine.Initialize(IceSkillEnterState);
     }
 }
 
@@ -107,7 +107,7 @@ public class IceAttackState : SkillState
         if (!resetCounter)
         {
             iceSkill.CurrentAttackCounter += 1;
-            Debug.Log("wmdrk");
+            Debug.Log($"iceSkill AttackCounter : {iceSkill.CurrentAttackCounter}");
         }
     }
 

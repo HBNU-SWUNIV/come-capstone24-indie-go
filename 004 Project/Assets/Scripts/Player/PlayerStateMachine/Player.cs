@@ -14,6 +14,9 @@ public static class PlayerDataCollectName
     public const string DashAttempt = "DashAttempt";
     public const string DashSuccess = "DashSuccess";
     public const string DashFailure = "DashFailure";
+    public const string RunAttempt = "RunAttempt";
+    public const string RunSuccess = "RunSuccess";
+
 }
 public static class PlayerAnimStatesName
 {

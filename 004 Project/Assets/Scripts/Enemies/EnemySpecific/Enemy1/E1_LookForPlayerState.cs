@@ -11,9 +11,9 @@ public class E1_LookForPlayerState : LookForPlayerState
         this.enemy = enemy;
     }
 
-    public override void DoCheck()
+    public override void DoChecks()
     {
-        base.DoCheck();
+        base.DoChecks();
     }
 
     public override void Enter()

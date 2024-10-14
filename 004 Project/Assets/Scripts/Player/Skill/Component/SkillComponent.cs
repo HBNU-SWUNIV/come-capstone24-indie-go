@@ -22,7 +22,7 @@ public abstract class SkillComponent : MonoBehaviour
         playerStats = transform.root.GetComponentInChildren<PlayerStats>();
     }
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
         skill.OnEnter += HandleEnter;
         skill.OnExit += HandleExit;
@@ -37,7 +37,7 @@ public abstract class SkillComponent : MonoBehaviour
         isSkillActive = false;
     }
 
-    protected virtual void OnDestroy()
+    protected virtual void OnDisable()
     {
         skill.OnEnter += HandleEnter;
         skill.OnExit += HandleExit;

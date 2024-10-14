@@ -11,16 +11,16 @@ public class SpearSkill : ConcreteSkill
     public override void Initialize(Skill skill, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default)
     {
         base.Initialize(skill, prefab, prefabParent, playerTransform, prefabOffset);
-        SpearSkillEnterState = new SpearSkillEnterState(this, skill, stateMachine, SkillStateName.Enter);
-        SpearSkillExitState = new SpearSkillExitState(this, skill, stateMachine, SkillStateName.Exit);
-        SkillHoldState = new SkillHoldState(this, skill, stateMachine, SkillStateName.Hold);
-        SkillFireState = new SkillFireState(this, skill, stateMachine, SkillStateName.Fire, prefab, prefabParent, playerTransform, prefabOffset);
+        SpearSkillEnterState = new SpearSkillEnterState(this, skill, skill.StateMachine, SkillStateName.Enter);
+        SpearSkillExitState = new SpearSkillExitState(this, skill, skill.StateMachine, SkillStateName.Exit);
+        SkillHoldState = new SkillHoldState(this, skill, skill.StateMachine, SkillStateName.Hold);
+        SkillFireState = new SkillFireState(this, skill, skill.StateMachine, SkillStateName.Fire, prefab, prefabParent, playerTransform, prefabOffset);
     }
 
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Initialize(SpearSkillEnterState);
+        skill.StateMachine.Initialize(SpearSkillEnterState);
 
     }
 }
@@ -107,8 +107,10 @@ public class SkillFireState : SkillState
     private Transform prefabParent;
     private Transform playerTransform;
     private Vector2 prefabOffset;
+    private SpearSkill spearSkill;
     public SkillFireState(SpearSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName, GameObject prefab, Transform prefabParent, Transform playerTransform, Vector2 prefabOffset) : base(concreteSkill, skill, stateMachine, animBoolName)
     {
+        this.spearSkill = concreteSkill;
         this.prefab = prefab;
         this.prefabParent = prefabParent;
         this.playerTransform = playerTransform;
@@ -167,7 +169,7 @@ public class SkillFireState : SkillState
 
     private void EventHandler()
     {
-        stateMachine.ChangeState(concreteSkill.SkillExitState);
+        stateMachine.ChangeState(spearSkill.SpearSkillExitState);
     }
 
 }

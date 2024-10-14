@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerDataCollect
 {
-    private Dictionary<string, int> actionData = new Dictionary<string, int>()
+    public Dictionary<string, int> actionData = new Dictionary<string, int>()
     {
         { PlayerDataCollectName.ParryAttempt, 0 },
         { PlayerDataCollectName.ParrySuccess, 0 },
@@ -14,6 +14,9 @@ public class PlayerDataCollect
         { PlayerDataCollectName.DashAttempt, 0 },
         { PlayerDataCollectName.DashSuccess, 0 },
         { PlayerDataCollectName.DashFailure, 0 },
+        { PlayerDataCollectName.RunAttempt, 0 },
+        { PlayerDataCollectName.RunSuccess, 0 },
+
         { PlayerDataCollectName.DefenceAttempt, 0 },
         { PlayerDataCollectName.DefenceSuccess, 0 },
     };
@@ -23,6 +26,7 @@ public class PlayerDataCollect
         if (actionData.ContainsKey(actionType))
         {
             actionData[actionType]++;
+            GameManager.PlayerManager.DataAnalyze.AnalyzePlayerData(actionData);
           //  Debug.Log($"{actionType} count : {actionData[actionType]}");
         }
     }

@@ -14,7 +14,7 @@ public class AnimationToStateMachine : MonoBehaviour
     private void FinishCheck()
     {
         attackState.FinishCheck();
-    }
+    }   
 
 
     private void TriggerAttack()

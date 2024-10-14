@@ -18,25 +18,17 @@ public abstract class ConcreteSkill : ISkillAction
     public Animator baseAnim;
     public Animator weaponAnim;
 
-    protected SkillStateMachine stateMachine;
-
-    public SkillEnterState SkillEnterState { get; private set; }
-    public SkillExitState SkillExitState { get; private set; }
   
     public virtual void Initialize(Skill skill, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default(Vector2))
     {
         this.skill = skill;
         baseAnim = skill.BaseGameObject.GetComponent<Animator>();
         weaponAnim = skill.WeaponGameObject.GetComponent<Animator>();
-        stateMachine = new SkillStateMachine();
         skill.OnLogicUpdate += LogicUpdate;
         if (prefab == null)
             Debug.Log("Prefab is null");
         if (prefabParent == null)
-            Debug.Log("prefabParent is null");
-        SkillEnterState = new SkillEnterState(this, skill, stateMachine, SkillStateName.Enter);
-        SkillExitState = new SkillExitState(this, skill, stateMachine, SkillStateName.Exit);
-       
+            Debug.Log("prefabParent is null");       
     }
     public virtual void Enter()
     {
@@ -48,7 +40,10 @@ public abstract class ConcreteSkill : ISkillAction
     }
     private void LogicUpdate()
     {
-        stateMachine.CurrentState.LogicUpdate();
+        if (skill.StateMachine.CurrentState != null)
+        {
+            skill.StateMachine.CurrentState.LogicUpdate();
+        }
     }
 
 }
@@ -92,26 +87,24 @@ public class SkillState
         this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
         baseAnim = concreteSkill.baseAnim;
-        weaponAnim = concreteSkill.weaponAnim;
-
-        skillMovement = skill.GetComponent<SkillMovement>();
-        skillDamage = skill.GetComponent<SkillDamage>();
-        skillSpear = skill.GetComponent<SkillSpear>();
-
+        weaponAnim = concreteSkill.weaponAnim;        
     }
     public virtual void Enter()
     {
         baseAnim.SetBool(animBoolName, true);
         weaponAnim.SetBool(animBoolName, true);
         isExitingState = false;
-       // Debug.Log(this.ToString() + "상태 진입");
+        skillMovement ??= skill.GetComponent<SkillMovement>();
+        skillDamage ??= skill.GetComponent<SkillDamage>();
+        skillSpear ??= skill.GetComponent<SkillSpear>();
+        // Debug.Log(this.ToString() + "상태 진입");
     }
     public virtual void Exit()
     {
         //Debug.Log(this.ToString() + "상태 종료");
         baseAnim.SetBool(animBoolName, false);
         weaponAnim.SetBool(animBoolName, false);
-        isExitingState = false;
+        isExitingState = true;
     }
     public virtual void LogicUpdate()
     {

@@ -36,20 +36,22 @@ public class SkillInitializer<TSkill, TGenerator> : SkillInitializer
     where TSkill : ISkillAction, new()
     where TGenerator : SkillGenerator
 {
+    TSkill concreteSkill;
     public SkillInitializer(Skill skill, TGenerator generator, string skillName, GameObject prefab = null, Transform prefabParent = null, Transform playerTransform = null, Vector2 prefabOffset = default(Vector2))
-        : base(skill, generator, skillName, prefab, prefabParent, playerTransform, prefabOffset) {}
+        : base(skill, generator, skillName, prefab, prefabParent, playerTransform, prefabOffset) 
+    {
+        concreteSkill = new TSkill();
+        concreteSkill.Initialize(skill, prefab, prefabParent, playerTransform, prefabOffset);
+    }
 
     public override void RegisterEvents()
-    {
-        TSkill concreteSkill = new TSkill();
-        concreteSkill.Initialize(skill, prefab, prefabParent, playerTransform, prefabOffset);
+    {     
         skill.OnEnter += concreteSkill.Enter;
         skill.OnExit += concreteSkill.Exit;
     }
 
     public override void UnregisterEvents()
     {
-        TSkill concreteSkill = new TSkill();
         skill.OnEnter -= concreteSkill.Enter;
         skill.OnExit -= concreteSkill.Exit;
     }

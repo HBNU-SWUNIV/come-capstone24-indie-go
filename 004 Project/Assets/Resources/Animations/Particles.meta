@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:004 Project/Assets/Resources/Animations/Particles.meta
 guid: d2bf2b82ce25554428afe615ad2fdcb0
+========
+guid: b34a1bf5579eada40aad4e2f25d3aa4c
+>>>>>>>> 5442642a52b2a9dd8760227a9afbde4c1fe8accc:004 Project/Assets/RPG_inventory_icons.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

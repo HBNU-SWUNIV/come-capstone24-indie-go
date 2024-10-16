@@ -1502,7 +1502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 737099674221770282, guid: 90ae1339c11689143b7cfc8d6b07f049, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9085237669968588643, guid: 90ae1339c11689143b7cfc8d6b07f049, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1648,7 +1648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5782836539619579813, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8292699846237216327, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1712,7 +1712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4045018937457765823, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: rangedProjectileParent

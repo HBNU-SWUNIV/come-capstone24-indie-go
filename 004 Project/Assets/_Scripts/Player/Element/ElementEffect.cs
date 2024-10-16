@@ -32,30 +32,45 @@ public class FireEffect : IElementalEffect
     private float dotDamage;
     private float duration;
     private int maxStacks;// = 3;
-    private int currentStacks = 0;
-    private Coroutine dotCoroutine;
+   // private int currentStacks = 0;
+    //private Coroutine dotCoroutine;
+    // 타겟별 데이터를 저장하기 위한 딕셔너리
+    private Dictionary<ElementalComponent, int> currentStacks = new Dictionary<ElementalComponent, int>();
+    private Dictionary<ElementalComponent, Coroutine> dotCoroutines = new Dictionary<ElementalComponent, Coroutine>();
+
 
     public void ApplyEffect(ElementalComponent attackerComponent, ElementalComponent defenderComponent, float attackerAttackStat)
     {
         Debug.Log($"attackerAttackStat {attackerAttackStat} , dotDamage  {dotDamage}");
         int dotDamageValue = Mathf.RoundToInt(attackerAttackStat * dotDamage);
-        if (dotCoroutine != null)
+
+        // currentStacks에 수비자가 없으면 초기화
+        if (!currentStacks.ContainsKey(defenderComponent))
         {
-            defenderComponent.StopEffectCoroutine(dotCoroutine);
+            currentStacks[defenderComponent] = 0;
+        }
+        // 기존 코루틴이 있으면 중지
+        if (dotCoroutines.ContainsKey(defenderComponent))
+        {
+            defenderComponent.StopEffectCoroutine(dotCoroutines[defenderComponent]);
+            dotCoroutines.Remove(defenderComponent);
         }
 
-        currentStacks = Mathf.Min(currentStacks + 1, maxStacks);
-        Debug.Log($"currentFireStacks : {currentStacks}");
+        currentStacks[defenderComponent] = Mathf.Min(currentStacks[defenderComponent] + 1, maxStacks);
+        Debug.Log($"currentFireStacks for {defenderComponent.name}: {currentStacks[defenderComponent]}");
 
-        if (currentStacks >= maxStacks)
+
+        if (currentStacks[defenderComponent] >= maxStacks)
         {
-            // 스택이 최대치에 도달했을 때 폭발 효과 적용
+            // 최대 스택에 도달하면 폭발 피해 적용
             ApplyExplosionDamage(defenderComponent, attackerAttackStat);
-            currentStacks = 0;
+            currentStacks[defenderComponent] = 0;
         }
         else
         {
-            dotCoroutine = defenderComponent.StartEffectCoroutine(DotDamageOverTime(defenderComponent, dotDamageValue));
+            // DOT 데미지 코루틴 시작
+            Coroutine newCoroutine = defenderComponent.StartEffectCoroutine(DotDamageOverTime(defenderComponent, dotDamageValue));
+            dotCoroutines[defenderComponent] = newCoroutine;
         }
     }
 
@@ -81,7 +96,7 @@ public class FireEffect : IElementalEffect
     private IEnumerator DotDamageOverTime(ElementalComponent target, int dotDamageValue)
     {
         float elapsedTime = 0f;
-        float damageMultiplier = 1f + (currentStacks - 1) * 0.1f;
+        float damageMultiplier = 1f + (currentStacks[target] - 1) * 0.1f;
         Debug.Log($" {duration} 초간 {dotDamageValue} 도트 데미지");
 
         while (elapsedTime < duration)
@@ -91,8 +106,8 @@ public class FireEffect : IElementalEffect
             yield return new WaitForSeconds(1f);
             elapsedTime += 1f;
         }
-        currentStacks = 0; // 도트 데미지 종료 후 스택 초기화
-        dotCoroutine = null; // 코루틴 참조 초기화
+        currentStacks[target] = 0; // DOT 종료 후 스택 초기화
+        dotCoroutines.Remove(target); // 코루틴 참조 제거
     }
     private void ApplyExplosionDamage(ElementalComponent component, float attackerAttackStat)
     {
@@ -117,17 +132,25 @@ public class IceEffect : IElementalEffect
     private float slowEffect = 0.5f;
     private float duration = 4.0f;
     private int maxSlowStacks = 5;
-    private int currentSlowStacks = 0;
+ //   private int currentSlowStacks = 0;
     private float stunTime = 3.0f;
     private float cooldown = 5.0f;
     private float healthRegenRate = 5.0f;
-    private Coroutine regenCoroutine; // 단일 Coroutine 변수
+    //   private Coroutine regenCoroutine; // 단일 Coroutine 변수
 
+    // 타겟별 데이터를 저장하기 위한 딕셔너리
+    private Dictionary<ElementalComponent, int> currentSlowStacks = new Dictionary<ElementalComponent, int>();
+    private Dictionary<ElementalComponent, Coroutine> slowCoroutines = new Dictionary<ElementalComponent, Coroutine>();
     private Dictionary<ElementalComponent, Coroutine> cooldowns = new Dictionary<ElementalComponent, Coroutine>();
-    private GameObject debuffEffect;
+    private Dictionary<ElementalComponent, GameObject> debuffEffects = new Dictionary<ElementalComponent, GameObject>();
+    private Coroutine regenCoroutine; // 패시브 효과용
+
+
+    //    private Dictionary<ElementalComponent, Coroutine> cooldowns = new Dictionary<ElementalComponent, Coroutine>();
+  //  private GameObject debuffEffect;
     private GameObject freezeEffectFront;
     private GameObject freezeEffectBack;
-    private Coroutine slowCoroutine;
+  //  private Coroutine slowCoroutine;
 
 
     public void ApplyEffect(ElementalComponent attackerComponent, ElementalComponent defenderComponent, float attackerAttackStat)
@@ -137,59 +160,76 @@ public class IceEffect : IElementalEffect
             Debug.Log("Ice effect 쿨다운");
             return;
         }
-        if (slowCoroutine != null)
+
+        // currentSlowStacks에 수비자가 없으면 초기화
+        if (!currentSlowStacks.ContainsKey(defenderComponent))
         {
-            defenderComponent.StopEffectCoroutine(slowCoroutine);
+            currentSlowStacks[defenderComponent] = 0;
         }
 
-        Debug.Log("currentSlowStacks : " + currentSlowStacks);
-        if (currentSlowStacks == 0)
+        // 기존 슬로우 코루틴이 있으면 중지
+        if (slowCoroutines.ContainsKey(defenderComponent))
         {
-            debuffEffect = (defenderComponent.GetParticle().StartParticlesWithDesignatedRotation(defenderComponent.damageParticles[(int)ElementParticles.IceDot], new Vector3(0, -0.5f, 0), defenderComponent.transform));
+            defenderComponent.StopEffectCoroutine(slowCoroutines[defenderComponent]);
+            slowCoroutines.Remove(defenderComponent);
         }
-        currentSlowStacks = Mathf.Min(currentSlowStacks + 1, maxSlowStacks);
-        Debug.Log($"currentSlowStacks : {currentSlowStacks}");
+
+        Debug.Log($"currentSlowStacks for {defenderComponent.name}: {currentSlowStacks[defenderComponent]}");
+
+        if (currentSlowStacks[defenderComponent] == 0)
+        {
+            GameObject debuffEffect = defenderComponent.GetParticle().StartParticlesWithDesignatedRotation(defenderComponent.damageParticles[(int)ElementParticles.IceDot], new Vector3(0, -0.5f, 0), defenderComponent.transform);
+            debuffEffects[defenderComponent] = debuffEffect;
+        }
+
+        currentSlowStacks[defenderComponent] = Mathf.Min(currentSlowStacks[defenderComponent] + 1, maxSlowStacks);
+        Debug.Log($"currentSlowStacks for {defenderComponent.name}: {currentSlowStacks[defenderComponent]}");
+        
         var defenderStats = defenderComponent.GetStats();
         var defenderMovement = defenderComponent.GetMovement();
 
-        if (currentSlowStacks >= maxSlowStacks)
+        if (currentSlowStacks[defenderComponent] >= maxSlowStacks)
         {
-            // Freeze the target for 1 second immediately
-            Debug.Log("Ice effect: Freezing target for 3 second");
+            // 프리즈 효과 적용
+            Debug.Log($"Ice effect: Freezing target for {stunTime} second");
             var enemy = defenderComponent.transform.root.GetComponent<Entity>();
             enemy.stunState.SetStunTime(stunTime);
+
             freezeEffectFront = defenderComponent.GetParticle().StartParticlesWithDesignatedRotationAndDestroy(defenderComponent.damageParticles[(int)ElementParticles.IceFreezeStartFront], new Vector3(0, -0.5f, 0), defenderComponent.transform, stunTime);
             freezeEffectBack = defenderComponent.GetParticle().StartParticlesWithDesignatedRotationAndDestroy(defenderComponent.damageParticles[(int)ElementParticles.IceFreezeStartBack], new Vector3(0, -0.5f, 0), defenderComponent.transform, stunTime);
+
             defenderComponent.StartEffectCoroutine(StartIceFreezeEnd(defenderComponent, stunTime));
             enemy.stateMachine.ChangeState(enemy.stunState);
 
-            // Reset the slow stacks and stop any ongoing slow effect
-            currentSlowStacks = 0;
+            // 스택 초기화 및 슬로우 효과 제거
+            currentSlowStacks[defenderComponent] = 0;
+
             if (defenderStats != null)
             {
+                defenderStats.ReturnMoveSpeed();
+
                 if (defenderStats.Element == Element.Land)
                 {
-                    defenderStats.ReturnMoveSpeed();
                     defenderStats.ReturnLandAttackSpeed();
                 }
                 else
                 {
-                    defenderStats.ReturnMoveSpeed();
                     defenderStats.ReturnAttackSpeed();
                 }
             }
             if( defenderMovement != null)
                 defenderMovement.SetVelocityZeroEffect();
 
-            if (slowCoroutine != null)
+            if (slowCoroutines.ContainsKey(defenderComponent))
             {
-                defenderComponent.StopEffectCoroutine(slowCoroutine);
-                slowCoroutine = null;
+                defenderComponent.StopEffectCoroutine(slowCoroutines[defenderComponent]);
+                slowCoroutines.Remove(defenderComponent);
             }
 
-            if (debuffEffect != null)
+            if (debuffEffects.ContainsKey(defenderComponent))
             {
-                defenderComponent.DestroyObj(debuffEffect);
+                defenderComponent.DestroyObj(debuffEffects[defenderComponent]);
+                debuffEffects.Remove(defenderComponent);
             }
             cooldowns[defenderComponent] = defenderComponent.StartEffectCoroutine(CooldownCoroutine(defenderComponent));
 
@@ -197,7 +237,8 @@ public class IceEffect : IElementalEffect
         else
         {
 
-            float slowMultiplier = 1f + (currentSlowStacks - 1) * 0.1f;
+            float slowMultiplier = 1f + (currentSlowStacks[defenderComponent] - 1) * 0.1f;
+
             if (defenderMovement != null)
             {
                 
@@ -211,7 +252,8 @@ public class IceEffect : IElementalEffect
             }
             Debug.Log($"{duration}초간 {((slowMultiplier) * slowEffect) * 100}% 둔화 ");
 
-            slowCoroutine = defenderComponent.StartEffectCoroutine(SlowEffectCoroutine(defenderComponent, defenderMovement, defenderStats));
+            Coroutine slowCoroutine = defenderComponent.StartEffectCoroutine(SlowEffectCoroutine(defenderComponent, defenderMovement, defenderStats));
+            slowCoroutines[defenderComponent] = slowCoroutine;
         }
     }
 
@@ -252,7 +294,7 @@ public class IceEffect : IElementalEffect
 
         }
 
-        // Restore original speed and attack speed
+        // 원래 속도와 공격 속도로 복원
         if (defenderMovement != null)
         {
             defenderMovement.SetVelocityZeroEffect();
@@ -260,33 +302,34 @@ public class IceEffect : IElementalEffect
         
         if (defenderStats != null)
         {
+            defenderStats.ReturnMoveSpeed();
+
             if (defenderStats.Element == Element.Land)
             {
-                defenderStats.ReturnMoveSpeed();
                 defenderStats.ReturnLandAttackSpeed();
             }
             else
             {
-                defenderStats.ReturnMoveSpeed();
                 defenderStats.ReturnAttackSpeed();
             }
         }
-        if (debuffEffect != null)
+        if (debuffEffects.ContainsKey(defenderComponent))
         {
-            defenderComponent.DestroyObj(debuffEffect);
+            defenderComponent.DestroyObj(debuffEffects[defenderComponent]);
+            debuffEffects.Remove(defenderComponent);
         }
-        currentSlowStacks = 0; // Reset slow stacks
-        slowCoroutine = null; // Clear the coroutine reference
+        currentSlowStacks[defenderComponent] = 0; // 해당 수비자의 슬로우 스택 초기화
+        slowCoroutines.Remove(defenderComponent); // 코루틴 참조 제거
 
-        Debug.Log("Ice effect removed: slow effect ended");
+        Debug.Log("Ice effect removed: slow effect ended for " + defenderComponent.name);
     }
 
     private IEnumerator CooldownCoroutine(ElementalComponent defenderComponent)
     {
-        Debug.Log("Ice effect cooldown started");
+        Debug.Log("Ice effect cooldown started for " + defenderComponent.name);
         yield return new WaitForSeconds(cooldown);
         cooldowns.Remove(defenderComponent);
-        Debug.Log("Ice effect cooldown ended");
+        Debug.Log("Ice effect cooldown ended for " + defenderComponent.name);
     }
 
     public void ApplyPassiveEffect(ElementalComponent component)

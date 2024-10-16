@@ -7,7 +7,7 @@ public class MonsterState
     protected Core core;
     protected MonsterStateMachine stateMachine;
     protected Entity entity;
-
+    protected bool isExitingState;
     public float startTime { get; protected set; }
     protected string animBoolName;
 
@@ -25,10 +25,12 @@ public class MonsterState
         DoChecks();
         entity.Anim.SetBool(animBoolName, true);
         startTime = Time.time;
+        isExitingState = false;
     }
     public virtual void Exit()
     {
         entity.Anim.SetBool(animBoolName, false);
+        isExitingState = true;
     }
     public virtual void DoChecks()
     {

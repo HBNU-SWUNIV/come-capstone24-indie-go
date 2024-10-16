@@ -10,7 +10,7 @@ public class CollisionHandler : MonoBehaviour
     private List<Collider2D> detectedColliders = new List<Collider2D>();
     private Dictionary<Collider2D, float> colliderCooldowns = new Dictionary<Collider2D, float>();
 
-    public float collisionCooldown = 0.25f; // 중복 충돌을 무시할 시간
+    public float collisionCooldown = 0.2f; // 중복 충돌을 무시할 시간
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -25,6 +25,7 @@ public class CollisionHandler : MonoBehaviour
         {
             if (Time.time - colliderCooldowns[collision] < collisionCooldown)
             {
+                Debug.Log("아직 쿨다운이 지나지 안흥ㅁ");
                 // 쿨다운 시간이 아직 지나지 않음
                 return;
             }
@@ -41,6 +42,7 @@ public class CollisionHandler : MonoBehaviour
             {
                 detectedColliders.Add(collision);
                 OnColliderDetected?.Invoke(collision);
+                colliderCooldowns[collision] = Time.time; // 공격한 시간을 기록
             }
         }
     }
@@ -51,7 +53,6 @@ public class CollisionHandler : MonoBehaviour
         if (detectedColliders.Contains(collision))
         {
             detectedColliders.Remove(collision);
-            colliderCooldowns[collision] = Time.time; // 나간 시간을 기록
         }
     }
 }

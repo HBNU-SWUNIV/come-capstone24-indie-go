@@ -18,10 +18,12 @@ public class Tile_Map_Create : MonoBehaviour
                     Side,
                     Corner,
                     Pillar,
-                    Ground;
+                    Ground,
+                    Clear_Portal;
     public TileBase road;
     public int horizontal = 80, vertical = 80; //변경
     public bool is_spawn = false;
+    public bool is_exit = false;
     [SerializeField] float minimumDevideRate = 0.4f; //공간이 나눠지는 최소 비율
     [SerializeField] float maximumDivideRate = 0.6f; //공간이 나눠지는 최대 비율
     int Max_Depth = 2;
@@ -149,6 +151,9 @@ public class Tile_Map_Create : MonoBehaviour
                     case 10:
                         tile = Ground;
                         break;
+                    case 98:
+                        tile = Clear_Portal;
+                        break;
                     case 99:
                         tile = Pillar;
                         break;
@@ -222,6 +227,11 @@ public class Tile_Map_Create : MonoBehaviour
             {
                 is_spawn = !is_spawn;
                 player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude - y + 3, 1);
+            }
+            else if(parent.map_type == Map_Node.Map_type.Exit && !is_exit)
+            {
+                is_exit = !is_exit;
+                parent.tile[x + (rand / 2),y+altitude -1] = 98;
             }
             parent.tile[i + 3, y + altitude] = 10;
             parent.tile[i + startPoint, y + altitude + altitude2] = 10;
@@ -447,6 +457,7 @@ public class Tile_Map_Create : MonoBehaviour
     }
     public void Reset_value()
     {
+        is_exit = false;
         is_spawn=false;
         position_count = 0;
     }

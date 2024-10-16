@@ -1622,6 +1622,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2251972077070143305, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
+      propertyPath: stunStateData
+      value: 
+      objectReference: {fileID: 11400000, guid: 87e2b4cf3237036469b1d7ed0890485c, type: 2}
     - target: {fileID: 3760977441096394818, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
       propertyPath: m_Size.x
       value: 2.0283566

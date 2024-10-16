@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:004 Project/Assets/_Scripts/Enemies/EnemySpecific/Enemy2/E2_DeadState.cs.meta
-guid: 6ad1a8a73d61aea409aafcd26714bd8b
-========
 guid: 4c905298860895241bf59feecd9dfd9e
->>>>>>>> 5442642a52b2a9dd8760227a9afbde4c1fe8accc:004 Project/Assets/_Scripts/Item/Slot.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

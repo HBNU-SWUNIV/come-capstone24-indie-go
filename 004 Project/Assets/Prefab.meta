@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:004 Project/Assets/Resources/Animations/Enemies/FlyingEye.meta
-guid: 2a8fbad25083f0b45a394ee1ebbcc6b7
-========
 guid: b2bb53a6cde1bd948bd78314b8e48747
->>>>>>>> 5442642a52b2a9dd8760227a9afbde4c1fe8accc:004 Project/Assets/Prefab.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

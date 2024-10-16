@@ -10,6 +10,8 @@ public class ElementalComponent : CoreComponent
     private ElementalManager elementalManager;
     private IElementalEffect currentEffect;
 
+    private Dictionary<IEnumerator, Coroutine> activeCoroutines = new Dictionary<IEnumerator, Coroutine>();
+
     public Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     private ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
 
@@ -82,7 +84,15 @@ public class ElementalComponent : CoreComponent
     public ParticleManager GetParticle() => ParticleManager;
     public Coroutine StartEffectCoroutine(IEnumerator coroutine)
     {
-        return StartCoroutine(coroutine);
+        if (activeCoroutines.ContainsKey(coroutine))
+        {
+            StopCoroutine(activeCoroutines[coroutine]);
+            activeCoroutines.Remove(coroutine);
+        }
+
+        Coroutine newCoroutine = StartCoroutine(coroutine);
+        activeCoroutines[coroutine] = newCoroutine;
+        return newCoroutine;
     }
 
     public void StopEffectCoroutine(Coroutine coroutine)
@@ -91,6 +101,15 @@ public class ElementalComponent : CoreComponent
         {
             StopCoroutine(coroutine);
         }
+    }
+
+    public void StopAllEffectCoroutines()
+    {
+        foreach (var entry in activeCoroutines)
+        {
+            StopCoroutine(entry.Value);
+        }
+        activeCoroutines.Clear();
     }
 
     public void DestroyObj(GameObject obj)

@@ -52,25 +52,27 @@ public class StunState : MonsterState
 	public override void LogicUpdate()
 	{
 		base.LogicUpdate();
-
-		if (freezeStunTime != 0f)
+		if (!isExitingState)
 		{
-			if (Time.time >= startTime + freezeStunTime)
+			if (freezeStunTime != 0f)
 			{
-				isStunTimeOver = true;
-				SetStunTime(0f);
+				if (Time.time >= startTime + freezeStunTime)
+				{
+					isStunTimeOver = true;
+					SetStunTime(0f);
+				}
 			}
-		}
-		else
-		{ 
-			if(Time.time >= startTime + stateData.stunTime)
-			isStunTimeOver = true;
-		}
+			else
+			{
+				if (Time.time >= startTime + stateData.stunTime)
+					isStunTimeOver = true;
+			}
 
-		if (isGrounded && Time.time >= startTime + stateData.stunKnockbackTime && !isMovementStopped)
-		{
-			isMovementStopped = true;
-			Movement?.SetVelocityX(0f);
+			if (isGrounded && Time.time >= startTime + stateData.stunKnockbackTime && !isMovementStopped)
+			{
+				isMovementStopped = true;
+				Movement?.SetVelocityX(0f);
+			}
 		}
 	}
 

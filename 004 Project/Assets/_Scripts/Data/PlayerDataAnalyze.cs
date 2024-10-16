@@ -12,47 +12,71 @@ public class PlayerDataAnalyze : MonoBehaviour
         AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
     }
 
-    
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
-        // calculaye total Action
-        int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["DefenceAttempt"];
+        // Calculate total actions
+        int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["RunSuccess"];
 
-        // Logistic
-        float parryRatio = LogisticFunction((float)actionData["ParryAttempt"] / totalActions);
-        float dashRatio = LogisticFunction((float)actionData["DashAttempt"] / totalActions);
-        float runRatio = LogisticFunction((float)actionData["DefenceAttempt"] / totalActions);
+        if (totalActions == 0)
+        {
+            Debug.LogError("No actions detected.");
+            return;
+        }
 
-        // Ratio normalize
-        float ratioSum = parryRatio + dashRatio + runRatio;
-        parryRatio /= ratioSum;
-        dashRatio /= ratioSum;
-        runRatio /= ratioSum;
+        // Get the ratios of each action
+        float parryRatio = (float)actionData["ParryAttempt"] / totalActions;
+        float dashRatio = (float)actionData["DashAttempt"] / totalActions;
+        float runRatio = (float)actionData["RunSuccess"] / totalActions;
 
-        // Classify player style
+        // Apply softmax function to normalize
+        List<float> softmaxRatios = Softmax(new List<float> { parryRatio, dashRatio, runRatio });
+        
+        // Extract the ratios after softmax
+        parryRatio = softmaxRatios[0];
+        dashRatio = softmaxRatios[1];
+        runRatio = softmaxRatios[2];
+
+        // Classify player style based on softmax values
         string playStyle = ClassifyPlayer(parryRatio, dashRatio, runRatio);
 
-        // print result
-        Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
+        // Print result
+        Debug.Log($"Parry Ratio = {parryRatio:F4}, Dash Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
     }
 
-    
-    float LogisticFunction(float x)
+    // Softmax function implementation
+    public List<float> Softmax(List<float> values)
     {
-        return 1f / (1f + Mathf.Exp(-x));
+        float maxVal = Mathf.Max(values.ToArray());  // Prevent overflow
+        List<float> expValues = new List<float>();
+        float sumExp = 0f;
+
+        // Calculate exponentials and sum of exponentials
+        foreach (var val in values)
+        {
+            float expVal = Mathf.Exp(val - maxVal);
+            expValues.Add(expVal);
+            sumExp += expVal;
+        }
+
+        // Normalize to get softmax probabilities
+        for (int i = 0; i < expValues.Count; i++)
+        {
+            expValues[i] /= sumExp;
+        }
+
+        return expValues;
     }
 
-    
     public string ClassifyPlayer(float parryRatio, float dashRatio, float runRatio)
     {
         Dictionary<string, float> ratios = new Dictionary<string, float>
         {
             { "parry", parryRatio },
-            { "dodge", dashRatio },
+            { "dash", dashRatio },
             { "run", runRatio }
         };
 
-        
+        // Identify the action with the highest ratio
         float maxRatio = -1;
 
         foreach (var entry in ratios)
@@ -64,6 +88,7 @@ public class PlayerDataAnalyze : MonoBehaviour
             }
         }
 
+        // Classify based on the highest action ratio
         switch (playerType)
         {
             case "parry":

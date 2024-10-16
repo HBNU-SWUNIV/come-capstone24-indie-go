@@ -38,6 +38,13 @@ public class Map_generate : MonoBehaviour
         map_generate();
 
     }
+    public void Reamake()
+    {
+        Tile_Map_Create.instance.Reset_value();
+        Tile_Map_Create.instance.Tilemap.ClearAllTiles();
+        Start();
+        
+    }
     void map_generate()
     {
         int num = UnityEngine.Random.Range(0, max);

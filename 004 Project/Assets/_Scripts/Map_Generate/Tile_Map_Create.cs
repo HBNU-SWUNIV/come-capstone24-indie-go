@@ -21,7 +21,7 @@ public class Tile_Map_Create : MonoBehaviour
                     Ground;
     public TileBase road;
     public int horizontal = 80, vertical = 80; //변경
-    private bool is_spawn = false;
+    public bool is_spawn = false;
     [SerializeField] float minimumDevideRate = 0.4f; //공간이 나눠지는 최소 비율
     [SerializeField] float maximumDivideRate = 0.6f; //공간이 나눠지는 최대 비율
     int Max_Depth = 2;
@@ -45,6 +45,10 @@ public class Tile_Map_Create : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        
+    }
+    void Start()
+    {
         Tilemap.ClearAllTiles();
     }
     public void Tile_Node(Map_Node root)
@@ -218,7 +222,6 @@ public class Tile_Map_Create : MonoBehaviour
             {
                 is_spawn = !is_spawn;
                 player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude - y + 3, 1);
-                Debug.Log(position_count / 4);
             }
             parent.tile[i + 3, y + altitude] = 10;
             parent.tile[i + startPoint, y + altitude + altitude2] = 10;
@@ -234,10 +237,6 @@ public class Tile_Map_Create : MonoBehaviour
     }
 
 
-    public void SpawnMonster()
-    {
-
-    }
     private void ConnectRooms(Map_Node parent, TileNode root)
     {
         if (root.leftNode == null || root.rightNode == null)
@@ -445,5 +444,10 @@ public class Tile_Map_Create : MonoBehaviour
         }
         for (int y = 0; y <= DownCenterY; y++)
             if (parent_Down.tile[DownCenterX, y] != 10) parent_Down.tile[DownCenterX, y] = 11;
+    }
+    public void Reset_value()
+    {
+        is_spawn=false;
+        position_count = 0;
     }
 }

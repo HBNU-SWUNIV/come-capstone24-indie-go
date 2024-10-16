@@ -1,4 +1,4 @@
-{
+  {
     "enemyStats": [
         {
             "key": 1001,
@@ -16,12 +16,36 @@
             "key": 1002,
             "value": {
                 "id" :  1002,
-                "curHp": 50,
-                "maxHp": 50,
+                "curHp": 400,
+                "maxHp": 400,
                 "attackDamage": 20.0,
                 "attackSpeed": 1.5,
                 "moveSpeed": 1,
                 "defense": 10.0
+            }
+        },
+        {
+            "key": 1003,
+            "value": {
+                "id" :  1003,
+                "curHp": 100,
+                "maxHp": 100,
+                "attackDamage": 15.0,
+                "attackSpeed": 1.5,
+                "moveSpeed": 1,
+                "defense": 3.0
+            }
+        },
+        {
+            "key": 1004,
+            "value": {
+                "id" :  1004,
+                "curHp": 200,
+                "maxHp": 200,
+                "attackDamage": 17.0,
+                "attackSpeed": 2,
+                "moveSpeed": 1,
+                "defense": 8.0
             }
         }
     ]

@@ -4,8 +4,8 @@
             "key": 1,
             "value": {
                 "id" :  1,
-                "curHp": 100,
-                "maxHp": 100,
+                "curHp": 50000,
+                "maxHp": 50000,
                 "attackDamage": 10.0,
                 "attackSpeed": 1.0,
                 "defense": 5.0,

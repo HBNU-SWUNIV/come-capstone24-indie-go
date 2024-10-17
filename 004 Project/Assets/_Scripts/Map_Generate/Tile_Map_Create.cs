@@ -223,8 +223,10 @@ public class Tile_Map_Create : MonoBehaviour
         b = Random.Range(0,3);
         int startPoint = UnityEngine.Random.Range(width / 4, width / 2);
         int rand = UnityEngine.Random.Range(width / 4, width / 2);
+        int floor_count = height /4;
         int altitude = UnityEngine.Random.Range(height / 4, height / 2);
         int altitude2 = UnityEngine.Random.Range(height / 4, height / 2);
+        Debug.Log(floor_count);
         for (int i = x; i < x + rand; i++)
         {
             if (parent.map_type == Map_Node.Map_type.Enterance && !is_spawn)
@@ -239,11 +241,16 @@ public class Tile_Map_Create : MonoBehaviour
                 newPortal.transform.position = new Vector3(80 * ((position_count-48) / 4) + i + 4, -240-altitude - y + 2, 1);
             }
             
+            for(int j = 1 ; j < floor_count+1;j++)
+            {
+                int altitude3 = y +(j*4);
+                if(altitude3 < y+height -2)
+                    parent.tile[i+3,altitude3] = 10;
+            }
             
             
-            // monster2.transform.position = new Vector3(0,0,0);
-            parent.tile[i + 3, y + altitude] = 10;
-            parent.tile[i + startPoint, y + altitude + altitude2] = 10;
+            // parent.tile[i + 3, y + altitude] = 10;
+            // parent.tile[i + startPoint, y + altitude + altitude2] = 10;
         }
         GameObject monster1 = Instantiate(monster[a]);
         GameObject monster2 = Instantiate(monster[b]);

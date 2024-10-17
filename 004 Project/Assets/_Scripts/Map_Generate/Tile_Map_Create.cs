@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 public class Tile_Map_Create : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    public GameObject portal;
     public static Tile_Map_Create instance = null;
     int position_count = 0;
     public Tilemap Tilemap;
@@ -231,10 +232,15 @@ public class Tile_Map_Create : MonoBehaviour
             else if(parent.map_type == Map_Node.Map_type.Exit && !is_exit)
             {
                 is_exit = !is_exit;
-                parent.tile[x + (rand / 2),y+altitude -1] = 98;
+                GameObject newPortal = Instantiate(portal);
+                newPortal.transform.position = new Vector3(80 * ((position_count-48) / 4) + i + 4, -240-altitude - y + 2, 1);
             }
             parent.tile[i + 3, y + altitude] = 10;
             parent.tile[i + startPoint, y + altitude + altitude2] = 10;
+        }
+        if (playStyle == "dash")
+        {
+            
         }
         if (playStyle == "High_dash")
         {

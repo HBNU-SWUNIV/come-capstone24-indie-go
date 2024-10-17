@@ -217,58 +217,62 @@ public class Tile_Map_Create : MonoBehaviour
         }
     }
     private void ChangeRoom(Map_Node parent, int x, int y, int width, int height, string playStyle = null)
+{
+    int a,b;
+    a = Random.Range(0,3);
+    b = Random.Range(0,3);
+    
+    int floor_count = height / 4;
+    int altitude = UnityEngine.Random.Range(height / 4, height / 2);
+    int altitude2 = UnityEngine.Random.Range(height / 4, height / 2);
+    Debug.Log(floor_count);
+
+    // j 먼저 계산 (바깥쪽 루프)
+    for (int j = 1; j < floor_count; j++)
     {
-        int a,b;
-        a = Random.Range(0,3);
-        b = Random.Range(0,3);
-        int startPoint = UnityEngine.Random.Range(width / 4, width / 2);
+        int altitude3 = y + (j * 4);
+        int startPoint = UnityEngine.Random.Range(4, width / 2);
         int rand = UnityEngine.Random.Range(width / 4, width / 2);
-        int floor_count = height /4;
-        int altitude = UnityEngine.Random.Range(height / 4, height / 2);
-        int altitude2 = UnityEngine.Random.Range(height / 4, height / 2);
-        Debug.Log(floor_count);
-        for (int i = x; i < x + rand; i++)
+        // i 계산 (안쪽 루프)
+        for (int i = x+startPoint; i < x+startPoint + rand; i++)
         {
             if (parent.map_type == Map_Node.Map_type.Enterance && !is_spawn)
             {
                 is_spawn = !is_spawn;
                 player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude - y + 3, 1);
             }
-            else if(parent.map_type == Map_Node.Map_type.Exit && !is_exit)
+            else if (parent.map_type == Map_Node.Map_type.Exit && !is_exit)
             {
                 is_exit = !is_exit;
                 GameObject newPortal = Instantiate(portal);
-                newPortal.transform.position = new Vector3(80 * ((position_count-48) / 4) + i + 4, -240-altitude - y + 2, 1);
+                newPortal.transform.position = new Vector3(80 * ((position_count - 48) / 4) + i + 4, -240 - altitude - y + 2, 1);
             }
-            
-            for(int j = 1 ; j < floor_count+1;j++)
-            {
-                int altitude3 = y +(j*4);
-                if(altitude3 < y+height -2)
-                    parent.tile[i+3,altitude3] = 10;
-            }
-            
-            
-            // parent.tile[i + 3, y + altitude] = 10;
-            // parent.tile[i + startPoint, y + altitude + altitude2] = 10;
+
+            if (altitude3 < y + height - 2 && i < x + width - 3)
+                parent.tile[i, altitude3] = 10;
         }
-        GameObject monster1 = Instantiate(monster[a]);
-        GameObject monster2 = Instantiate(monster[b]);
-        monster1.transform.position =  new Vector3(80 * ((position_count%16) / 4) + x+2 + 4, -altitude - y + 3- (position_count/16)*80 , 1);
-        monster2.transform.position =  new Vector3(80 * ((position_count%16) / 4) + x+(rand/2)+startPoint, -altitude-altitude2 - y + 3 - (position_count/16)*80, 1);
-        if (playStyle == "dash")
-        {
-            
-        }
-        if (playStyle == "High_dash")
-        {
-            int WallPoint1 = UnityEngine.Random.Range(1, startPoint - 2);
-            int WallPoint2 = UnityEngine.Random.Range(1, startPoint - 2);
-            parent.tile[x + 3 + WallPoint1, y + altitude - 1] = 99;
-            parent.tile[x + startPoint + WallPoint2, y + altitude + altitude2 - 1] = 99;
-        }
-        position_count++;
     }
+
+    // GameObject monster1 = Instantiate(monster[a]);
+    // GameObject monster2 = Instantiate(monster[b]);
+    // monster1.transform.position = new Vector3(80 * ((position_count % 16) / 4) + x + 2 + 4, -altitude - y + 3 - (position_count / 16) * 80, 1);
+    // monster2.transform.position = new Vector3(80 * ((position_count % 16) / 4) + x + (rand / 2) + startPoint, -altitude - altitude2 - y + 3 - (position_count / 16) * 80, 1);
+
+    // if (playStyle == "dash")
+    // {
+    //     // dash 관련 로직
+    // }
+    // if (playStyle == "High_dash")
+    // {
+    //     int WallPoint1 = UnityEngine.Random.Range(1, startPoint - 2);
+    //     int WallPoint2 = UnityEngine.Random.Range(1, startPoint - 2);
+    //     parent.tile[x + 3 + WallPoint1, y + altitude - 1] = 99;
+    //     parent.tile[x + startPoint + WallPoint2, y + altitude + altitude2 - 1] = 99;
+    // }
+    
+    position_count++;
+}
+
 
 
     private void ConnectRooms(Map_Node parent, TileNode root)

@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 public class Tile_Map_Create : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    public List<GameObject> monster;
     public GameObject portal;
     public static Tile_Map_Create instance = null;
     int position_count = 0;
@@ -217,7 +218,9 @@ public class Tile_Map_Create : MonoBehaviour
     }
     private void ChangeRoom(Map_Node parent, int x, int y, int width, int height, string playStyle = null)
     {
-
+        int a,b;
+        a = Random.Range(0,3);
+        b = Random.Range(0,3);
         int startPoint = UnityEngine.Random.Range(width / 4, width / 2);
         int rand = UnityEngine.Random.Range(width / 4, width / 2);
         int altitude = UnityEngine.Random.Range(height / 4, height / 2);
@@ -235,9 +238,17 @@ public class Tile_Map_Create : MonoBehaviour
                 GameObject newPortal = Instantiate(portal);
                 newPortal.transform.position = new Vector3(80 * ((position_count-48) / 4) + i + 4, -240-altitude - y + 2, 1);
             }
+            
+            
+            
+            // monster2.transform.position = new Vector3(0,0,0);
             parent.tile[i + 3, y + altitude] = 10;
             parent.tile[i + startPoint, y + altitude + altitude2] = 10;
         }
+        GameObject monster1 = Instantiate(monster[a]);
+        GameObject monster2 = Instantiate(monster[b]);
+        monster1.transform.position =  new Vector3(80 * ((position_count%16) / 4) + x+2 + 4, -altitude - y + 3- (position_count/16)*80 , 1);
+        monster2.transform.position =  new Vector3(80 * ((position_count%16) / 4) + x+(rand/2)+startPoint, -altitude-altitude2 - y + 3 - (position_count/16)*80, 1);
         if (playStyle == "dash")
         {
             

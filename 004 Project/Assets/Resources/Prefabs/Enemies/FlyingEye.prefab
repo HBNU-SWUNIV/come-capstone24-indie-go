@@ -843,6 +843,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4e3229d3f2fd54b9336495f1b27684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundCheck: {fileID: 1763041935607175341}
+  wallCheck: {fileID: 5500886776960105794}
+  ledgeCheckHorizontal: {fileID: 0}
+  ledgeCheckVertical: {fileID: 2803742209880174127}
+  ceilingCheck: {fileID: 0}
   groundCheckRadius: 0.2
   wallCheckDistance: 0.3
-  whatIsGround: 256
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 256

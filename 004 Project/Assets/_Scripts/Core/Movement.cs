@@ -50,6 +50,12 @@ public class Movement : CoreComponent
         workspace.Set(velocity * direction, workspace.y);
         SetFinalVelocity();
     }
+    public void AttackForce(float velocity, Vector2 angle, int direction)
+    {
+        workspace.Set(angle.x * velocity * direction, angle.y * velocity);
+
+        RB.AddForce(workspace, ForceMode2D.Impulse);
+    }
     public void SetVelocity(float velocity, Vector2 angle, int direction)
     {
         angle.Normalize();

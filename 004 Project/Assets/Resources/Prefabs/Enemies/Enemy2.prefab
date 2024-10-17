@@ -47,9 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4e3229d3f2fd54b9336495f1b27684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundCheck: {fileID: 3120885657563140880}
+  wallCheck: {fileID: 1218431570764092605}
+  ledgeCheckHorizontal: {fileID: 0}
+  ledgeCheckVertical: {fileID: 3845123220992085600}
+  ceilingCheck: {fileID: 0}
   groundCheckRadius: 0.3
   wallCheckDistance: 0.3
-  whatIsGround: 256
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &121134964750030775
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4794542959853263490}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -15.275, y: 8.069, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

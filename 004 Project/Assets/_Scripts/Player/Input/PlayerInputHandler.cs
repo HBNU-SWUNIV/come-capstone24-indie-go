@@ -11,8 +11,12 @@ public class PlayerInputHandler : MonoBehaviour
     public int NormInputX { get; private set; }
     public int NormInputY { get; private set; }
     public bool JumpInput { get; private set; }
+    public bool JumpInputStop { get; private set; }
+
     public bool[] AttackInputs { get; private set; }
     public bool DashInput { get; private set; }
+    public bool GrabInput { get; private set; }
+
     public bool ShieldInput { get; private set; }
     public bool ShieldHoldInput { get; private set; }
     public bool SkillInput { get; private set; }
@@ -68,14 +72,34 @@ public class PlayerInputHandler : MonoBehaviour
         NormInputX = Mathf.RoundToInt(MovementInput.x);
         NormInputY = Mathf.RoundToInt(MovementInput.y);
     }
+    public void OnGrabInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            GrabInput = true;
+        }
+
+        if (context.canceled)
+        {
+            GrabInput = false;
+        }
+    }
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             JumpInput = true;
+            JumpInputStop = false;
+
             jumpInputStartTime = Time.time;
         }
+        if (context.canceled)
+        {
+            JumpInputStop = true;
+        }
+
     }
+
 
     public void UseJumpInput() => JumpInput = false;
     public void UseDashInput() => DashInput = false;

@@ -13,7 +13,19 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   movementVelocity: 10
-  coyotoTime: 0.2
+  wallJumpVelocity: 10
+  wallJumpTime: 0.05
+  wallJumpAngle: {x: 1, y: 3}
+  wallSlideVelocity: 2
+  wallClimbVelocity: 3
+  startOffset: {x: 0.4, y: 0.9}
+  stopOffset: {x: 0.4, y: 0.75}
+  crouchMovementVelocity: 5
+  crouchColliderHeight: 0.8
+  standColliderHeight: 1.6
+  coyoteTime: 0.2
+  variableJumpHeightMultiplier: 0.5
+  hitRecoveryTime: 0.25
   jumpVelocity: 15
   amountOfJumps: 2
   dashCoolDown: 0.2

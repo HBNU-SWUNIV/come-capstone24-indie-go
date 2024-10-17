@@ -174,7 +174,6 @@ public class IceEffect : IElementalEffect
             slowCoroutines.Remove(defenderComponent);
         }
 
-        Debug.Log($"currentSlowStacks for {defenderComponent.name}: {currentSlowStacks[defenderComponent]}");
 
         if (currentSlowStacks[defenderComponent] == 0)
         {
@@ -206,19 +205,9 @@ public class IceEffect : IElementalEffect
 
             if (defenderStats != null)
             {
-                defenderStats.ReturnMoveSpeed();
-
-                if (defenderStats.Element == Element.Land)
-                {
-                    defenderStats.ReturnLandAttackSpeed();
-                }
-                else
-                {
-                    defenderStats.ReturnAttackSpeed();
-                }
+                defenderStats.ResetAttackSpeedSlow();
+                defenderStats.ResetMoveSpeedSlow(defenderComponent);
             }
-            if( defenderMovement != null)
-                defenderMovement.SetVelocityZeroEffect();
 
             if (slowCoroutines.ContainsKey(defenderComponent))
             {
@@ -237,20 +226,22 @@ public class IceEffect : IElementalEffect
         else
         {
 
-            float slowMultiplier = 1f + (currentSlowStacks[defenderComponent] - 1) * 0.1f;
-
-            if (defenderMovement != null)
+            // 둔화 효과 적용
+            float slowMultiplier;
+            if (currentSlowStacks[defenderComponent] == 1)
             {
-                
-                defenderMovement.SetVelocityXEffect(1 - ((slowMultiplier) * slowEffect));
-                
+                slowMultiplier = 1f - slowEffect; // 첫 번째 스택은 slowEffect만큼 감소
             }
+            else
+            {
+                slowMultiplier = 0.9f; // 이후 스택은 10%씩 추가 감소
+            }
+
             if (defenderStats != null)
             {
-                defenderStats.ChangeMoveSpeed(1 - slowMultiplier * slowEffect);
-                defenderStats.ChangeAttackSpeed(1 - slowMultiplier * slowEffect);
+                defenderStats.ApplyAttackSpeedSlow(slowMultiplier);
+                defenderStats.ApplyMoveSpeedSlow(slowMultiplier, defenderComponent);
             }
-            Debug.Log($"{duration}초간 {((slowMultiplier) * slowEffect) * 100}% 둔화 ");
 
             Coroutine slowCoroutine = defenderComponent.StartEffectCoroutine(SlowEffectCoroutine(defenderComponent, defenderMovement, defenderStats));
             slowCoroutines[defenderComponent] = slowCoroutine;
@@ -294,25 +285,12 @@ public class IceEffect : IElementalEffect
 
         }
 
-        // 원래 속도와 공격 속도로 복원
-        if (defenderMovement != null)
-        {
-            defenderMovement.SetVelocityZeroEffect();
-        }
-        
         if (defenderStats != null)
         {
-            defenderStats.ReturnMoveSpeed();
-
-            if (defenderStats.Element == Element.Land)
-            {
-                defenderStats.ReturnLandAttackSpeed();
-            }
-            else
-            {
-                defenderStats.ReturnAttackSpeed();
-            }
+            defenderStats.ResetAttackSpeedSlow();
+            defenderStats.ResetMoveSpeedSlow(defenderComponent);
         }
+
         if (debuffEffects.ContainsKey(defenderComponent))
         {
             defenderComponent.DestroyObj(debuffEffects[defenderComponent]);
@@ -391,11 +369,10 @@ public class LandEffect : IElementalEffect
 
     public void ApplyPassiveEffect(ElementalComponent component)
     {
-    //    Debug.Log($"Land effect applied: decreasing attack speed by {decreaseAttackSpeed} and increasing attack damage by {increaseAttackDamage}");
         var stats = component.GetStats();
         if (stats != null)
         {
-            stats.ChangeLandAttackSpeed(1 - decreaseAttackSpeed);
+            stats.ModifyAttackSpeed(1 - decreaseAttackSpeed);
             stats.ChangeDamage(increaseAttackDamage);
         }
     }

@@ -9,8 +9,7 @@ public class PlayerState
     protected Player player;
     protected PlayerStateMachine stateMachine;
     protected PlayerData playerData;
-
-
+    
     protected bool isAnimationFinished;
     protected bool isExitingState;
 

@@ -15,6 +15,7 @@ public class PlayerDataAnalyze : MonoBehaviour
     
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
+        Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
         // calculaye total Action
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["DefenceAttempt"];
 
@@ -63,7 +64,7 @@ public class PlayerDataAnalyze : MonoBehaviour
                 playerType = entry.Key;
             }
         }
-
+        Debug.Log("playerType : " + playerType);
         switch (playerType)
         {
             case "parry":

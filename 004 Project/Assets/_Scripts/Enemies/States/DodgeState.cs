@@ -36,8 +36,8 @@ public class DodgeState : MonsterState
 		base.Enter();
 
 		isDodgeOver = false;
-
-		Movement?.SetVelocity(stateData.dodgeSpeed, stateData.dodgeAngle, -Movement.FacingDirection);
+		Movement?.AttackForce(stateData.dodgeSpeed, stateData.dodgeAngle, -Movement.FacingDirection);
+	//	Movement?.SetVelocity(stateData.dodgeSpeed, stateData.dodgeAngle, -Movement.FacingDirection);
 	}
 
 	public override void Exit()
@@ -48,6 +48,7 @@ public class DodgeState : MonsterState
 	public override void LogicUpdate()
 	{
 		base.LogicUpdate();
+
 		if (Time.time >= startTime + stateData.dodgeTime && isGrounded)
 		{
 			isDodgeOver = true;

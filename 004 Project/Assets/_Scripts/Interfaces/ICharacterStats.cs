@@ -10,17 +10,18 @@ public interface ICharacterStats
     float Defense { get; set; }
     float MoveSpeed { get; set; }
     Element Element { get; set; }
+    
     bool DecreaseHealth(float amount);
     void IncreaseHealth(float amount);
     bool IsHpMax(float amount);
     void ChangeDamage(float currentDamage);
     void ReturnDamage();
     void ChangeAttackSpeed(float currentSpeed);
-    void ChangeLandAttackSpeed(float currentSpeed);
 
     void ReturnAttackSpeed();
-    void ReturnLandAttackSpeed();
-    void ChangeMoveSpeed(float currentSpeed);
-    void ReturnMoveSpeed();
-
+    public void ModifyAttackSpeed(float multiplier);
+    public void ResetAttackSpeedSlow();
+    public void ResetMoveSpeedSlow(ElementalComponent component);
+    public void ApplyMoveSpeedSlow(float multiplier, ElementalComponent defenderComponent);
+    public void ApplyAttackSpeedSlow(float multiplier);
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class E2_MeleeAttackState : MeleeAttackState
 {
     private Enemy2 enemy;
+    string playerType;
     public E2_MeleeAttackState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, D_MeleeAttackState stateData, Enemy2 enemy) : base(etity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
@@ -18,6 +19,7 @@ public class E2_MeleeAttackState : MeleeAttackState
     public override void Enter()
     {
         base.Enter();
+        playerType = GameManager.PlayerManager.DataAnalyze.playerType;
     }
 
     public override void Exit()

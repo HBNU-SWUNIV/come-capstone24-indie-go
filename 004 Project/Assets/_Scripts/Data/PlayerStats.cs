@@ -63,7 +63,7 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
             Animator swordbaseAnim = sword.transform.GetChild(0).GetComponent<Animator>();
             Animator swordweaponAnim = sword.transform.GetChild(1).GetComponent<Animator>();
         
-            Debug.Log(attackSpeed);
+     //       Debug.Log(attackSpeed);
         //    sword.SetActive(true);
             swordbaseAnim.SetFloat("AttackSpeed", attackSpeed);
             swordweaponAnim.SetFloat("AttackSpeed", attackSpeed);

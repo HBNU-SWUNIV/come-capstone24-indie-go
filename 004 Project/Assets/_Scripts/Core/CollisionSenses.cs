@@ -29,16 +29,22 @@ public class CollisionSenses : CoreComponent
     public Transform GroundCheck { get => groundCheck; private set => groundCheck = value; }
     public Transform WallCheck { get => wallCheck; private set => wallCheck = value; }
     public Transform LedgeCheckVertical { get => ledgeCheckVertical; private set => ledgeCheckVertical = value; }
-    public float GroundCheckRadius { get => groundCheckRadius; private set => groundCheckRadius = value; }
-    public int WhatIsGround { get => whatIsGround; private set => whatIsGround = value; }
+    public Transform LedgeCheckHorizontal { get => ledgeCheckHorizontal; private set => ledgeCheckHorizontal = value; }
+    public Transform CeilingCheck { get => ceilingCheck; private set => ceilingCheck = value; }
+    public float WallCheckDistance { get => wallCheckDistance; set => wallCheckDistance = value; }
+    public LayerMask WhatIsGround { get => whatIsGround; set => whatIsGround = value; }
 
 
-    private Transform groundCheck;
-    private Transform wallCheck;
-    private Transform ledgeCheckVertical;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private Transform ledgeCheckHorizontal;
+    [SerializeField] private Transform ledgeCheckVertical;
+    [SerializeField] private Transform ceilingCheck;
+
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private float wallCheckDistance;
-    [SerializeField] private int whatIsGround = LayerMasks.Ground;
+
+    [SerializeField] private LayerMask whatIsGround;
 
     //LayerMasks.Ground
     #endregion
@@ -47,19 +53,16 @@ public class CollisionSenses : CoreComponent
     public bool WallFront { get => Physics2D.Raycast(WallCheck.position, Vector2.right * Movement.FacingDirection, wallCheckDistance, whatIsGround); }
     public bool LedgeVertical { get => Physics2D.Raycast(LedgeCheckVertical.position, Vector2.down, wallCheckDistance, whatIsGround); }
 
-    protected override void Awake()
+    public bool LedgeHorizontal
     {
-        base.Awake();
-        groundCheck = transform.Find(GameObjectName.GroundCheck);
-      //  if (groundCheck == null)
-            //Debug.Log(transform.root.name + "에 GroundCheck 없음.");
-
-        wallCheck = transform.Find(GameObjectName.WallCheck);
-        //if (wallCheck == null)
-            //Debug.Log(transform.root.name + "에 WallCheck 없음.");
-        
-        ledgeCheckVertical = transform.Find(GameObjectName.LedgeCheck);
-       // if (ledgeCheckVertical == null)
-            //Debug.Log(transform.root.name + "에 LedgeCheck 없음.");
+        get => Physics2D.Raycast(LedgeCheckHorizontal.position, Vector2.right * Movement.FacingDirection, wallCheckDistance, whatIsGround);
+    }
+    public bool WallBack
+    {
+        get => Physics2D.Raycast(WallCheck.position, Vector2.right * -Movement.FacingDirection, wallCheckDistance, whatIsGround);
+    }
+    public bool Ceiling
+    {
+        get => Physics2D.OverlapCircle(CeilingCheck.position, groundCheckRadius, whatIsGround);
     }
 }

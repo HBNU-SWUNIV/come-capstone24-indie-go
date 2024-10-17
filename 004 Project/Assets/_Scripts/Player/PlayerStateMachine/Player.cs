@@ -28,6 +28,13 @@ public static class PlayerAnimStatesName
     public const string Action = "Action";
     public const string Dash = "Dash";
     public const string Hit = "Hit";
+    public const string WallSlide = "WallSlide";
+    public const string WallGrab = "WallGrab";
+    public const string WallClimb = "WallClimb";
+    public const string LedgeClimbState = "LedgeClimbState";
+    public const string CrouchIdle = "CrouchIdle";
+    public const string CrouchMove = "CrouchMove";
+
 }
 public class Player : MonoBehaviour
 {
@@ -45,6 +52,13 @@ public class Player : MonoBehaviour
     public PlayerShieldState ShieldState { get; private set; }
     public PlayerSkillState SkillState { get; private set; }
     public PlayerHitState HitState { get; private set; }
+    public PlayerWallSlideState WallSlideState { get; private set; }
+    public PlayerWallGrabState WallGrabState { get; private set; }
+    public PlayerWallClimbState WallClimbState { get; private set; }
+    public PlayerWallJumpState WallJumpState { get; private set; }
+    public PlayerLedgeClimbState LedgeClimbState { get; private set; }
+    public PlayerCrouchIdleState CrouchIdleState { get; private set; }
+    public PlayerCrouchMoveState CrouchMoveState { get; private set; }
 
     [SerializeField]
     private PlayerData playerData;
@@ -55,7 +69,7 @@ public class Player : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
     //public Transform DashDirectionIndicator { get; private set; }
-    public BoxCollider2D PlayerCollider { get; private set; }
+    public BoxCollider2D MovementCollider { get; private set; }
     //test
     #endregion
 
@@ -85,7 +99,14 @@ public class Player : MonoBehaviour
         LandState = new PlayerLandState(this, StateMachine, playerData, PlayerAnimStatesName.Land);
         InAirState = new PlayerInAirState(this, StateMachine, playerData, PlayerAnimStatesName.InAir);
         PrimaryAttackState = new PlayerAttackState(this, StateMachine, playerData, PlayerAnimStatesName.Action, primaryWeapon);
-     //   SecondaryAttackState = new PlayerAttackState(this, StateMachine, playerData, PlayerAnimStatesName.Attack);
+        //   SecondaryAttackState = new PlayerAttackState(this, StateMachine, playerData, PlayerAnimStatesName.Attack);
+        WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, PlayerAnimStatesName.WallSlide);
+        WallGrabState = new PlayerWallGrabState(this, StateMachine, playerData, PlayerAnimStatesName.WallGrab);
+        WallClimbState = new PlayerWallClimbState(this, StateMachine, playerData, PlayerAnimStatesName.WallClimb);
+        WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, PlayerAnimStatesName.InAir);
+        LedgeClimbState = new PlayerLedgeClimbState(this, StateMachine, playerData, PlayerAnimStatesName.LedgeClimbState);
+        CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, PlayerAnimStatesName.CrouchIdle);
+        CrouchMoveState = new PlayerCrouchMoveState(this, StateMachine, playerData, PlayerAnimStatesName.CrouchMove);
         DashState = new PlayerDashState(this, StateMachine, playerData, PlayerAnimStatesName.Dash);
         ShieldState = new PlayerShieldState(this, StateMachine, playerData, PlayerAnimStatesName.Action, shieldWeapon);
         SkillState = new PlayerSkillState(this, StateMachine, playerData, PlayerAnimStatesName.Action, skill);
@@ -104,7 +125,7 @@ public class Player : MonoBehaviour
         Anim = GetComponent<Animator>();
         InputHandler = GetComponent<PlayerInputHandler>();
         RB = GetComponent<Rigidbody2D>();
-        PlayerCollider = GetComponent<BoxCollider2D>();
+        MovementCollider = GetComponent<BoxCollider2D>();
         StateMachine.Initialize(IdleState);
     }
 
@@ -120,28 +141,15 @@ public class Player : MonoBehaviour
         StateMachine.CurrentState.PhysicsUpdate();
     }
 
-
-    public void SetColliderSize(float? width = null, float? height = null)
+    public void SetColliderHeight(float height)
     {
-        Vector2 size = PlayerCollider.size;
-        Vector2 center = PlayerCollider.offset;
+        Vector2 center = MovementCollider.offset;
+        workspace.Set(MovementCollider.size.x, height);
 
-        // 너비 조정
-        if (width.HasValue)
-        {
-            center.x += (width.Value - size.x) / 2;
-            size.x = width.Value;
-        }
+        center.y += (height - MovementCollider.size.y) / 2;
 
-        // 높이 조정
-        if (height.HasValue)
-        {
-            center.y += (height.Value - size.y) / 2;
-            size.y = height.Value;
-        }
-
-        PlayerCollider.size = size;
-        PlayerCollider.offset = center;
+        MovementCollider.size = workspace;
+        MovementCollider.offset = center;
     }
 
     // AnimationEvent

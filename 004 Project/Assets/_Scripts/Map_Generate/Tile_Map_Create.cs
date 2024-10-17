@@ -218,44 +218,55 @@ public class Tile_Map_Create : MonoBehaviour
     }
     private void ChangeRoom(Map_Node parent, int x, int y, int width, int height, string playStyle = null)
 {
-    int a,b;
-    a = Random.Range(0,3);
-    b = Random.Range(0,3);
+    
+    
     
     int floor_count = height / 4;
     int altitude = UnityEngine.Random.Range(height / 4, height / 2);
-    int altitude2 = UnityEngine.Random.Range(height / 4, height / 2);
-    Debug.Log(floor_count);
+
+    Debug.Log(position_count);
 
     // j 먼저 계산 (바깥쪽 루프)
     for (int j = 1; j < floor_count; j++)
     {
+        bool monster_spawn = false;
+        
         int altitude3 = y + (j * 4);
         int startPoint = UnityEngine.Random.Range(4, width / 2);
         int rand = UnityEngine.Random.Range(width / 4, width / 2);
+
         // i 계산 (안쪽 루프)
         for (int i = x+startPoint; i < x+startPoint + rand; i++)
         {
             if (parent.map_type == Map_Node.Map_type.Enterance && !is_spawn)
             {
                 is_spawn = !is_spawn;
-                player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude - y + 3, 1);
+                monster_spawn =true;
+                player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude3 + 3, 1);
             }
             else if (parent.map_type == Map_Node.Map_type.Exit && !is_exit)
             {
                 is_exit = !is_exit;
                 GameObject newPortal = Instantiate(portal);
-                newPortal.transform.position = new Vector3(80 * ((position_count - 48) / 4) + i + 4, -240 - altitude - y + 2, 1);
+                newPortal.transform.position = new Vector3(80 * ((position_count - 48) / 4) + i + 4, -240 - altitude3 + 2, 1);
+            }
+            if(!monster_spawn)
+            {
+                monster_spawn =true;
+                int a = Random.Range(0,3);
+                GameObject spawn_monster = Instantiate(monster[a]);
+                spawn_monster.transform.position = new Vector3(80 * ((position_count % 16) / 4) + i + (rand/2) , -altitude3 + 2 - (position_count / 16) * 80, 1);
             }
 
             if (altitude3 < y + height - 2 && i < x + width - 3)
                 parent.tile[i, altitude3] = 10;
         }
+        monster_spawn =false;
     }
 
-    // GameObject monster1 = Instantiate(monster[a]);
+
     // GameObject monster2 = Instantiate(monster[b]);
-    // monster1.transform.position = new Vector3(80 * ((position_count % 16) / 4) + x + 2 + 4, -altitude - y + 3 - (position_count / 16) * 80, 1);
+    // 
     // monster2.transform.position = new Vector3(80 * ((position_count % 16) / 4) + x + (rand / 2) + startPoint, -altitude - altitude2 - y + 3 - (position_count / 16) * 80, 1);
 
     // if (playStyle == "dash")

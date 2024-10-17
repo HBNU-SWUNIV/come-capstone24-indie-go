@@ -38,7 +38,7 @@ public class PlayerData : ScriptableObject
     public float hitRecoveryTime = 0.25f;
 
     [Header("Jump State")]
-    public float jumpVelocity = 15f;
+    public float jumpVelocity = 20f;
     public int amountOfJumps = 2;
 
     [Header("Dash State")]

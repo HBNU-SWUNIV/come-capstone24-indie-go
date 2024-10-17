@@ -20,13 +20,15 @@ MonoBehaviour:
   wallClimbVelocity: 3
   startOffset: {x: 0.4, y: 0.9}
   stopOffset: {x: 0.4, y: 0.75}
+  offsetX: 0.38
+  offsetY: 0.98187
   crouchMovementVelocity: 5
   crouchColliderHeight: 0.8
   standColliderHeight: 1.6
   coyoteTime: 0.2
   variableJumpHeightMultiplier: 0.5
   hitRecoveryTime: 0.25
-  jumpVelocity: 15
+  jumpVelocity: 20
   amountOfJumps: 2
   dashCoolDown: 0.2
   dashVelocity: 20

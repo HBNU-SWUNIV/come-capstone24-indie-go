@@ -9,13 +9,13 @@ public class PlayerDataAnalyze : MonoBehaviour
     void Start()
     {   
         // Analyze Playerdata
-        AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
+       // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
     }
 
     
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
-        Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
+      //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
         // calculaye total Action
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["DefenceAttempt"];
 

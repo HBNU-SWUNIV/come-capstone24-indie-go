@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Net.Cache;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
@@ -10,6 +11,8 @@ using UnityEngine.Tilemaps;
 public class Tile_Map_Create : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    public List<GameObject> monster;
+    public GameObject portal;
     public static Tile_Map_Create instance = null;
     int position_count = 0;
     public Tilemap Tilemap;
@@ -18,10 +21,12 @@ public class Tile_Map_Create : MonoBehaviour
                     Side,
                     Corner,
                     Pillar,
-                    Ground;
+                    Ground,
+                    Clear_Portal;
     public TileBase road;
     public int horizontal = 80, vertical = 80; //변경
-    private bool is_spawn = false;
+    public bool is_spawn = false;
+    public bool is_exit = false;
     [SerializeField] float minimumDevideRate = 0.4f; //공간이 나눠지는 최소 비율
     [SerializeField] float maximumDivideRate = 0.6f; //공간이 나눠지는 최대 비율
     int Max_Depth = 2;
@@ -45,6 +50,10 @@ public class Tile_Map_Create : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        
+    }
+    void Start()
+    {
         Tilemap.ClearAllTiles();
     }
     public void Tile_Node(Map_Node root)
@@ -145,6 +154,9 @@ public class Tile_Map_Create : MonoBehaviour
                     case 10:
                         tile = Ground;
                         break;
+                    case 98:
+                        tile = Clear_Portal;
+                        break;
                     case 99:
                         tile = Pillar;
                         break;
@@ -177,7 +189,8 @@ public class Tile_Map_Create : MonoBehaviour
         tree.width = width;
         tree.height = height;
         FillRoom(parent, tree.x, tree.y, tree.width, tree.height);
-        ChangeRoom(parent, tree.x, tree.y, tree.width, tree.height, GameManager.PlayerManager.DataAnalyze.playerType);
+        ChangeRoom(parent, tree.x, tree.y, tree.width, tree.height, "High_dash");
+        // ChangeRoom(parent, tree.x, tree.y, tree.width, tree.height, GameManager.PlayerManager.DataAnalyze.playerType);
     }
     private void FillRoom(Map_Node parent, int x, int y, int width, int height)
     { //room의 rect정보를 받아서 tile을 set해주는 함수
@@ -206,38 +219,100 @@ public class Tile_Map_Create : MonoBehaviour
         }
     }
     private void ChangeRoom(Map_Node parent, int x, int y, int width, int height, string playStyle = null)
-    {
+{
+    
+    
+    
+    int floor_count = height / 5;
+    int altitude = UnityEngine.Random.Range(height / 4, height / 2);
 
-        int startPoint = UnityEngine.Random.Range(width / 4, width / 2);
+    Debug.Log(position_count);
+
+    // j 먼저 계산 (바깥쪽 루프)
+    for (int j = 1; j <= floor_count; j++)
+    {
+        bool monster_spawn = false;
+        
+        int altitude3 = y + (j * 5);
+        int startPoint = UnityEngine.Random.Range(4, width / 2);
         int rand = UnityEngine.Random.Range(width / 4, width / 2);
-        int altitude = UnityEngine.Random.Range(height / 4, height / 2);
-        int altitude2 = UnityEngine.Random.Range(height / 4, height / 2);
-        for (int i = x; i < x + rand; i++)
+        bool is_wall = false;
+        int wall_position = -1;
+
+        // i 계산 (안쪽 루프)
+        for (int i = x+startPoint; i < x+startPoint + rand; i++)
         {
-            if (parent.map_type == Map_Node.Map_type.Enterance && !is_spawn)
+            
+
+            if (altitude3 < y + height -2 && i < x + width - 3)
             {
-                is_spawn = !is_spawn;
-                player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude - y + 3, 1);
-                Debug.Log(position_count / 4);
+                if(altitude3 == y + height -2) altitude3 -=1;
+                if (parent.map_type == Map_Node.Map_type.Enterance && !is_spawn)
+                {
+                    is_spawn = !is_spawn;
+                    monster_spawn =true;
+                    player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude3+3, 1);
+                }
+                else if (parent.map_type == Map_Node.Map_type.Exit && !is_exit)
+                {
+                    is_exit = !is_exit;
+                    GameObject newPortal = Instantiate(portal);
+                    newPortal.transform.position = new Vector3(80 * ((position_count - 48) / 4) + i + 4, -240 - altitude3+2, 1);
+                }
+                if(!monster_spawn)
+                {
+                    monster_spawn =true;
+                    int a = Random.Range(0,3);
+                    GameObject spawn_monster = Instantiate(monster[a]);
+                    spawn_monster.transform.position = new Vector3(80 * ((position_count % 16) / 4) + i + (rand/2) , 2-altitude3- (position_count / 16) * 80, 1);
+                }
+                parent.tile[i, altitude3] = 10;
+                if(altitude3 == y+5)
+                {
+
+                }
+                else
+                {
+                    if(playStyle == "dash" &&!is_wall)
+                    {
+                        if(Random.Range(0.0f,10.0f) < 3.0f)
+                        {
+                            wall_position = Random.Range(1,rand-1);
+                            parent.tile[i + wall_position,altitude3-1] = 99;
+                        }
+                        is_wall = true;
+                    }
+                    else if(playStyle == "High_dash" &&!is_wall )
+                    {
+                        
+                        wall_position = Random.Range(1,rand-1);
+                        parent.tile[i + wall_position, altitude3 -1] = 99;
+                        is_wall = true;
+                    }
+                }
             }
-            parent.tile[i + 3, y + altitude] = 10;
-            parent.tile[i + startPoint, y + altitude + altitude2] = 10;
         }
-        if (playStyle == "High_dash")
-        {
-            int WallPoint1 = UnityEngine.Random.Range(1, startPoint - 2);
-            int WallPoint2 = UnityEngine.Random.Range(1, startPoint - 2);
-            parent.tile[x + 3 + WallPoint1, y + altitude - 1] = 99;
-            parent.tile[x + startPoint + WallPoint2, y + altitude + altitude2 - 1] = 99;
-        }
-        position_count++;
+        monster_spawn =false;
     }
+    
+
+    // if (playStyle == "dash")
+    // {
+    //     // dash 관련 로직
+    // }
+    // if (playStyle == "High_dash")
+    // {
+    //     int WallPoint1 = UnityEngine.Random.Range(1, startPoint - 2);
+    //     int WallPoint2 = UnityEngine.Random.Range(1, startPoint - 2);
+    //     
+    //     parent.tile[x + startPoint + WallPoint2, y + altitude + altitude2 - 1] = 99;
+    // }
+    
+    position_count++;
+}
 
 
-    public void SpawnMonster()
-    {
 
-    }
     private void ConnectRooms(Map_Node parent, TileNode root)
     {
         if (root.leftNode == null || root.rightNode == null)
@@ -445,5 +520,11 @@ public class Tile_Map_Create : MonoBehaviour
         }
         for (int y = 0; y <= DownCenterY; y++)
             if (parent_Down.tile[DownCenterX, y] != 10) parent_Down.tile[DownCenterX, y] = 11;
+    }
+    public void Reset_value()
+    {
+        is_exit = false;
+        is_spawn=false;
+        position_count = 0;
     }
 }

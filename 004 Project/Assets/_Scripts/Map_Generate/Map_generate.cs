@@ -38,6 +38,13 @@ public class Map_generate : MonoBehaviour
         map_generate();
 
     }
+    public void Reamake()
+    {
+        Tile_Map_Create.instance.Reset_value();
+        Tile_Map_Create.instance.Tilemap.ClearAllTiles();
+        Start();
+        
+    }
     void map_generate()
     {
         int num = UnityEngine.Random.Range(0, max);
@@ -148,13 +155,19 @@ public class Map_generate : MonoBehaviour
                 {
                     if (map_list[i, j].way == 2)
                     {
-                        if (i + 1 == 4) continue;
-                        map_list[i, j].Down_node = map_list[i + 1, j];
-                        map_list[i + 1, j].Up_node = map_list[i, j];
+                        if (i + 1 == 4)
+                        {
+
+                        }
+                        else{
+                            map_list[i, j].Down_node = map_list[i + 1, j];
+                            map_list[i + 1, j].Up_node = map_list[i, j];
+                        }
+                        
                     }
 
                     if (j + 1 == 4) continue;
-                    if (map_list[i, j + 1].way != 0)
+                    else if (map_list[i, j + 1].way != 0)   
                     {
                         map_list[i, j].Right_node = map_list[i, j + 1];
                         map_list[i, j + 1].Left_node = map_list[i, j];
@@ -169,6 +182,7 @@ public class Map_generate : MonoBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
+                Debug.Log("i :"+i + " j : "+j + " = "+map_list[i,j].way );
 
                 if (map_list[i, j].way == 9)
                 {
@@ -182,17 +196,7 @@ public class Map_generate : MonoBehaviour
                 else if (i == 3 && map_list[i, j].way == 2)
                 {
                     map_list[i, j].map_type = Map_Node.Map_type.Exit;
-                    map_list[i, j].way = 8;
-
-
                     // player.transform.position= new Vector3(map_list[0, j].nodeRect.x,map_list[0, j].nodeRect.y,1);
-                }
-                else if (i == 3 && map_list[i, j].way == 2)
-                {
-                    map_list[i, j].map_type = Map_Node.Map_type.Exit;
-                    map_list[i, j].way = 8;
-
-
                 }
                 else
                 {
@@ -226,7 +230,11 @@ public class Map_generate : MonoBehaviour
             {
 
                 Tile_Map_Create.instance.MakeRoad(map_list[i,j],map_list[i,j].node.leftNode,map_list[i,j].node.rightNode);
-                if (map_list[i, j].Right_node != null) Tile_Map_Create.instance.Horiontal_add(map_list[i, j], map_list[i, j].Right_node, map_list[i, j].node.rightNode, map_list[i, j + 1].node.leftNode);
+                if (map_list[i, j].Right_node != null)
+                {
+                    Debug.Log("i :" + i + " j : " + j);
+                    Tile_Map_Create.instance.Horiontal_add(map_list[i, j], map_list[i, j].Right_node, map_list[i, j].node.rightNode, map_list[i, j + 1].node.leftNode);
+                } 
                 if(map_list[i,j].Down_node != null) Tile_Map_Create.instance.Vertical_add(map_list[i,j],map_list[i,j].Down_node,map_list[i,j].node,map_list[i,j].Down_node.node);
             }
         }

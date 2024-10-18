@@ -23,9 +23,10 @@ public class ObjectPool : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        int rand = Random.Range(0, 3);
+        GameObject obj = Instantiate(objectPrefab[rand]);
         // 풀 초기화
-        InitializePool();
+        //InitializePool();
     }
 
 
@@ -34,7 +35,7 @@ public class ObjectPool : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++)
         {
-            int rand = Random.Range(0, 3);
+            int rand = Random.Range(0, 2);
             GameObject obj = Instantiate(objectPrefab[rand]);
             obj.SetActive(false); // 비활성화 상태로 초기화
             objectPool.Enqueue(obj);
@@ -56,7 +57,7 @@ public class ObjectPool : MonoBehaviour
         {
             // 풀에 더 이상 오브젝트가 없으면 새로운 오브젝트 생성
             int rand = Random.Range(0,3);
-            GameObject obj = Instantiate(objectPrefab[rand]);
+            GameObject obj = Instantiate(objectPrefab[rand],transform.position, Quaternion.identity);
             monster.Add(obj);
             obj.transform.position = pos;
             // obj.SetActive(true);

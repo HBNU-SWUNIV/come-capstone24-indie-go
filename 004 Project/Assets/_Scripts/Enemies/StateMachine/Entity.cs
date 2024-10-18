@@ -123,7 +123,6 @@ public class Entity : MonoBehaviour
     }
     protected void RemoveAllChildObjects(Transform parent)
     {
-        Debug.Log("ghcnfehla");
         foreach (Transform child in parent)
         {
             Debug.Log("child : " + child.name);

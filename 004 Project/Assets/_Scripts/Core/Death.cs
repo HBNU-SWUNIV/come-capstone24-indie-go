@@ -16,9 +16,11 @@ public class Death : CoreComponent
         stats = transform.root.GetComponentInChildren<ICharacterStats>();
         if (stats == null)
             Debug.Log("stats ºö");
-        deathParticleParent = GameObject.Find("DeathParticles").transform;
+       /* deathParticleParent = GameObject.Find("DeathParticles").transform;
         if (deathParticleParent == null)
-            deathParticleParent =  new GameObject("DeathParticles").transform;
+        {
+            deathParticleParent = new GameObject() {name = "DeathParticles" }.transform;
+        }*/
     }
 
 

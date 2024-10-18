@@ -4021,6 +4021,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7986422807393999906, guid: 9807546becbae224ab60fee035c6ba23, type: 3}
+      propertyPath: objectPrefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 4794542959853263490, guid: 8186d168b44422b4dae61380998db2e9, type: 3}
     - target: {fileID: 8997257771109104625, guid: 9807546becbae224ab60fee035c6ba23, type: 3}
       propertyPath: m_Name
       value: ObjectPool

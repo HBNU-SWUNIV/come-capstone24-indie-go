@@ -56,7 +56,6 @@ public class SkillComponent<T> : SkillComponent where T : SkillData
     public override void Init(SkillDataEx data = null)
     {
         base.Init();
-        Debug.Log("??이건됩ㅂ니까");
         if (data != null)
         {
             currentSkillData = data.GetData<T>();

@@ -22,7 +22,6 @@ public class CollisionHandler : MonoBehaviour
             {
                 detectedColliders.Add(collision);
                 OnColliderDetected?.Invoke(collision);
-                Debug.Log("¿Œ∫∏≈©");
             }
         }
     }

@@ -42,7 +42,6 @@ public class SkillDamage : SkillComponent<SkillDamageData>, IAttackable
     }
     public void CheckAttack(Collider2D collision)
     {
-        Debug.Log("»£√‚µ ");
         IDamageable damageable = collision.GetComponentInChildren<IDamageable>();
 
         if (damageable != null)

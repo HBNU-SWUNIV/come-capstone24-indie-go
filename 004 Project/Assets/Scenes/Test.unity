@@ -3428,6 +3428,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4930795132263716919, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930795132263716919, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4022,9 +4030,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7986422807393999906, guid: 9807546becbae224ab60fee035c6ba23, type: 3}
+      propertyPath: objectPrefab.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7986422807393999906, guid: 9807546becbae224ab60fee035c6ba23, type: 3}
       propertyPath: objectPrefab.Array.data[2]
       value: 
-      objectReference: {fileID: 4794542959853263490, guid: 8186d168b44422b4dae61380998db2e9, type: 3}
+      objectReference: {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
     - target: {fileID: 8997257771109104625, guid: 9807546becbae224ab60fee035c6ba23, type: 3}
       propertyPath: m_Name
       value: ObjectPool

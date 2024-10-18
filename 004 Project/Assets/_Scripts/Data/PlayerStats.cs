@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerStats : CharacterStats<PlayerStatsData>
 {
     [SerializeField] private int level;
-    
+    [SerializeField] private int MaxExp;
+    private int currentExp;
 
     public int Level
     {
@@ -17,7 +18,12 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
     protected override void Awake()
     {
         base.Awake();
-        
+    }
+
+    protected override void SetStatsData(PlayerStatsData stats)
+    {
+        base.SetStatsData(stats);
+        MaxExp = stats.MaxExp;
     }
     private void Start()
     {
@@ -30,7 +36,9 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
         // 여기서 id와 level을 초기화
         id = 1; // 플레이어의 고유 ID 설정
         level = 1; // 초기 레벨 설정
+        currentExp = 0;
         SetStat();
+
     }
 
     protected override void SetStat()
@@ -48,11 +56,24 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
         Debug.LogError("Failed to load player stats for id: " + id + " and level: " + level);
     }
 
+    public void AddExp(int exp)
+    {
+        currentExp += exp;
+        Debug.Log($"경험치 획득: {exp}, 현재 경험치: {currentExp}/{MaxExp}");
+
+        if (currentExp >= MaxExp)
+        {
+            LevelUp();
+        }
+    }
+
     public void LevelUp()
     {
-        Level++;
+        currentExp -= MaxExp; // 초과된 경험치는 다음 레벨로 이어짐
+        Level++; // 레벨 증가
+        Debug.Log($"레벨업! 현재 레벨: {Level}");
     }
-   
+
     protected override void UpdateAnimatorMoveSpeed()
     {
         if (animator != null)

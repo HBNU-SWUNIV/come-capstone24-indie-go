@@ -17,7 +17,7 @@ public class ElementalComponent : CoreComponent
 
     Movement movement;
     ParticleManager particleManager;
-
+    public bool setPassive;
     private ICharacterStats stats;
 
 
@@ -32,6 +32,15 @@ public class ElementalComponent : CoreComponent
             Debug.Log("stats 빔");
 
     }
+    private void OnEnable()
+    {
+        if(setPassive)
+        {
+            RemovePassiveEffect();
+            ApplyPassiveEffect();
+            setPassive = false;
+        }
+    }
 
     private void Start()
     {
@@ -40,7 +49,7 @@ public class ElementalComponent : CoreComponent
    //     ApplyPassiveEffect();
     }
 
-    public void ChangeElement(Element newElement, int level)
+    public void ChangeElement(Element newElement, int level = 0)
     {
         RemovePassiveEffect();
         Element = newElement;
@@ -50,6 +59,8 @@ public class ElementalComponent : CoreComponent
             Debug.Log($"{newElement}로 플레이어 스킬 변경");
             GameManager.PlayerManager.ChangeSkill(Element);
         }
+        if (elementalManager == null)
+            elementalManager = GameManager.ElementalManager;
         elementalManager.UpdateEffectValues(Element, level);
         ApplyPassiveEffect();
     }

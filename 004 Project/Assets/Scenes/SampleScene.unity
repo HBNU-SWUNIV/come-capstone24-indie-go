@@ -175,18 +175,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3757475606936774453, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: deathParticles.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3757475606936774453, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: deathParticles.Array.data[0]
-      value: 
-      objectReference: {fileID: 5096148057906189823, guid: 4a122dcc68153794295f6953dd91521e, type: 3}
-    - target: {fileID: 3757475606936774453, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: deathParticles.Array.data[1]
-      value: 
-      objectReference: {fileID: 1962614393226834858, guid: 3d13ef1f52d189642930444f906fc622, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -348,6 +336,8 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 5782836539619579813, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
   - {fileID: 737099674221770282, guid: 90ae1339c11689143b7cfc8d6b07f049, type: 3}
+  - {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
+  - {fileID: 4794542959853263490, guid: 8186d168b44422b4dae61380998db2e9, type: 3}
 --- !u!4 &790973464
 Transform:
   m_ObjectHideFlags: 0
@@ -1587,10 +1577,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6789451293403659175, guid: 8186d168b44422b4dae61380998db2e9, type: 3}
-      propertyPath: rangedProjectileParent
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1672,10 +1658,6 @@ PrefabInstance:
     - target: {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4045018937457765823, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
-      propertyPath: rangedProjectileParent
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8999160401284285794, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: m_LocalPosition.x

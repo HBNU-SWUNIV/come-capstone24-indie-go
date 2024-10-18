@@ -60,12 +60,13 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         animator = transform.root.GetComponent<Animator>();
 
         elementalComponent = transform.parent.GetComponentInChildren<ElementalComponent>();
+
         OnsetStats = false;
     }
 
     protected abstract void SetStat();
 
-    protected void SetStatsData(T stats)
+    protected virtual void SetStatsData(T stats)
     {
         curHp = stats.curHp;
         maxHp = stats.maxHp;
@@ -90,7 +91,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         {
             CurHp = 0;
             OnHealthZero?.Invoke();
-            Debug.Log("»ç¸Á");
             return false;
         }
         return true;
@@ -208,9 +208,11 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         attackSpeedModifier = 1f;
         UpdateAttackSpeed();
     }
-    public void ChangeElement(Element newElement, int level)
+    public void ChangeElement(Element newElement, int level = 0)
     {
         Element = newElement;
+        if (elementalComponent == null)
+            elementalComponent = transform.parent.GetComponentInChildren<ElementalComponent>();
         elementalComponent.ChangeElement(newElement, level);
     }
 
@@ -236,7 +238,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     {
         if (animator != null)
         {
-            Debug.Log($"UpdateAnimatorMoveSpeed : {MoveSpeed}");
+          //  Debug.Log($"UpdateAnimatorMoveSpeed : {MoveSpeed}");
             animator.SetFloat("MoveSpeed", moveSpeed);
         }
     }
@@ -244,7 +246,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     {
         if (animator != null)
         {
-            Debug.Log($"UpdateAnimatorAttackSpeed : {attackSpeed}");
+      //      Debug.Log($"UpdateAnimatorAttackSpeed : {attackSpeed}");
             animator.SetFloat("AttackSpeed", attackSpeed);
         }
     }

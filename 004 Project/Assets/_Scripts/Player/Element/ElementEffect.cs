@@ -245,12 +245,12 @@ public class IceEffect : IElementalEffect
 
     public void UpdateEffectValues(float newSlowEffect, float newDuration, float newHealthRegenRate, int newMaxSlowStacks)
     {
-        Debug.Log($"업데이트 전 slowEffect : {slowEffect}");
+   //     Debug.Log($"업데이트 전 slowEffect : {slowEffect}");
         slowEffect = newSlowEffect;
         duration = newDuration;
         healthRegenRate = newHealthRegenRate;
         maxSlowStacks = newMaxSlowStacks;
-        Debug.Log($"업데이트 후 slowEffect : {slowEffect}");
+   //     Debug.Log($"업데이트 후 slowEffect : {slowEffect}");
 
     }
 
@@ -309,7 +309,7 @@ public class IceEffect : IElementalEffect
 
     public void ApplyPassiveEffect(ElementalComponent component)
     {
-        if(!regenCoroutines.ContainsKey(component))
+        if (!regenCoroutines.ContainsKey(component))
         {
             regenCoroutines[component] = component.StartEffectCoroutine(HealthRegenCoroutine(component));
         }

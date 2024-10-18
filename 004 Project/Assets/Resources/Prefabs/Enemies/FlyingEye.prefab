@@ -158,7 +158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8999160401284285794
 Transform:
   m_ObjectHideFlags: 0
@@ -346,7 +346,6 @@ MonoBehaviour:
   playerDetectedStateData: {fileID: 11400000, guid: badd677131edfe9409e1212704538813, type: 2}
   lookForPlayerStateData: {fileID: 11400000, guid: 2f93a8333b8124b4c9a20aec0dbc4577, type: 2}
   stunStateData: {fileID: 11400000, guid: 40d382b4c9be11d4d9c7ef095f5f7a60, type: 2}
-  deadStateData: {fileID: 11400000, guid: e47e5ebaf4f0a45479c624463618a71f, type: 2}
   dodgeStateData: {fileID: 11400000, guid: 79e557e72f737bb4eb9fd8c390d7cace, type: 2}
   rangeAttackStateData: {fileID: 11400000, guid: 93d4696b495270f45a35ce23c8ebc436, type: 2}
   rangedAttackPosition: {fileID: 8717850628005589829}
@@ -421,6 +420,7 @@ MonoBehaviour:
   - {fileID: 1148731289177493991, guid: b5de4afa25bfb4746afdee6f1a2a80c1, type: 3}
   - {fileID: 8139009977500202064, guid: 0d7dc5fd681b62c47a29ba2a0a208b3a, type: 3}
   Element: 0
+  setPassive: 0
 --- !u!1 &2472154072984064837
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +611,7 @@ MonoBehaviour:
   defense: 0
   moveSpeed: 0
   element: 0
+  Exp: 0
 --- !u!1 &7116101945988584482
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,3 +855,9 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512

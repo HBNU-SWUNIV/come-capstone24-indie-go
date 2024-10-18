@@ -32,7 +32,6 @@ public class Arrow : MonoBehaviour
 
     private void Detected(Collider2D collision)
     {
-        Debug.Log("ÀûÀÌ¶û ´êÀ½");
         //Destroy(gameObject);
     }
 

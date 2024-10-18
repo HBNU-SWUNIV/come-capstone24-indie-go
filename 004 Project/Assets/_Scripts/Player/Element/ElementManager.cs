@@ -114,8 +114,10 @@ public class ElementalManager
         return baseDamage;
     }
 
-    public void UpdateEffectValues(Element element, int level)
+    public void UpdateEffectValues(Element element, int level = 0)
     {
+        if (level == 0)
+            return;
         if (elementalEffects.TryGetValue(element, out IElementalEffect effect))
         {
             var data = GameManager.Data.ElementalEffectDict[element.ToString().ToLower() + "Effect"];

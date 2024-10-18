@@ -57,6 +57,12 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &121134964750030775
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4041127450036167550
 Transform:
   m_ObjectHideFlags: 0
@@ -518,7 +524,6 @@ MonoBehaviour:
   meleeAttackStateData: {fileID: 11400000, guid: bfdfc956d041b684aad6069992ebe1aa, type: 2}
   lookForPlayerStateData: {fileID: 11400000, guid: f7493f57f9b8cd54ba3edb9480a87782, type: 2}
   stunStateData: {fileID: 11400000, guid: a70709937ac093745b1ebe44217bc75b, type: 2}
-  deadStateData: {fileID: 11400000, guid: a889f74363b812944a9c285aae1606c0, type: 2}
   dodgeStateData: {fileID: 11400000, guid: 3f4657ca74ba50a4fb7578ae5e043abd, type: 2}
   rangeAttackStateData: {fileID: 11400000, guid: 0ad3801fd63b05b45ad2876e57223e9b, type: 2}
   rangedAttackPosition: {fileID: 2058214142879546863}
@@ -683,6 +688,7 @@ MonoBehaviour:
   - {fileID: 1148731289177493991, guid: b5de4afa25bfb4746afdee6f1a2a80c1, type: 3}
   - {fileID: 8139009977500202064, guid: 0d7dc5fd681b62c47a29ba2a0a208b3a, type: 3}
   Element: 0
+  setPassive: 0
 --- !u!1 &6248454691305390687
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,6 +832,7 @@ MonoBehaviour:
   defense: 0
   moveSpeed: 0
   element: 0
+  Exp: 0
 --- !u!1 &6908449316421652216
 GameObject:
   m_ObjectHideFlags: 0

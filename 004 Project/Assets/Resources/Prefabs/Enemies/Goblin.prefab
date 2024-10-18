@@ -208,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9085237669968588643
 Transform:
   m_ObjectHideFlags: 0
@@ -411,7 +411,6 @@ MonoBehaviour:
   meleeAttackStateData2: {fileID: 11400000, guid: e8196625ddea82944961d86da661ec97, type: 2}
   lookForPlayerStateData: {fileID: 11400000, guid: 156c59c9609fa1f4bb09b75c8f34a9d6, type: 2}
   stunStateData: {fileID: 11400000, guid: f1bbbca4a025f3f4193fcd25d766bee0, type: 2}
-  deadStateData: {fileID: 11400000, guid: db538ed14748c2748bae807749e5bc8c, type: 2}
 --- !u!1 &2518193162529651281
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,6 +583,7 @@ MonoBehaviour:
   defense: 0
   moveSpeed: 0
   element: 0
+  Exp: 0
 --- !u!1 &5072004279794452152
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,6 +825,12 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &6639191889248894816
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,6 +890,7 @@ MonoBehaviour:
   - {fileID: 1148731289177493991, guid: b5de4afa25bfb4746afdee6f1a2a80c1, type: 3}
   - {fileID: 8139009977500202064, guid: 0d7dc5fd681b62c47a29ba2a0a208b3a, type: 3}
   Element: 0
+  setPassive: 0
 --- !u!1 &8452699211813705196
 GameObject:
   m_ObjectHideFlags: 0

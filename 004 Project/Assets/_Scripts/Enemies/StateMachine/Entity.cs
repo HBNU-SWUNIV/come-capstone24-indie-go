@@ -12,6 +12,7 @@ public class Entity : MonoBehaviour
     public AnimationToStateMachine atsm { get; private set; }
     public D_Entity entityData;
     public StunState stunState;
+    private EnemyStats stats;
     public bool IsKnockbackable { get; set; } = true;
 
     private int currentParryStunStack;
@@ -39,6 +40,7 @@ public class Entity : MonoBehaviour
 
         Anim = GetComponent<Animator>();
         atsm = GetComponent<AnimationToStateMachine>();
+        stats = GetComponentInChildren<EnemyStats>();
 
         stateMachine = new MonsterStateMachine();
 
@@ -46,9 +48,6 @@ public class Entity : MonoBehaviour
 
         effectParticles = transform.Find("Particles");
         elementParticles = transform.Find("Core/Element");
-        Debug.Log($"elementParticles : {elementParticles.root.name}");
-        if (elementParticles == null)
-            Debug.Log("¾ø´Ù?");
     }
 
     public virtual void Update()
@@ -120,6 +119,9 @@ public class Entity : MonoBehaviour
     {
         Movement?.SetVelocityZero();
         IsKnockbackable = true;
+        stats.ChangeElement(Element.None);
+
+
     }
     protected void RemoveAllChildObjects(Transform parent)
     {

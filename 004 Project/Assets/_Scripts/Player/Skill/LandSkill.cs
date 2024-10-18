@@ -92,10 +92,6 @@ public class LandAttackState : SkillState
         int facingDirection = skillMovement.GetFacingDirection();
 
         Vector3 spawnPosition = (Vector2)playerTransform.position + new Vector2(prefabOffset.x * facingDirection, -prefabOffset.y);
-        Debug.Log($"spawnPosition : {spawnPosition}");
-        Debug.Log($"playerTransform.position  : {playerTransform.position }");
-        Debug.Log($"(Vector3)prefabOffset : {(Vector3)prefabOffset}");
-        Debug.Log($"facingDirection : {facingDirection}");
 
         GameObject rock = GameManager.Resource.Instantiate(prefab, spawnPosition, Quaternion.identity, prefabParent);  // 
 

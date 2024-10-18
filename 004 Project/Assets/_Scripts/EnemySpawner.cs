@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] monsterPrefabs;
 
     // 현재 선택된 몬스터 인덱스와 속성
-    private int selectedMonsterIndex = 0;
+    private int selectedMonsterIndex = 5;
     private Element selectedElement = Element.None;
     private int selectedElementLevel = 1;
 
@@ -28,22 +28,22 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            selectedMonsterIndex = 1;
+            selectedMonsterIndex = 0;
             Debug.Log("Selected Monster: Enemy1");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            selectedMonsterIndex = 2;
+            selectedMonsterIndex = 1;
             Debug.Log("Selected Monster: Goblin");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            selectedMonsterIndex = 3;
+            selectedMonsterIndex = 2;
             Debug.Log("Selected Monster: FlyingEye");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            selectedMonsterIndex = 4;
+            selectedMonsterIndex = 3;
             Debug.Log("Selected Monster: Enemy2");
         }
     }
@@ -106,18 +106,21 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject monsterPrefab = monsterPrefabs[selectedMonsterIndex];
         GameObject monsterInstance = Instantiate(monsterPrefab, transform.position, Quaternion.identity);
-        monsterInstance.SetActive(false);
+
         // 몬스터의 속성 설정
-     /*   EnemyStats enemyStats = monsterInstance.GetComponentInChildren<EnemyStats>();
-        if (enemyStats != null)
-        {
-            enemyStats.ChangeElement(selectedElement, selectedElementLevel);
-            Debug.Log($"Spawned Monster with Element: {selectedElement}");
-        }
-        else
-        {
-            Debug.LogError("EnemyStats component not found on the monster prefab.");
-        }
-     */
+        EnemyStats enemyStats = monsterInstance.GetComponentInChildren<EnemyStats>();
+           if (enemyStats != null)
+           {
+               enemyStats.ChangeElement(selectedElement, selectedElementLevel);
+               Debug.Log($"Spawned Monster with Element: {selectedElement}");
+           }
+           else
+           {
+               Debug.LogError("EnemyStats component not found on the monster prefab.");
+           }
+
+        //selectedMonsterIndex = 5;
+        //selectedElement = Element.None;
+        //selectedElementLevel = 1;
     }
 }

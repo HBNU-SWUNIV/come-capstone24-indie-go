@@ -40,9 +40,6 @@ public class Enemy1 : Entity
         lookForPlayerState = new E1_LookForPlayerState(this, stateMachine, "SearchPlayer", lookForPlayerStateData, this);
         meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "MeleeAttack", meleeAttackStateData, this);
         stunState = new E1_StunState(this, stateMachine, "Stun", stunStateData, this);
-        //       deadState = new E1_DeadState(this, stateMachine, "dead", deadStateData, this);
-
-        // meleeAttackState.SetAattackCheck(meleeAttackCheck.GetComponent<AnimationToAttackCheck>());
 
         maxParryStunStack = 3;
     }

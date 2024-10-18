@@ -53,6 +53,7 @@ MonoBehaviour:
   moveSpeed: 0
   element: 0
   level: 0
+  MaxExp: 0
 --- !u!1 &77565095237292720
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +113,7 @@ MonoBehaviour:
   - {fileID: 1148731289177493991, guid: b5de4afa25bfb4746afdee6f1a2a80c1, type: 3}
   - {fileID: 8139009977500202064, guid: 0d7dc5fd681b62c47a29ba2a0a208b3a, type: 3}
   Element: 0
+  setPassive: 0
 --- !u!1 &124509663562493554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,6 +1803,12 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &8055437596679906595
 GameObject:
   m_ObjectHideFlags: 0

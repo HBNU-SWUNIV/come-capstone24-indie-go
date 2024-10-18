@@ -3,27 +3,127 @@
         {
             "key": 1,
             "value": {
-                "id" :  1,
-                "curHp": 50000,
-                "maxHp": 50000,
+                "id": 1,
+                "curHp": 100,
+                "maxHp": 100,
                 "attackDamage": 10.0,
                 "attackSpeed": 1.0,
                 "defense": 5.0,
-                "moveSpeed": 1,
-                "level" :  1
+                "moveSpeed": 1.0,
+                "level": 1,
+                "MaxExp": 100
             }
         },
         {
             "key": 2,
             "value": {
-                "id" :  1,
-                "curHp": 200,
-                "maxHp": 200,
+                "id": 1,
+                "curHp": 130,
+                "maxHp": 130,
+                "attackDamage": 15.0,
+                "attackSpeed": 1.04,
+                "defense": 8.0,
+                "moveSpeed": 1.04,
+                "level": 2,
+                "MaxExp": 150
+            }
+        },
+        {
+            "key": 3,
+            "value": {
+                "id": 1,
+                "curHp": 160,
+                "maxHp": 160,
                 "attackDamage": 20.0,
-                "attackSpeed": 1.5,
-                "defense": 10.0,
-                "moveSpeed": 1.1,
-                "level" :  2
+                "attackSpeed": 1.08,
+                "defense": 11.0,
+                "moveSpeed": 1.08,
+                "level": 3,
+                "MaxExp": 220
+            }
+        },
+        {
+            "key": 4,
+            "value": {
+                "id": 1,
+                "curHp": 190,
+                "maxHp": 190,
+                "attackDamage": 25.0,
+                "attackSpeed": 1.12,
+                "defense": 14.0,
+                "moveSpeed": 1.12,
+                "level": 4,
+                "MaxExp": 300
+            }
+        },
+        {
+            "key": 5,
+            "value": {
+                "id": 1,
+                "curHp": 220,
+                "maxHp": 220,
+                "attackDamage": 30.0,
+                "attackSpeed": 1.16,
+                "defense": 17.0,
+                "moveSpeed": 1.16,
+                "level": 5,
+                "MaxExp": 400
+            }
+        },
+        {
+            "key": 6,
+            "value": {
+                "id": 1,
+                "curHp": 250,
+                "maxHp": 250,
+                "attackDamage": 35.0,
+                "attackSpeed": 1.2,
+                "defense": 20.0,
+                "moveSpeed": 1.2,
+                "level": 6,
+                "MaxExp": 520
+            }
+        },
+        {
+            "key": 7,
+            "value": {
+                "id": 1,
+                "curHp": 280,
+                "maxHp": 280,
+                "attackDamage": 40.0,
+                "attackSpeed": 1.24,
+                "defense": 23.0,
+                "moveSpeed": 1.24,
+                "level": 7,
+                "MaxExp": 660
+            }
+        },
+        {
+            "key": 8,
+            "value": {
+                "id": 1,
+                "curHp": 310,
+                "maxHp": 310,
+                "attackDamage": 45.0,
+                "attackSpeed": 1.28,
+                "defense": 26.0,
+                "moveSpeed": 1.28,
+                "level": 8,
+                "MaxExp": 820
+            }
+        },
+        {
+            "key": 9,
+            "value": {
+                "id": 1,
+                "curHp": 340,
+                "maxHp": 340,
+                "attackDamage": 50.0,
+                "attackSpeed": 1.32,
+                "defense": 29.0,
+                "moveSpeed": 1.32,
+                "level": 9,
+                "MaxExp": 1000
             }
         }
     ]

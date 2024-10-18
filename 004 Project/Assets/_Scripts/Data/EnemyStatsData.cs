@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyStatsData : CharacterStatsData
 {
+    public int Exp;
 }
 
 

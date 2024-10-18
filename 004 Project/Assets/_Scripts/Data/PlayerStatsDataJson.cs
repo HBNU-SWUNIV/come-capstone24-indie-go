@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerStatsData : CharacterStatsData
 {
     public int level;
+    public int MaxExp;
     // 추가적인 필드가 있다면 여기에 정의
 }
 

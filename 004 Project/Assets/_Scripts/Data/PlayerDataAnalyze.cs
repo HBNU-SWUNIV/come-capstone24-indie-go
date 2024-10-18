@@ -8,13 +8,13 @@ public class PlayerDataAnalyze : MonoBehaviour
 
     void Start()
     {   
-        // Analyze Playerdata
-       // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
+        playerType = "Balanced";
     }
 
     
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
+         
       //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
         // calculaye total Action
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["DefenceAttempt"];
@@ -34,7 +34,7 @@ public class PlayerDataAnalyze : MonoBehaviour
         string playStyle = ClassifyPlayer(parryRatio, dashRatio, runRatio);
 
         // print result
-        Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
+        // Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
     }
 
     

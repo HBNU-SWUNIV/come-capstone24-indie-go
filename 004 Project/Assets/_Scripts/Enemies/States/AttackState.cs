@@ -34,15 +34,16 @@ public class AttackState : MonsterState
     public override void Enter()
     {
         base.Enter();
-
         entity.atsm.attackState = this;
         isAnimationFinished = false;
+
 
     }
 
     public override void Exit()
     {
         base.Exit();
+
 
     }
 
@@ -52,6 +53,9 @@ public class AttackState : MonsterState
         base.LogicUpdate();
 
         Movement?.SetVelocityX(0f);
+
+        if (entity.stunState.stun)
+            stateMachine.ChangeState(entity.stunState);
     }
 
     public override void PhysicsUpdate()
@@ -99,7 +103,7 @@ public class AttackState : MonsterState
             }
             else
             {
-                if (!GameManager.SharedCombatDataManager.IsPlayerNotHitState)
+                if (!GameManager.SharedCombatDataManager.IsPlayerNotEnterHitState)
                     GameManager.SharedCombatDataManager.SetPlayerHit(true);
 
                 if (damageable != null)
@@ -119,7 +123,7 @@ public class AttackState : MonsterState
 
         }
     }
-    private bool IsShieldBlockingAttack(Transform playerTransform, Transform shieldTransform, int playerFacingDirection)
+    protected bool IsShieldBlockingAttack(Transform playerTransform, Transform shieldTransform, int playerFacingDirection)
     {
         Vector2 attackDirection = entity.transform.position - playerTransform.position;
         Vector2 shieldDirection = playerFacingDirection == 1 ? Vector2.right : Vector2.left; // Assuming the shield faces up

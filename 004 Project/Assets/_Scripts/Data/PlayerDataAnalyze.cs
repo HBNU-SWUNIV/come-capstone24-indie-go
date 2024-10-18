@@ -34,7 +34,7 @@ public class PlayerDataAnalyze : MonoBehaviour
         string playStyle = ClassifyPlayer(parryRatio, dashRatio, runRatio);
 
         // print result
-        Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
+        //Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
     }
 
     
@@ -64,7 +64,7 @@ public class PlayerDataAnalyze : MonoBehaviour
                 playerType = entry.Key;
             }
         }
-        Debug.Log("playerType : " + playerType);
+    //    Debug.Log("playerType : " + playerType);
         switch (playerType)
         {
             case "parry":

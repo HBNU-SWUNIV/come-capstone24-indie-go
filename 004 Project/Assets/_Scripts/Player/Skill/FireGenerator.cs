@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class FireGenerator : SkillGenerator
 {
-    protected override void InitializeSkillComponents(Skill skill)
+    protected override void InitializeSkillComponents(Skill skill, SkillDataEx data)
     {
         // 예시: SkillMovement 컴포넌트 추가 및 초기화
-        SkillMovementData movementData = skill.Data.GetData<SkillMovementData>();
+        SkillMovementData movementData = data.GetData<SkillMovementData>();
         if (movementData != null)
         {
             skill.gameObject.GetOrAddComponent<SkillMovement>().Init();
         }
 
-        SkillDamageData damageData = skill.Data.GetData<SkillDamageData>();
+        SkillDamageData damageData = data.GetData<SkillDamageData>();
         if (damageData != null)
         {
-            skill.gameObject.GetOrAddComponent<SkillDamage>().Init();
+            skill.gameObject.GetOrAddComponent<SkillDamage>().Init(data);
         }
 
 

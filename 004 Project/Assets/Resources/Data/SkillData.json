@@ -1,32 +1,6 @@
 {
   "skills": [
     {
-      "key": "SpearSkill",
-      "value": {
-        "damageData": {
-          "Damage": 1.5,
-          "knockbackAngle": {
-            "x": 1,
-            "y": 1
-          },
-          "knockbackStrength": 10
-        },
-        "cooldownData": { "Cooldown": 5 },
-        "movementData": {
-          "Direction": {
-            "x": 1,
-            "y": 0
-          },
-          "Velocity": 10
-        },
-        "spearData": {
-          "ThrowSpeed": 10,
-          "ThrowDistance": 7
-        },
-        "explosionData": null
-      }
-    },
-    {
       "key": "FireSkill",
       "value": {
         "damageData": {
@@ -94,6 +68,32 @@
         "fireData": null,
         "landData": null
       }
-    }
+    },
+    {
+      "key": "LightSkill",
+      "value": {
+        "damageData": {
+          "Damage": 1.5,
+          "knockbackAngle": {
+            "x": 1,
+            "y": 1
+          },
+          "knockbackStrength": 10
+        },
+        "cooldownData": { "Cooldown": 5 },
+        "movementData": {
+          "Direction": {
+            "x": 1,
+            "y": 0
+          },
+          "Velocity": 10
+        },
+        "lightData": {
+          "ThrowSpeed": 10,
+          "ThrowDistance": 7
+        },
+        "explosionData": null
+      }
+    },
   ]
 }

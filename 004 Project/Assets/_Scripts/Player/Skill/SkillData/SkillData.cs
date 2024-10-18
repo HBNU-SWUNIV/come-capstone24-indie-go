@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public static class SkillNames
 {
-    public const string SpearSkill = "SpearSkill";
     public const string NoneSkill = "NoneSkill";
     public const string FireSkill = "FireSkill";
     public const string IceSkill = "IceSkill";
@@ -34,25 +33,21 @@ public class SkillMovementData : SkillData
     public float Velocity;
 }
 
-public class SkillSpearData : SkillData
-{
-    public float ThrowSpeed;
-    public float ThrowDistance;
-}
-
 public class SkillFireData : SkillData
 {
     public float FireDistance;
 }
 public class SkillIceData : SkillData
 {
-  //  public float FireDistance;
+    //  public float IceData;
 }
 public class SkillLandData : SkillData
 {
-  //  public float FireDistance;
+    //  public float LandData;
 }
+[Serializable]
 public class SkillLightData : SkillData
 {
-  //  public float FireDistance;
+    public float ThrowSpeed;
+    public float ThrowDistance;
 }

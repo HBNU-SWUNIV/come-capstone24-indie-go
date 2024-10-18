@@ -11,7 +11,7 @@ public abstract class SkillComponent : MonoBehaviour
     protected bool isSkillActive;
 
     protected PlayerStats playerStats;
-    public virtual void Init()
+    public virtual void Init(SkillDataEx data = null)
     {
 
     }
@@ -53,9 +53,16 @@ public class SkillComponent<T> : SkillComponent where T : SkillData
         base.HandleEnter();
         currentSkillData = skill.Data.GetData<T>();
     }
-    public override void Init()
+    public override void Init(SkillDataEx data = null)
     {
         base.Init();
+        Debug.Log("??이건됩ㅂ니까");
+        if (data != null)
+        {
+            currentSkillData = data.GetData<T>();
+            return;
+        }
+        Debug.Log($"skill.Data.GetData<T>() : {skill.Data.GetData<T>()}");
         currentSkillData = skill.Data.GetData<T>();
     }
 }

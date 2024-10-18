@@ -17,7 +17,6 @@ public class AnimationToAttackCheck : MonoBehaviour
 
     private void Start()
     {
-    //    gameObject.SetActive(false);
         coroutineHandler = GetComponentInParent<CoroutineHandler>();
     }
 
@@ -46,15 +45,12 @@ public class AnimationToAttackCheck : MonoBehaviour
     public void TriggerAttack()
     {
         isAlreadyHit = false;
-     //   gameObject.SetActive(true);
 
         if (checkInvincibilityCooldown != null)
             coroutineHandler.StopCoroutine(checkInvincibilityCooldown);
     }
     public void FinishAttack()
     {
-     //   gameObject.SetActive(false);
-
         bool isPlayerDashing = GameManager.SharedCombatDataManager.IsPlayerDashing;
 
         //isAlreadyHit가 false이고, isWithinAttackRange가 true일 때 플레이어가 대시를 사용했었다면

@@ -66,7 +66,7 @@ public class IceSkillExitState : SkillExitState
     public override void Enter()
     {
         base.Enter();
-        skill.EventHandler.AnimationFinishedTriggerFunc();
+     //   skill.EventHandler.AnimationFinishedTriggerFunc();
     }
 
     public override void Exit()

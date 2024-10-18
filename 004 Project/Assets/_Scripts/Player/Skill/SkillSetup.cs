@@ -24,7 +24,7 @@ public class SkillSetup
 
     private void InitializePrefab()
     {
-        arrow = GameManager.Resource.Load<GameObject>("Prefabs/Arrow");
+        arrow = GameManager.Resource.Load<GameObject>("Prefabs/Ranges/Arrow");
         rock = GameManager.Resource.Load<GameObject>("Prefabs/Rock");
         GameObject go = GameObject.Find("SkillPrefab");
         if (go == null)
@@ -46,20 +46,19 @@ public class SkillSetup
     {
         currentSkill = player.GetComponent<Player>().skill;
 
-        SpearGenerator spearGenerator = new SpearGenerator();
         FireGenerator fireGenerator = new FireGenerator();
         IceGenerator iceGenerator = new IceGenerator();
         LandGenerator landGenerator = new LandGenerator();
+        LightGenerator lightGenerator = new LightGenerator();
 
         Vector3 arrowOffset = new Vector3(1.0f, 0, 0); // 화살의 생성 위치 오프셋 설정
         Vector3 rockOffset = new Vector3(4.0f, 0.82f, 0); // 화살의 생성 위치 오프셋 설정
 
 
-        skillManager.RegisterSkill(SkillNames.NoneSkill, currentSkill, new SkillInitializer<SpearSkill, SpearGenerator>(currentSkill, spearGenerator, SkillNames.SpearSkill, arrow, prefabParent, player.transform, arrowOffset));
         skillManager.RegisterSkill(SkillNames.FireSkill, currentSkill, new SkillInitializer<FireSkill, FireGenerator>(currentSkill, fireGenerator, SkillNames.FireSkill));
         skillManager.RegisterSkill(SkillNames.IceSkill, currentSkill, new SkillInitializer<IceSkill, IceGenerator>(currentSkill, iceGenerator, SkillNames.IceSkill));
         skillManager.RegisterSkill(SkillNames.LandSkill, currentSkill, new SkillInitializer<LandSkill, LandGenerator>(currentSkill, landGenerator, SkillNames.FireSkill, rock, prefabParent, player.transform, rockOffset));
-        
+        skillManager.RegisterSkill(SkillNames.LightSkill, currentSkill, new SkillInitializer<LightSkill, LightGenerator>(currentSkill, lightGenerator, SkillNames.LightSkill, arrow, prefabParent, player.transform, arrowOffset));
     }
 
     public Skill GetCurrentSkill()
@@ -84,7 +83,7 @@ public class SkillSetup
             case Element.Land:
                 newSkill = SkillNames.LandSkill;
                 break;
-            case Element.Lightning:
+            case Element.Light:
                 newSkill = SkillNames.LightSkill;
                 break;
             default:

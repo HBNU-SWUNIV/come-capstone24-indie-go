@@ -88,6 +88,12 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         isKnockbackActive = true;
         knockbackStartTime = Time.time;
     }
+    public void ResetKnockback()
+    {
+        Movement.CanSetVelocity = true;
+        Movement?.SetVelocityZero();
+        isKnockbackActive = false;
+    }
 
     private void CheckKnockback()
     {

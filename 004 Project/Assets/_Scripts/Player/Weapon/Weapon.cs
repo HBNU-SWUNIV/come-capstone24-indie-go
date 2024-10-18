@@ -55,7 +55,6 @@ public class Weapon : MonoBehaviour, IWeapon
     {
         baseAnimator.SetBool("Active", false);
         weaponAnimator.SetBool("Active", false);
-
         gameObject.SetActive(false);
     }
 

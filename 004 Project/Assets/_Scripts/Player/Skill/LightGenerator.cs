@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class LightGenerator : SkillGenerator
 {
-    protected override void InitializeSkillComponents(Skill skill)
+    protected override void InitializeSkillComponents(Skill skill, SkillDataEx data)
     {
-        // 예시: SkillMovement 컴포넌트 추가 및 초기화
-        SkillMovementData movementData = skill.Data.GetData<SkillMovementData>();
+        // Skill 컴포넌트 추가 및 초기화
+        SkillMovementData movementData = data.GetData<SkillMovementData>();
         if (movementData != null)
         {
             skill.gameObject.GetOrAddComponent<SkillMovement>().Init();
         }
 
-        SkillDamageData damageData = skill.Data.GetData<SkillDamageData>();
+        SkillDamageData damageData = data.GetData<SkillDamageData>();
         if (damageData != null)
         {
             skill.gameObject.GetOrAddComponent<SkillDamage>().Init();
         }
 
+        //Light만의 Component와 Data를 가져오고 Init()
+        SkillLightData lightData = data.GetData<SkillLightData>();
 
-        //  SkillFireData fireData = skill.Data.GetData<SkillFireData>();
-        //    if (fireData != null)
-        //    {
-        //        skill.gameObject.GetOrAddComponent<SkillFire>().Init();
-        //    }
-
+        if(lightData != null)
+        {
+            SkillLight light = skill.gameObject.GetOrAddComponent<SkillLight>();
+            light.Init(data);
+        }
         // 추가적인 스킬 컴포넌트 초기화 로직
         // ...
 

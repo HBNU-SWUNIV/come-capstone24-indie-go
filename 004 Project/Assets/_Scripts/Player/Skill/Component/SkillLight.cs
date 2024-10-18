@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillSpear : SkillComponent<SkillSpearData>
+public class SkillLight : SkillComponent<SkillLightData>
 {
-    public float GetSpearThrowSpeed()
+    public float GetLightThrowSpeed()
     {
         return currentSkillData.ThrowSpeed;
     }
-    public float GetSpearThrowDistance()
+    public float GetLightThrowDistance()
     {
         return currentSkillData.ThrowDistance;
     }

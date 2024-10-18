@@ -31,9 +31,8 @@ public class FireEffect : IElementalEffect
 {
     private float dotDamage;
     private float duration;
-    private int maxStacks;// = 3;
-   // private int currentStacks = 0;
-    //private Coroutine dotCoroutine;
+    private int maxStacks;
+    private float cooldown = 5.0f;
     // 타겟별 데이터를 저장하기 위한 딕셔너리
     private Dictionary<ElementalComponent, int> currentStacks = new Dictionary<ElementalComponent, int>();
     private Dictionary<ElementalComponent, Coroutine> dotCoroutines = new Dictionary<ElementalComponent, Coroutine>();
@@ -41,7 +40,7 @@ public class FireEffect : IElementalEffect
 
     public void ApplyEffect(ElementalComponent attackerComponent, ElementalComponent defenderComponent, float attackerAttackStat)
     {
-        Debug.Log($"attackerAttackStat {attackerAttackStat} , dotDamage  {dotDamage}");
+      //  Debug.Log($"attackerAttackStat {attackerAttackStat} , dotDamage  {dotDamage}");
         int dotDamageValue = Mathf.RoundToInt(attackerAttackStat * dotDamage);
 
         // currentStacks에 수비자가 없으면 초기화
@@ -129,28 +128,24 @@ public class FireEffect : IElementalEffect
 
 public class IceEffect : IElementalEffect
 {
-    private float slowEffect = 0.5f;
-    private float duration = 4.0f;
-    private int maxSlowStacks = 5;
- //   private int currentSlowStacks = 0;
+    private float slowEffect;
+    private float duration;
+    private int maxSlowStacks;
+    private float healthRegenRate;
     private float stunTime = 3.0f;
     private float cooldown = 5.0f;
-    private float healthRegenRate = 5.0f;
-    //   private Coroutine regenCoroutine; // 단일 Coroutine 변수
 
     // 타겟별 데이터를 저장하기 위한 딕셔너리
     private Dictionary<ElementalComponent, int> currentSlowStacks = new Dictionary<ElementalComponent, int>();
     private Dictionary<ElementalComponent, Coroutine> slowCoroutines = new Dictionary<ElementalComponent, Coroutine>();
     private Dictionary<ElementalComponent, Coroutine> cooldowns = new Dictionary<ElementalComponent, Coroutine>();
     private Dictionary<ElementalComponent, GameObject> debuffEffects = new Dictionary<ElementalComponent, GameObject>();
-    private Coroutine regenCoroutine; // 패시브 효과용
+    private Dictionary<ElementalComponent, Coroutine> regenCoroutines = new Dictionary<ElementalComponent, Coroutine>();
 
 
     //    private Dictionary<ElementalComponent, Coroutine> cooldowns = new Dictionary<ElementalComponent, Coroutine>();
-  //  private GameObject debuffEffect;
-    private GameObject freezeEffectFront;
-    private GameObject freezeEffectBack;
-  //  private Coroutine slowCoroutine;
+    private Dictionary<ElementalComponent, GameObject> freezeEffectFronts = new Dictionary<ElementalComponent, GameObject>();
+    private Dictionary<ElementalComponent, GameObject> freezeEffectBacks = new Dictionary<ElementalComponent, GameObject>();
 
 
     public void ApplyEffect(ElementalComponent attackerComponent, ElementalComponent defenderComponent, float attackerAttackStat)
@@ -192,13 +187,13 @@ public class IceEffect : IElementalEffect
             // 프리즈 효과 적용
             Debug.Log($"Ice effect: Freezing target for {stunTime} second");
             var enemy = defenderComponent.transform.root.GetComponent<Entity>();
-            enemy.stunState.SetStunTime(stunTime);
-
-            freezeEffectFront = defenderComponent.GetParticle().StartParticlesWithDesignatedRotationAndDestroy(defenderComponent.damageParticles[(int)ElementParticles.IceFreezeStartFront], new Vector3(0, -0.5f, 0), defenderComponent.transform, stunTime);
-            freezeEffectBack = defenderComponent.GetParticle().StartParticlesWithDesignatedRotationAndDestroy(defenderComponent.damageParticles[(int)ElementParticles.IceFreezeStartBack], new Vector3(0, -0.5f, 0), defenderComponent.transform, stunTime);
+            enemy.stunState.SetFreezeStunTime(stunTime);
+            enemy.stunState.stun = true;
+            freezeEffectFronts[defenderComponent] = defenderComponent.GetParticle().StartParticlesWithDesignatedRotationAndDestroy(defenderComponent.damageParticles[(int)ElementParticles.IceFreezeStartFront], new Vector3(0, -0.5f, 0), defenderComponent.transform, stunTime);
+            freezeEffectBacks[defenderComponent] = defenderComponent.GetParticle().StartParticlesWithDesignatedRotationAndDestroy(defenderComponent.damageParticles[(int)ElementParticles.IceFreezeStartBack], new Vector3(0, -0.5f, 0), defenderComponent.transform, stunTime);
 
             defenderComponent.StartEffectCoroutine(StartIceFreezeEnd(defenderComponent, stunTime));
-            enemy.stateMachine.ChangeState(enemy.stunState);
+          //  enemy.stateMachine.ChangeState(enemy.stunState);
 
             // 스택 초기화 및 슬로우 효과 제거
             currentSlowStacks[defenderComponent] = 0;
@@ -248,11 +243,13 @@ public class IceEffect : IElementalEffect
         }
     }
 
-    public void UpdateEffectValues(float newSlowEffect, float newDuration)
+    public void UpdateEffectValues(float newSlowEffect, float newDuration, float newHealthRegenRate, int newMaxSlowStacks)
     {
         Debug.Log($"업데이트 전 slowEffect : {slowEffect}");
         slowEffect = newSlowEffect;
         duration = newDuration;
+        healthRegenRate = newHealthRegenRate;
+        maxSlowStacks = newMaxSlowStacks;
         Debug.Log($"업데이트 후 slowEffect : {slowEffect}");
 
     }
@@ -266,10 +263,10 @@ public class IceEffect : IElementalEffect
     {
         yield return new WaitForSeconds(time);
 
-        if (freezeEffectFront != null)
-            component.DestroyObj(freezeEffectFront);
-        if (freezeEffectBack != null)
-            component.DestroyObj(freezeEffectBack);
+        if (freezeEffectFronts.ContainsKey(component))
+            component.DestroyObj(freezeEffectFronts[component]);
+        if (freezeEffectBacks.ContainsKey(component))
+            component.DestroyObj(freezeEffectBacks[component]);
         component.GetParticle().StartParticlesWithDesignatedRotation(component.damageParticles[(int)ElementParticles.IceFreezeEndFront], new Vector3(0, -0.5f, 0), component.transform);
         component.GetParticle().StartParticlesWithDesignatedRotation(component.damageParticles[(int)ElementParticles.IceFreezeEndBack], new Vector3(0, -0.5f, 0), component.transform);
 
@@ -312,18 +309,18 @@ public class IceEffect : IElementalEffect
 
     public void ApplyPassiveEffect(ElementalComponent component)
     {
-        if (regenCoroutine == null)
+        if(!regenCoroutines.ContainsKey(component))
         {
-            regenCoroutine = component.StartEffectCoroutine(HealthRegenCoroutine(component));
+            regenCoroutines[component] = component.StartEffectCoroutine(HealthRegenCoroutine(component));
         }
     }
 
     public void RemovePassiveEffect(ElementalComponent component)
     {
-        if (regenCoroutine != null)
+        if (regenCoroutines.ContainsKey(component))
         {
-            component.StopEffectCoroutine(regenCoroutine);
-            regenCoroutine = null;
+            component.StopEffectCoroutine(regenCoroutines[component]);
+            regenCoroutines.Remove(component);
         }
     }
 
@@ -345,6 +342,7 @@ public class LandEffect : IElementalEffect
 {
     private float decreaseAttackSpeed;
     private float increaseAttackDamage;
+    private float cooldown = 5.0f;
 
     public void ApplyEffect(ElementalComponent attackerComponent, ElementalComponent defenderComponent, float attackerAttackStat)
     {
@@ -392,26 +390,23 @@ public class LandEffect : IElementalEffect
 }
 
 
-public class LightningEffect : IElementalEffect
+public class LightEffect : IElementalEffect
 {
-    private float stunDuration = 2.0f;
-    private float increaseAttackSpeed = 0.3f;
+    private float increaseAttackSpeed;
+    private float decreaseAttackDamage;
+
+    private float cooldown = 5.0f;
 
     public void ApplyEffect(ElementalComponent targetComponent, ElementalComponent selfComponent, float attackerAttackStat)
     {
-     /*   Debug.Log($"Lightning effect applied: stunning target for {stunDuration} seconds");
-        var targetMovement = targetComponent.GetMovement();
-        if (targetMovement != null)
-        {
-            targetMovement.SetVelocityZero();
-        }
-        targetComponent.StartEffectCoroutine(RemoveStunEffect(targetMovement));*/
+        // LightEffect 직접적인 ApplyEffect를 가지지 않음
+
     }
 
-    public void UpdateEffectValues(float newStunDuration, float unused)
+    public void UpdateEffectValues(float newIncreaseAttackSpeed, float newDecreaseAttackDamage)
     {
-
-        stunDuration = newStunDuration;
+        increaseAttackSpeed = newIncreaseAttackSpeed;
+        decreaseAttackDamage = newDecreaseAttackDamage;
     }
 
     public float CalculateDamage(float baseDamage, float attackerAttackStat)
@@ -419,18 +414,13 @@ public class LightningEffect : IElementalEffect
         return baseDamage;
     }
 
-    private IEnumerator RemoveStunEffect(Movement targetMovement)
-    {
-        yield return new WaitForSeconds(stunDuration);
-        Debug.Log("Lightning effect removed: stun effect ended");
-    }
-
     public void ApplyPassiveEffect(ElementalComponent component)
     {
         var stats = component.GetStats();
         if (stats != null)
         {
-            stats.ChangeAttackSpeed(1 + increaseAttackSpeed);
+            stats.ModifyAttackSpeed(1 + increaseAttackSpeed);
+            stats.ChangeDamage(-decreaseAttackDamage);
         }
     }
 
@@ -440,6 +430,7 @@ public class LightningEffect : IElementalEffect
         if (stats != null)
         {
             stats.ReturnAttackSpeed();
+            stats.ReturnDamage();
         }
     }
 }

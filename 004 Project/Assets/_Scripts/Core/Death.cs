@@ -5,11 +5,10 @@ using UnityEngine;
 public class Death : CoreComponent
 {
     [SerializeField] private GameObject[] deathParticles;
-
+    private Transform deathParticleParent;
     private ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
     private ParticleManager particleManager;
     private ICharacterStats stats;
-
 
     protected override void Awake()
     {
@@ -17,6 +16,9 @@ public class Death : CoreComponent
         stats = transform.root.GetComponentInChildren<ICharacterStats>();
         if (stats == null)
             Debug.Log("stats ºö");
+        deathParticleParent = GameObject.Find("DeathParticles").transform;
+        if (deathParticleParent == null)
+            deathParticleParent =  new GameObject("DeathParticles").transform;
     }
 
 
@@ -24,7 +26,7 @@ public class Death : CoreComponent
     {
         foreach (var particles in deathParticles)
         {
-            ParticleManager.StartParticles(particles, gameObject.transform);
+            ParticleManager.StartParticles(particles, deathParticleParent);
         }
         core.transform.parent.gameObject.SetActive(false);
     }
@@ -35,6 +37,7 @@ public class Death : CoreComponent
     }
     private void OnDisable()
     {
-        stats.OnHealthZero -= Die; ;
+        stats.OnHealthZero -= Die;
+
     }
 }

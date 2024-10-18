@@ -69,22 +69,24 @@ public class FireSkillExitState : SkillExitState
 
 public class FireAttackState : SkillState
 {
+    FireSkill fireSkill;
     public FireAttackState(FireSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName) : base(concreteSkill, skill, stateMachine, animBoolName)
     {
- 
+        fireSkill = concreteSkill;
     }
     public override void Enter()
     {
         base.Enter();
+        skill.EventHandler.OnStateFinish += EventHandler;
 
 
-        
+
     }
 
     public override void Exit()
     {
         base.Exit();
-
+        skill.EventHandler.OnStateFinish -= EventHandler;
     }
     public override void LogicUpdate()
     {
@@ -93,5 +95,8 @@ public class FireAttackState : SkillState
             skillMovement.HandleStopMovementX();
         }
     }
-
+    private void EventHandler()
+    {
+        stateMachine.ChangeState(fireSkill.FireSkillExitState);
+    }
 }

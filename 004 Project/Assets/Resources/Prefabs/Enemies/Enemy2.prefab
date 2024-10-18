@@ -101,7 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ff845ff92539f4a83e353466b07334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathParticles: []
+  deathParticles:
+  - {fileID: 5096148057906189823, guid: 4a122dcc68153794295f6953dd91521e, type: 3}
+  - {fileID: 1962614393226834858, guid: 3d13ef1f52d189642930444f906fc622, type: 3}
 --- !u!1 &3483094063085057455
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +522,6 @@ MonoBehaviour:
   dodgeStateData: {fileID: 11400000, guid: 3f4657ca74ba50a4fb7578ae5e043abd, type: 2}
   rangeAttackStateData: {fileID: 11400000, guid: 0ad3801fd63b05b45ad2876e57223e9b, type: 2}
   rangedAttackPosition: {fileID: 2058214142879546863}
-  rangedProjectileParent: {fileID: 0}
 --- !u!114 &7989980284193493163
 MonoBehaviour:
   m_ObjectHideFlags: 0

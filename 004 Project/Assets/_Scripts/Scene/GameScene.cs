@@ -10,6 +10,13 @@ public class GameScene : BaseScene
 
         SceneType = Define.Scene.Game;
         GameManager.Instance.CreatePlayerManager();
+        if(!GameObject.Find("Arrows"))
+        {
+            new GameObject
+            {
+                name = "Arrows"
+            }.AddComponent<CoroutineHandler>();
+        }
     }
 
 }

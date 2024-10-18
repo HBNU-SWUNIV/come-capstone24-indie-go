@@ -3,32 +3,53 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats<EnemyStatsData>
 {
-
- 
-
-    protected override void Start()
+    private bool setElement;
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         //Element = Element.Land;
-        InitializeMonsterStats();
-        ChangeElement(Element.Land, landLevel);
+        //InitializeMonsterStats();
+        // ChangeElement(Element.Land, landLevel);
 
         //animator = transform.root.GetComponent<Animator>();
-
     }
-    
+
+
     private void OnEnable()
-    {       
-        
+    {
+        InitializeMonsterStats();
         // 플레이어 타입에 따른 스탯 조정
-            StartCoroutine("AdjustStatsBasedOnPlayerType");
+        StartCoroutine("InitializedEnemyElement");
+        
+        StartCoroutine("AdjustStatsBasedOnPlayerType");
+    }
+
+    private void OnDisable()
+    {
+        setElement = false;
+    }
+    private IEnumerator InitializedEnemyElement()
+    {
+        yield return null;
+    /*    PlayerStats playerStats = GameManager.PlayerManager.Player.GetComponent<PlayerStats>();
+        while (true)
+        {
+            if (playerStats.OnsetStats)
+                break;
+            yield return null;
+        }
+        Element playerElement = GameManager.PlayerManager.Player.GetComponent<PlayerStats>().Element;
+        // playerElement에 따라서 확률로 결정. 불/얼음/대지/번개 중 불리 속성이 60%, 동일 속성이 20%, 유리 속성이 20%로 생성
+        // 이는 인스펙터에서 확률을 변경할 수 있으면 좋겠음. 근데 이렇게 하려면 몬스터는 여러마리이니 별도의 클래스를 구현해야 할 듯. 
+    */
+        setElement = true;
     }
 
     private IEnumerator AdjustStatsBasedOnPlayerType()
     {
         while(true)
         {
-            if (OnsetStats)
+            if (OnsetStats && setElement)
                 break;
             yield return null;
         }
@@ -36,7 +57,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         ResetStatsToBaseValues();
         GameManager.PlayerManager.DataAnalyze.AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
         string playerType = GameManager.PlayerManager.DataAnalyze.playerType;
-        Debug.Log($"GameManager.PlayerManager.DataAnalyze.playerType : {GameManager.PlayerManager.DataAnalyze.playerType}");
+      //  Debug.Log($"GameManager.PlayerManager.DataAnalyze.playerType : {GameManager.PlayerManager.DataAnalyze.playerType}");
         switch (playerType)
         {
             case "High_parry":
@@ -66,7 +87,8 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
                 SetAdjustStatsMoveSpeed(1.2F);   // 이동 속도 20% 증가
                 break;
         }
-        Debug.Log($" playerType : {playerType} 에 해당하는 값으로 변경");
+      //  Debug.Log($" playerType : {playerType} 에 해당하는 값으로 변경");
+       // UpdateAnimatorSpeed();
     }
 
 
@@ -94,4 +116,6 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
     {
         Id = newId; // ID를 설정하고, 자동으로 스탯이 재설정됨
     }
+
+ 
 }

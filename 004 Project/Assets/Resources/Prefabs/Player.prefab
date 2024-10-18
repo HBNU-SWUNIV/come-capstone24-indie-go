@@ -673,7 +673,7 @@ Animator:
   m_GameObject: {fileID: 992387197799977061}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ea5d5c5f4abece64682f0a0a11da582d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5916101c0b4712a45ae10f4c4a8f9c03, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1243,7 +1243,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1010976, y: -0.18728602}
+  m_Offset: {x: 0, y: -0.16}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1254,7 +1254,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5338392, y: 1.6316817}
+  m_Size: {x: 0.6, y: 1.6}
   m_EdgeRadius: 0
 --- !u!50 &1532410185546229327
 Rigidbody2D:
@@ -1693,7 +1693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ff845ff92539f4a83e353466b07334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathParticles: []
+  deathParticles:
+  - {fileID: 5096148057906189823, guid: 4a122dcc68153794295f6953dd91521e, type: 3}
+  - {fileID: 1962614393226834858, guid: 3d13ef1f52d189642930444f906fc622, type: 3}
 --- !u!1 &7447787699527008347
 GameObject:
   m_ObjectHideFlags: 0

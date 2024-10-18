@@ -24,14 +24,14 @@ public abstract class SkillGenerator
         }
 
         // 필요한 스킬 컴포넌트 추가 및 초기화
-        InitializeSkillComponents(skill);
+        InitializeSkillComponents(skill, data);
 
        
 
     }
 
     // 각 스킬별로 필요한 컴포넌트 추가 및 초기화   
-    protected abstract void InitializeSkillComponents(Skill skill);
+    protected abstract void InitializeSkillComponents(Skill skill, SkillDataEx data);
 
     private void InitializeCollisionHandler(GameObject target)
     {

@@ -8,7 +8,6 @@ public class FlyingEye : Entity
     public FE_MoveState moveState { get; private set; }
     public FE_PlayerDetectedState playerDetectedState { get; private set; }
     public FE_LookForPlayerState lookForPlayerState { get; private set; }
-    public FE_DeadState deadState { get; private set; }
     public FE_DodgeState dodgeState { get; private set; }
     public FE_RangedAttackState rangedAttackState { get; private set; }
 
@@ -22,8 +21,7 @@ public class FlyingEye : Entity
     private D_LookForPlayer lookForPlayerStateData;
     [SerializeField]
     private D_StunState stunStateData;
-    [SerializeField]
-    private D_DeadState deadStateData;
+
     [SerializeField]
     public D_DodgeState dodgeStateData;
     [SerializeField]
@@ -31,8 +29,6 @@ public class FlyingEye : Entity
 
     [SerializeField]
     private Transform rangedAttackPosition;
-    [SerializeField]
-    private Transform rangedProjectileParent;
 
     public override void Awake()
     {
@@ -44,14 +40,19 @@ public class FlyingEye : Entity
 
         lookForPlayerState = new FE_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
         stunState = new FE_StunState(this, stateMachine, "stun", stunStateData, this);
-        deadState = new FE_DeadState(this, stateMachine, "dead", deadStateData, this);
         dodgeState = new FE_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);
-        rangedAttackState = new FE_RangedAttackState(this, stateMachine, "rangedAttack", rangedAttackPosition, rangedProjectileParent, rangeAttackStateData, this);
+        rangedAttackState = new FE_RangedAttackState(this, stateMachine, "rangedAttack", rangedAttackPosition, rangeAttackStateData, this);
 
+        maxParryStunStack = 1;
     }
 
     private void Start()
     {
         stateMachine.Initialize(moveState);
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        stateMachine.Initialize(idleState);
     }
 }

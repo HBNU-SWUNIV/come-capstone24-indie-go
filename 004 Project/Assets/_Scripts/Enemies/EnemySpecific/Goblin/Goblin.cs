@@ -13,7 +13,7 @@ public class Goblin : Entity
     public GB_MeleeAttackState2 meleeAttackState2 { get; private set; }
 
     public GB_LookForPlayerState lookForPlayerState { get; private set; }
-    public GB_DeadState deadState { get; private set; }
+
 
     [SerializeField]
     private D_IdleState idleStateData;
@@ -31,8 +31,7 @@ public class Goblin : Entity
     private D_LookForPlayer lookForPlayerStateData;
     [SerializeField]
     private D_StunState stunStateData;
-    [SerializeField]
-    private D_DeadState deadStateData;
+
 
     public override void Awake()
     {
@@ -44,14 +43,19 @@ public class Goblin : Entity
         chargeState = new GB_ChargeState(this, stateMachine, "charge", chargeStateData, this);
         lookForPlayerState = new GB_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
         stunState = new GB_StunState(this, stateMachine, "stun", stunStateData, this);
-        deadState = new GB_DeadState(this, stateMachine, "dead", deadStateData, this);
         meleeAttackState1 = new GB_MeleeAttackState1(this, stateMachine, "meleeAttack1", meleeAttackStateData1, this);
         meleeAttackState2 = new GB_MeleeAttackState2(this, stateMachine, "meleeAttack2", meleeAttackStateData2, this);
 
+        maxParryStunStack = 2;
     }
 
     private void Start()
     {
         stateMachine.Initialize(moveState);
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        stateMachine.Initialize(idleState);
     }
 }

@@ -13,11 +13,12 @@ public class RangeAttackState : AttackState
 
     private AnimationToAttackCheck rangeAttackCheck;
 
-    public RangeAttackState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, Transform attackPosition, Transform projectileParent, D_RangeAttackState stateData) : base(etity, stateMachine, animBoolName)
+    public RangeAttackState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, Transform attackPosition, D_RangeAttackState stateData) : base(etity, stateMachine, animBoolName)
     {
+        this.stateData = stateData;
         this.rangeStateData = stateData;
         this.attackPosition = attackPosition;
-        this.projectileParent = projectileParent;
+        this.projectileParent = GameObject.Find("Arrows").transform;
 
     }
 

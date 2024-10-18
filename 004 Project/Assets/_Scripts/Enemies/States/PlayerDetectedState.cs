@@ -58,6 +58,8 @@ public class PlayerDetectedState : MonsterState
         {
             performLongRangeAction = true;
         }
+        if (entity.stunState.stun)
+            stateMachine.ChangeState(entity.stunState);
     }
 
     public override void PhysicsUpdate()

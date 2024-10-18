@@ -73,7 +73,7 @@ public class SkillState
 
     protected SkillMovement skillMovement;
     protected SkillDamage skillDamage;
-    protected SkillSpear skillSpear;
+    protected SkillLight skillLight;
     //기타 Component들.. 이 Component들은 상속받은 애가 구현
 
     public SkillState(ConcreteSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName)
@@ -92,7 +92,7 @@ public class SkillState
         isExitingState = false;
         skillMovement ??= skill.GetComponent<SkillMovement>();
         skillDamage ??= skill.GetComponent<SkillDamage>();
-        skillSpear ??= skill.GetComponent<SkillSpear>();
+        skillLight ??= skill.GetComponent<SkillLight>();
         // Debug.Log(this.ToString() + "상태 진입");
     }
     public virtual void Exit()
@@ -111,7 +111,6 @@ public class SkillState
 
 public class SkillEnterState : SkillState
 {
-    private bool isDone;
     public SkillEnterState(ConcreteSkill concreteSkill, Skill skill, SkillStateMachine stateMachine, string animBoolName) : base(concreteSkill, skill, stateMachine, animBoolName)
     {
     }
@@ -119,9 +118,8 @@ public class SkillEnterState : SkillState
     public override void Enter()
     {
         base.Enter();
-        isDone = false;
         skill.EventHandler.OnStateFinish += EventHandler;
-        GameManager.SharedCombatDataManager.IsPlayerNotHitState = true;
+        GameManager.SharedCombatDataManager.IsPlayerNotEnterHitState = true;
 
 
     }
@@ -156,6 +154,7 @@ public class SkillExitState : SkillState
         base.Enter();
         //skill.EventHandler.OnFinish -= EventHandler;
         skill.EventHandler.OnFinish += EventHandler;
+        skill.EventHandler.AnimationFinishedTriggerFunc();
     }
 
     public override void Exit()
@@ -163,7 +162,7 @@ public class SkillExitState : SkillState
         base.Exit();
         skill.EventHandler.OnFinish -= EventHandler;
         skill.EventHandler.OnFinish -= EventHandler;
-        GameManager.SharedCombatDataManager.IsPlayerNotHitState = false;
+        GameManager.SharedCombatDataManager.IsPlayerNotEnterHitState = false;
     }
     public override void LogicUpdate()
     {

@@ -57,6 +57,7 @@ public class SkillManager
     {
         if (skillDataDict.TryGetValue(newSkillName, out var skillData) && initializers.TryGetValue(newSkillName, out var initializer))
         {
+            Debug.Log("newSkillName : " +newSkillName);
             // 기존 이벤트 해제
             if (currentSkill != null && initializers.TryGetValue(currentSkillName, out var currentInitializer))
             {
@@ -68,8 +69,6 @@ public class SkillManager
             currentSkill.ClearComponents();
             initializer.Initialize(skillData, newSkillName);  // 새로운 스킬 초기화
          //   Debug.Log("새로운 스킬 적용 완료");
-            // 새로운 이벤트 등록
-            //initializer.RegisterEvents();
 
             // 스킬 이름 변경
             currentSkill.gameObject.name = newSkillName;

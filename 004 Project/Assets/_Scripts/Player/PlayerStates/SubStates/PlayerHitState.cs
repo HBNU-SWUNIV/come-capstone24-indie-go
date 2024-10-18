@@ -12,7 +12,6 @@ public class PlayerHitState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-
         GameManager.SharedCombatDataManager.SetPlayerHit(false);
         Movement?.SetVelocityZero();
     }

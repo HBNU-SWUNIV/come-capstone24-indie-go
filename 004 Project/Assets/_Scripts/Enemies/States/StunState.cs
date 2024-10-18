@@ -17,8 +17,11 @@ public class StunState : MonsterState
 	protected bool isMovementStopped;
 	protected bool performCloseRangeAction;
 	protected bool isPlayerInMinAgroRange;
+	public bool stun;
 	protected float freezeStunTime = 0f;
-	protected bool freezeStun;
+	protected float parryStunTime = 0f;
+	
+	
 	public StunState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, D_StunState stateData) : base(etity, stateMachine, animBoolName)
 	{
 		this.stateData = stateData;
@@ -36,17 +39,16 @@ public class StunState : MonsterState
 	public override void Enter()
 	{
 		base.Enter();
-
+		stun = false;
 		isStunTimeOver = false;
 		isMovementStopped = false;
-		Movement?.SetVelocity(stateData.stunKnockbackSpeed, stateData.stunKnockbackAngle, entity.lastDamageDirection);
+		//Movement?.SetVelocity(stateData.stunKnockbackSpeed, stateData.stunKnockbackAngle, entity.lastDamageDirection);
 
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
-		entity.ResetStunResistance();
 	}
 
 	public override void LogicUpdate()
@@ -54,12 +56,27 @@ public class StunState : MonsterState
 		base.LogicUpdate();
 		if (!isExitingState)
 		{
+	/*		if (Time.time >= startTime + stunTime)
+			{
+				isStunTimeOver = true;
+				SetStunTime(0f);
+				Debug.Log("스턴종료");
+			}*/
+
 			if (freezeStunTime != 0f)
 			{
 				if (Time.time >= startTime + freezeStunTime)
 				{
 					isStunTimeOver = true;
-					SetStunTime(0f);
+					SetFreezeStunTime(0f);
+				}
+			}
+			else if (parryStunTime != 0f && freezeStunTime == 0f)
+            {
+				if (Time.time >= startTime + parryStunTime)
+				{
+					isStunTimeOver = true;
+					SetParryStunTime(0f);
 				}
 			}
 			else
@@ -68,12 +85,14 @@ public class StunState : MonsterState
 					isStunTimeOver = true;
 			}
 
-			if (isGrounded && Time.time >= startTime + stateData.stunKnockbackTime && !isMovementStopped)
-			{
-				isMovementStopped = true;
-				Movement?.SetVelocityX(0f);
-			}
+//			if (isGrounded && Time.time >= startTime + stateData.stunKnockbackTime && !isMovementStopped)
+//			{
+	//			isMovementStopped = true;
+	//			Movement?.SetVelocityX(0f);
+	//		}
+
 		}
+
 	}
 
 	public override void PhysicsUpdate()
@@ -81,8 +100,12 @@ public class StunState : MonsterState
 		base.PhysicsUpdate();
 	}
 
-	public void SetStunTime(float time)
+	public void SetParryStunTime(float time)
 	{
-		freezeStunTime = time;
+		parryStunTime = time;
 	}
+	public void SetFreezeStunTime(float time)
+    {
+		freezeStunTime = time;
+    }
 }

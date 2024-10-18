@@ -37,9 +37,7 @@ public class DefensiveWeapon : Weapon
         ShieldHoldState = new ShieldHoldState(this, shieldState, stateMachine, weaponData, ShieldStateName.Hold);
         ShieldParryState = new ShieldParryState(this, shieldState, stateMachine, weaponData, ShieldStateName.Parry, playerStats);
 
-        weaponAnimationToWeapon.OnAction += AnimationActionTrigger;
         weaponAnimationToWeapon.OnFinish += AnimationFinishTrigger;
-        weaponAnimationToWeapon.OnNextState += AnimationNextStateTrigger;
 
         isDefending = false;
     }
@@ -61,24 +59,7 @@ public class DefensiveWeapon : Weapon
     {
         base.ExitWeapon();
     }
-
-    protected void ChangeState()
-    {
-       /* 
-        if (parryState.CheckShieldHoldInput())
-            currentState = ShieldWeaponState.Hold;
-        if (parryState.CheckShieldInput() == false)
-            currentState = ShieldWeaponState.Exit;
-       */
-    }
-  
-
-    public override void AnimationActionTrigger()
-    {
-        base.AnimationActionTrigger();
-
-        stateMachine.CurrentState.AnimationTrigger();
-    }
+ 
 
     public override void AnimationFinishTrigger()
     {
@@ -86,12 +67,7 @@ public class DefensiveWeapon : Weapon
 
         stateMachine.CurrentState.AnimationFinishTrigger();
     }
-    
-    public void AnimationNextStateTrigger()
-    {
-        ChangeState();
-      //  EnterWeapon();
-    }
+   
 
     public void CheckShield(GameObject go, float attackDamage, Vector2 knockbackAngle, float knockbackStrength, int facingDirection)
     {
@@ -164,10 +140,6 @@ public class ShieldState
 
     }
 
-    public virtual void AnimationTrigger()
-    {
-
-    }
 
     public virtual void AnimationFinishTrigger()
     {
@@ -192,6 +164,8 @@ public class ShieldEnterState : ShieldState
         playerShieldState.Movement?.SetVelocityZero();
 
         GameManager.PlayerManager.PlayerDataCollect.RecordAction(PlayerDataCollectName.ParryAttempt);
+        GameManager.SharedCombatDataManager.IsPlayerNotEnterHitState = true;
+
     }
     public override void Exit()
     {
@@ -237,13 +211,12 @@ public class ShieldExitState : ShieldState
 
         playerShieldState.Movement?.SetVelocityX(0);
         weapon.isDefending = false;
-        isDone = false;
-
-
     }
     public override void Exit()
     {
         base.Exit();
+        GameManager.SharedCombatDataManager.IsPlayerNotEnterHitState = false;
+        playerShieldState.AnimationFinishTrigger();
     }
 
     public override void LogicUpdate()
@@ -252,26 +225,19 @@ public class ShieldExitState : ShieldState
         if (!isExitingState)
         {
             playerShieldState.Movement?.SetVelocityX(0);
-
-            if (isDone)
-            {
-                playerShieldState.AnimationFinishTrigger();
-            }
         }
 
     }
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
-
-        isDone = true;
+        Exit();    
     }
 
 }
 
 public class ShieldHoldState : ShieldState
 {
-    private float xInput;
     public ShieldHoldState(DefensiveWeapon weapon, PlayerShieldState playerShieldState, ShieldStateMachine stateMachine, Shield_WeaponData weaponData, string animBoolName) : base(weapon, playerShieldState, stateMachine, weaponData, animBoolName)
     {
     }
@@ -291,16 +257,11 @@ public class ShieldHoldState : ShieldState
 
         if (!isExitingState)
         {
-            //이동 입력이 있을 경우에만. xinput != 0.. player를 public으로 할 순 없으니 보류
-            //weapon.shieldState.Movement?.SetVelocityX(weaponData.holdMovementVelocity * weapon.shieldState.Movement.FacingDirection);
-
             playerShieldState.Movement?.SetVelocityX(0);
             if (playerShieldState.ShieldHoldInput == false)
             {
                 stateMachine.ChangeState(weapon.ShieldExitState);
             }
-            //else if (패링한다면) 
-            //    stateMachine.ChangeState(weapon.ShieldParryState);
         }
 
     }
@@ -330,11 +291,9 @@ public class ShieldHoldState : ShieldState
 
 public class ShieldParryState : ShieldState
 {
-    private CharacterStats<PlayerStatsData> stats;
     private bool isDone;
     public ShieldParryState(DefensiveWeapon weapon, PlayerShieldState playerShieldState, ShieldStateMachine stateMachine, Shield_WeaponData weaponData, string animBoolName, CharacterStats<PlayerStatsData> stats) : base(weapon, playerShieldState, stateMachine, weaponData, animBoolName)
     {
-        this.stats = stats;
     }
 
     public override void Enter()
@@ -361,18 +320,23 @@ public class ShieldParryState : ShieldState
     public override void HandleShieldCollision(GameObject go, float attackDamage, Vector2 knockbackAngle, float knockbackStrength, int facingDirection)
     {
         base.HandleShieldCollision(go, attackDamage, knockbackAngle, knockbackStrength, facingDirection);
+        
+        //패링 성공 시 적을 기절
+        Entity enemy = go.GetComponent<Entity>();
 
+        enemy.AddcurrentParryStunStack(weaponData.parryStun);
+  
         // 패링 상태일 때
         // 적에게 피해 주기 로직 추가
         IDamageable damageable = go.GetComponentInChildren<IDamageable>();
         if (damageable != null)
         {
             //Debug.Log("패링");
-            damageable.Damage(weaponData.parryDamage, stats.Element, stats.AttackDamage, weapon.gameObject,go.transform); // 패링 시 적에게 피해 줌
+            damageable.NonElementDamage(weaponData.parryDamage, go.transform);
         }
         //적에게 넉백
         IKnockbackable knockbackable = go.GetComponentInChildren<IKnockbackable>();
-        if (knockbackable != null)
+        if (knockbackable != null && enemy.IsKnockbackable)
         {
             knockbackable.Knockback(weaponData.knockbackAngle, weaponData.knockbackStrength, playerShieldState.Movement.FacingDirection);
         }

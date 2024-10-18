@@ -30,7 +30,6 @@ public class Movement : CoreComponent
     public void SetVelocityXEffect(float velocity)
     {
         effect = velocity;
-        Debug.Log(" effect : " + effect);
 
     }
     public void SetVelocityZeroEffect()

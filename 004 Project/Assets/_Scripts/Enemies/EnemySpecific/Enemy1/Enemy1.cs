@@ -10,7 +10,6 @@ public class Enemy1 : Entity
     public E1_ChargeState chargeState { get; private set; }
     public E1_LookForPlayerState lookForPlayerState { get; private set; }
     public E1_MeleeAttackState meleeAttackState { get; private set; }
-    public E1_DeadState deadState { get; private set; }
 
     [SerializeField]
     private D_IdleState idleStateData;
@@ -37,17 +36,26 @@ public class Enemy1 : Entity
         idleState = new E1_IdleState(this, stateMachine, "Idle", idleStateData, this);
         playerDetectedState = new E1_PlayerDetectedState(this, stateMachine, "PlayerDetected", playerDetectedData, this);
         chargeState = new E1_ChargeState(this, stateMachine, "Charge", chargeStateData, this);
+
         lookForPlayerState = new E1_LookForPlayerState(this, stateMachine, "SearchPlayer", lookForPlayerStateData, this);
         meleeAttackState = new E1_MeleeAttackState(this, stateMachine, "MeleeAttack", meleeAttackStateData, this);
         stunState = new E1_StunState(this, stateMachine, "Stun", stunStateData, this);
         //       deadState = new E1_DeadState(this, stateMachine, "dead", deadStateData, this);
 
-       // meleeAttackState.SetAattackCheck(meleeAttackCheck.GetComponent<AnimationToAttackCheck>());
+        // meleeAttackState.SetAattackCheck(meleeAttackCheck.GetComponent<AnimationToAttackCheck>());
 
+        maxParryStunStack = 3;
     }
 
     private void Start()
     {
         stateMachine.Initialize(moveState);
     }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        stateMachine.Initialize(idleState);
+    }
+
+
 }

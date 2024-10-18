@@ -35,8 +35,15 @@ public class SkillDataManager
             {
                 data.AddData(skillJson.movementData);
             }
-            if (skillJson.spearData != null)
-                data.AddData(skillJson.spearData);
+            if (skillJson.lightData != null)
+            {
+                Debug.Log("lightData가 있다고../.");
+                data.AddData(skillJson.lightData);
+            }
+            else
+            {
+                Debug.Log("lightDATA가 없다고???");
+            }
 
             if (skillJson.fireData != null)
                 data.AddData(skillJson.fireData);

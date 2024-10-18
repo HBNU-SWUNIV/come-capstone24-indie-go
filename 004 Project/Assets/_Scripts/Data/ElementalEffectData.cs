@@ -10,9 +10,12 @@ public class ElementalEffectLevelData
     public int Fire_maxStacks;
     public float Ice_slowEffect;
     public float Ice_duration;
+    public float Ice_healthRegenRate;
+    public int Ice_maxSlowStacks;
     public float Land_decreaseAttackSpeed;
     public float Land_increaseAttackDamage;
-    public float Lightning_stunDuration;
+    public float Light_increaseAttackSpeed;
+    public float Light_decreaseAttackDamage;
 }
 
 [Serializable]

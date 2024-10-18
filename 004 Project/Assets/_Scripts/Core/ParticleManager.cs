@@ -25,7 +25,7 @@ public class ParticleManager : CoreComponent
 
     public GameObject StartParticles(GameObject particlePrefab, Transform defender)
     {
-        return StartParticles(particlePrefab, transform.position, Quaternion.identity, defender.Find("Particles"));
+        return StartParticles(particlePrefab, transform.position, Quaternion.identity, defender);
     }
 
     public GameObject StartParticlesWithRandomRotation(GameObject particlePrefab, Transform defender)

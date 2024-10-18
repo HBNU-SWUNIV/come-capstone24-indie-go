@@ -39,6 +39,11 @@ public class PlayerShieldState : PlayerAbilityState
 
         ShieldInput = player.InputHandler.ShieldInput;
         ShieldHoldInput = player.InputHandler.ShieldHoldInput;
+        if(!isExitingState)
+            if (GameManager.SharedCombatDataManager.IsPlayerHit)
+            {
+                stateMachine.ChangeState(player.HitState);
+            }
     }
 
     public override void PhysicsUpdate()

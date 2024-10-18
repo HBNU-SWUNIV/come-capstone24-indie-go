@@ -6,7 +6,7 @@ public class FE_RangedAttackState : RangeAttackState
 {
     private FlyingEye enemy;
 
-    public FE_RangedAttackState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, Transform attackPosition, Transform projectileParent, D_RangeAttackState stateData, FlyingEye enemy) : base(etity, stateMachine, animBoolName, attackPosition, projectileParent, stateData)
+    public FE_RangedAttackState(Entity etity, MonsterStateMachine stateMachine, string animBoolName, Transform attackPosition, D_RangeAttackState stateData, FlyingEye enemy) : base(etity, stateMachine, animBoolName, attackPosition, stateData)
     {
         this.enemy = enemy;
     }

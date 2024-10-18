@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 //¿€º∫¡ﬂ..
+/*
 public class HitState : MonsterState
 {
     protected D_HitState stateData;
@@ -58,3 +59,4 @@ public class HitState : MonsterState
     }
 
 }
+*/

@@ -9,7 +9,7 @@ public class SkillDataJson
     public SkillDamageData damageData;
     public SkillCooldownData cooldownData;
     public SkillMovementData movementData;
-    public SkillSpearData spearData;
+    public SkillLightData lightData;
     public SkillFireData fireData;
 }
 

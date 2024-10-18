@@ -14,14 +14,15 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
             SetStat();
         }
     }
-
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
-        ChangeElement(Element.Fire, fireLevel);
-
-//        Element = Element.Fire;
+        base.Awake();
+        
+    }
+    private void Start()
+    {
         InitializePlayerStats();
+        ChangeElement(Element.Fire, fireLevel);
     }
 
     private void InitializePlayerStats()
@@ -51,33 +52,7 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
     {
         Level++;
     }
-    
-    protected override void UpdateAnimatorSpeed()
-    {
-        if (animator != null)
-        {
-            animator.SetFloat("MoveSpeed", moveSpeed);
-
-            GameObject sword = transform.parent.Find("Weapons").GetChild(0).gameObject;
-
-            Animator swordbaseAnim = sword.transform.GetChild(0).GetComponent<Animator>();
-            Animator swordweaponAnim = sword.transform.GetChild(1).GetComponent<Animator>();
-        
-     //       Debug.Log(attackSpeed);
-        //    sword.SetActive(true);
-            swordbaseAnim.SetFloat("AttackSpeed", attackSpeed);
-            swordweaponAnim.SetFloat("AttackSpeed", attackSpeed);
-       //     sword.SetActive(false);
-
-            // sword.SetActive(false);
-            //        Transform shield = transform.parent.Find("Weapons").GetChild(1);
-            //     Animator shieldbaseAnim = shield.GetChild(0).GetComponent<Animator>();
-            //    Animator shieldweaponAnim = shield.GetChild(1).GetComponent<Animator>();
-
-            //  shieldbaseAnim.SetFloat("AttackSpeed", attackSpeed);
-            //    shieldweaponAnim.SetFloat("AttackSpeed", attackSpeed);
-        }
-    }
+   
     protected override void UpdateAnimatorMoveSpeed()
     {
         if (animator != null)
@@ -99,48 +74,36 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
             swordweaponAnim.SetFloat("AttackSpeed", attackSpeed);
         }
     }
-
     private void Update()
     {
         HandleElementChange();
     }
-
-
     private void HandleElementChange()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeElement(Element.Fire, fireLevel);
+            Debug.Log("Player ChangeElement : Fire");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ChangeElement(Element.Ice, iceLevel);
+            Debug.Log("Player ChangeElement : Ice");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ChangeElement(Element.Land, landLevel);
+            Debug.Log("Player ChangeElement : Land");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            ChangeElement(Element.Lightning, lightningLevel);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            IncreaseElementLevel(Element.Fire);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            IncreaseElementLevel(Element.Ice);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            IncreaseElementLevel(Element.Land);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            IncreaseElementLevel(Element.Lightning);
+            ChangeElement(Element.Light, lightLevel);
+            Debug.Log("Player ChangeElement : Light");
         }
     }
+
+
+
 
     public void IncreaseElementLevel(Element element)
     {
@@ -159,9 +122,9 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
                 landLevel++;
                 level = landLevel;
                 break;
-            case Element.Lightning:
-                lightningLevel++;
-                level = lightningLevel;
+            case Element.Light:
+                lightLevel++;
+                level = lightLevel;
                 break;
         }
         Debug.Log($"{element} level up");
@@ -178,8 +141,8 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
                 return iceLevel;
             case Element.Land:
                 return landLevel;
-            case Element.Lightning:
-                return lightningLevel;
+            case Element.Light:
+                return lightLevel;
             default:
                 return 1;
         }

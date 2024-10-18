@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    private Movement Movement { get => movement ?? Core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement ?? Core.GetCoreComponent(ref movement); }
 
     private Movement movement;
     public Core Core { get; private set; }
@@ -12,10 +12,17 @@ public class Entity : MonoBehaviour
     public AnimationToStateMachine atsm { get; private set; }
     public D_Entity entityData;
     public StunState stunState;
+    public bool IsKnockbackable { get; set; } = true;
+
+    private int currentParryStunStack;
+    protected int maxParryStunStack;
+    protected float parryStunTimer;
     public MonsterStateMachine stateMachine { get; protected set; }
 
     public int lastDamageDirection { get; private set; }
 
+    Transform effectParticles;
+    Transform elementParticles;
 
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform ledgeCheck;
@@ -23,34 +30,31 @@ public class Entity : MonoBehaviour
     [SerializeField] private Transform groundCheck;
 
 
-    private float currentStunResistance;
-    private float lastDamageTime;
-
-
-    protected bool isStunned;
+  
     protected bool isDead;
 
     public virtual void Awake()
     {
         Core = GetComponentInChildren<Core>();
-       // entityData = new D_Entity();
-
 
         Anim = GetComponent<Animator>();
         atsm = GetComponent<AnimationToStateMachine>();
 
         stateMachine = new MonsterStateMachine();
+
+        currentParryStunStack = 0;
+
+        effectParticles = transform.Find("Particles");
+        elementParticles = transform.Find("Core/Element");
+        Debug.Log($"elementParticles : {elementParticles.root.name}");
+        if (elementParticles == null)
+            Debug.Log("없다?");
     }
 
     public virtual void Update()
     {
         Core.LogicUpdate();
         stateMachine.currentState.LogicUpdate();
-        
-        if(Time.time >= lastDamageTime + entityData.stunRecoveryTime)
-        {
-            ResetStunResistance();
-        }
     }
 
     public virtual void FixedUpdate()
@@ -74,10 +78,56 @@ public class Entity : MonoBehaviour
     {
         return Physics2D.Raycast(playerCheck.position, transform.right, entityData.closeRangeActionDistance, LayerMasks.Player);
     }
-    
-    public virtual void ResetStunResistance()
+
+    public void AddcurrentParryStunStack(float stunTime)
     {
-        isStunned = false;
-        currentStunResistance = entityData.stunResistance;
+        ++currentParryStunStack;
+        parryStunTimer = Time.time;
+        StopCoroutine("CheckParryStunTimer");
+        StartCoroutine("CheckParryStunTimer", stunTime);
+    }
+
+    private IEnumerator CheckParryStunTimer(float stunTime)
+    {
+        Debug.Log($"currentParryStunStack : {currentParryStunStack}, maxParryStunStack : {maxParryStunStack}");
+        while (currentParryStunStack > 0)
+        {
+            if (currentParryStunStack >= maxParryStunStack)
+            {
+                stunState.SetParryStunTime(stunTime);
+                stunState.stun = true;
+                currentParryStunStack = 0;
+            }
+            if (parryStunTimer + entityData.parryStundurationTime <= Time.time)
+                currentParryStunStack = 0;
+            yield return 1f;
+        }
+        Debug.Log("스턴 스택 초기화");
+    }
+
+    protected void OnEnable()
+    {
+        if (effectParticles != null)
+        {
+            RemoveAllChildObjects(effectParticles);
+        }
+        if (elementParticles != null)
+        {
+            RemoveAllChildObjects(elementParticles);
+        }
+    }
+    protected virtual void OnDisable()
+    {
+        Movement?.SetVelocityZero();
+        IsKnockbackable = true;
+    }
+    protected void RemoveAllChildObjects(Transform parent)
+    {
+        Debug.Log("ghcnfehla");
+        foreach (Transform child in parent)
+        {
+            Debug.Log("child : " + child.name);
+            Destroy(child.gameObject);
+        }
     }
 }

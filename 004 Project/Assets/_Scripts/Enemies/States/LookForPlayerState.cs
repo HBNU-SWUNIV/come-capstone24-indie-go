@@ -80,6 +80,8 @@ public class LookForPlayerState : MonsterState
 		{
 			isAllTurnsTimeDone = true;
 		}
+		if (entity.stunState.stun)
+			stateMachine.ChangeState(entity.stunState);
 	}
 
 	public override void PhysicsUpdate()

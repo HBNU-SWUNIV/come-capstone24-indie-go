@@ -141,7 +141,8 @@ public class AggressiveWeapon : Weapon, IWeapon
             GameManager.PlayerManager.PlayerDataCollect.RecordAction(PlayerDataCollectName.AttackSuccess);
         }
         IKnockbackable knockbackable = collision.GetComponentInChildren<IKnockbackable>();
-        if (knockbackable != null)
+
+        if (knockbackable != null && collision.GetComponent<Entity>().IsKnockbackable)
         {
             knockbackable.Knockback(weaponData.knockbackAngle, weaponData.knockbackStrength, attackState.Movement.FacingDirection); // 적의 체급에 따른 넉백 정도
         }

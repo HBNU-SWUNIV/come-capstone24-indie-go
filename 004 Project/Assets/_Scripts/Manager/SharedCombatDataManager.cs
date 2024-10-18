@@ -10,8 +10,9 @@ public class SharedCombatDataManager : MonoBehaviour
 
     public bool IsPlayerHit { get; private set; }
 
-    public bool IsPlayerNotHitState { get;  set; }
+    public bool IsPlayerNotEnterHitState { get;  set; }
     public bool IsPlayerNotKnockback { get;  set; }
+    public Dictionary<Entity, bool> IsMonsterNotKnockbacks = new Dictionary<Entity, bool>();
 
     public Entity Attacker { get; private set; }
     public D_MeleeAttackState AttackStateData { get; private set; }

@@ -93,7 +93,6 @@ public class PlayerGroundedState : PlayerState
         }
         else if(!isGrounded)
         {
-            //player.InAirState.StartCoyoteTime();
             stateMachine.ChangeState(player.InAirState);
         }
         else if (GameManager.SharedCombatDataManager.IsPlayerHit && !isTouchingCeiling)

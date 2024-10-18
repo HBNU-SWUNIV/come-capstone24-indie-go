@@ -7,7 +7,7 @@ public class PlayerDataCollect
 {
     public Dictionary<string, int> actionData = new Dictionary<string, int>()
     {
-        { PlayerDataCollectName.ParryAttempt, 0 },
+        { PlayerDataCollectName.ParryAttempt, 30 },
         { PlayerDataCollectName.ParrySuccess, 0 },
         { PlayerDataCollectName.AttackAttempt, 0 },
         { PlayerDataCollectName.AttackSuccess, 0 },

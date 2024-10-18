@@ -30,7 +30,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     protected int fireLevel = 1;
     protected int iceLevel = 1;
     protected int landLevel = 1;
-    protected int lightningLevel = 1;
+    protected int lightLevel = 1;
     protected float baseAttackSpeed;
     protected float baseMoveSpeed;
 
@@ -39,13 +39,11 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     protected float moveSpeedModifier = 1f;   // 이동 속도에 대한 다른 효과의 배율
     protected float attackSpeedSlowMultiplier = 1f; // IceEffect의 누적 둔화 배율
     protected float moveSpeedSlowMultiplier = 1f;   // IceEffect의 누적 둔화 배율
-    protected float adjustStatsAttackSpeed = 1f;
-    protected float adjustStatsMoveSpeed = 1f;
+    protected float adjustStatsAttackSpeed = 1f;    // playerType에 따른 공격 속도 배율
+    protected float adjustStatsMoveSpeed = 1f;      // playerType에 따른 이동 속도 배율
 
     protected float effectAttackSpeed;
     protected float effectMoveSpeed;
-    protected float currentMoveSpeed;
-    protected float currentAttackSpeed;
     protected bool OnsetStats;
     public float TotalMoveSpeedMultiplier => moveSpeedModifier * moveSpeedSlowMultiplier;
 
@@ -54,15 +52,15 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     private ElementalComponent elementalComponent;
 
     private float basedamage;
-    
-  
-    protected virtual void Start()
+
+    protected virtual void Awake()
     {
         Element = Element.None;
-        elementalComponent = transform.parent.GetComponentInChildren<ElementalComponent>();
+
         animator = transform.root.GetComponent<Animator>();
+
+        elementalComponent = transform.parent.GetComponentInChildren<ElementalComponent>();
         OnsetStats = false;
-        //SetStat();
     }
 
     protected abstract void SetStat();
@@ -79,7 +77,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         basedamage = attackDamage;
         baseMoveSpeed = moveSpeed;
         baseAttackSpeed = attackSpeed;
-        UpdateAnimatorSpeed();
+       // UpdateAnimatorSpeed();
         OnsetStats = true;
     }
 
@@ -100,19 +98,23 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     public void IncreaseHealth(float amount)
     {
-        if(!IsHpMax(amount))
-            CurHp = Mathf.Clamp(CurHp + (int)amount, 0, maxHp);
+        if (!IsHpMax(amount))
+        {
+            int increace = (int)(amount * maxHp);
+            if (increace <= 0)
+                increace = 1;
+            CurHp = Mathf.Clamp(CurHp + increace, 0, maxHp);
+        }
     }
     public bool IsHpMax(float amount)
     {
-        if (CurHp + (int)amount > maxHp)
+        if (CurHp /*+ (int)(amount * maxHp)*/ >= maxHp)
             return true;
         return false;
     }
     public void ChangeDamage(float currentDamage)
     {
         attackDamage *= (1 + currentDamage);
-        Debug.Log($"증가된 데미지 : {attackDamage}" );
     }
     public void ReturnDamage()
     {
@@ -121,7 +123,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     private void UpdateAttackSpeed()
     {
-        Debug.Log($"baseAttackSpeed : {baseAttackSpeed}, attackSpeedModifier : {attackSpeedModifier}, adjustStatsAttackSpeed : {adjustStatsAttackSpeed}, attackSpeedSlowMultiplier : {attackSpeedSlowMultiplier}");
         attackSpeed = baseAttackSpeed * attackSpeedModifier * adjustStatsAttackSpeed * attackSpeedSlowMultiplier;
         UpdateAnimatorAttackSpeed();
     }
@@ -204,12 +205,9 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     }
     public void ReturnAttackSpeed()
     {
-        attackSpeed = baseAttackSpeed;
-        Debug.Log("aspeed" + baseAttackSpeed);
-
-        UpdateAnimatorAttackSpeed();
+        attackSpeedModifier = 1f;
+        UpdateAttackSpeed();
     }
-   
     public void ChangeElement(Element newElement, int level)
     {
         Element = newElement;
@@ -240,7 +238,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         {
             Debug.Log($"UpdateAnimatorMoveSpeed : {MoveSpeed}");
             animator.SetFloat("MoveSpeed", moveSpeed);
-            currentMoveSpeed = MoveSpeed;
         }
     }
     protected virtual void UpdateAnimatorAttackSpeed()
@@ -249,7 +246,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         {
             Debug.Log($"UpdateAnimatorAttackSpeed : {attackSpeed}");
             animator.SetFloat("AttackSpeed", attackSpeed);
-            currentAttackSpeed = attackSpeed;
         }
     }
 }

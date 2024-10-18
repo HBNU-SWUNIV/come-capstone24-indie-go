@@ -9,7 +9,7 @@ public class MoveState : MonsterState
 
     private Movement movement;
     private CollisionSenses collisionSenses;
-
+    protected CharacterStats<EnemyStatsData> enemyStats;
     protected D_MoveState stateData;
 
     protected bool isDetectingWall;
@@ -20,6 +20,8 @@ public class MoveState : MonsterState
     public MoveState(Entity entity, MonsterStateMachine stateMachine, string animBoolName, D_MoveState stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
+        enemyStats = entity.transform.GetComponentInChildren<EnemyStats>();
+
     }
     public override void DoChecks()
     {
@@ -46,7 +48,10 @@ public class MoveState : MonsterState
     {
         base.LogicUpdate();
 
-        Movement?.SetVelocityX(stateData.movementSpeed * Movement.FacingDirection);
+        Movement?.SetVelocityX(stateData.movementSpeed * Movement.FacingDirection * enemyStats.MoveSpeed);
+
+        if (entity.stunState.stun)
+            stateMachine.ChangeState(entity.stunState);
     }
 
     public override void PhysicsUpdate()

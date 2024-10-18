@@ -8,7 +8,7 @@ public enum Element
     Fire = 1,
     Ice = 2,
     Land = 3,
-    Lightning = 4
+    Light = 4
 }
 
 public enum ElementParticles
@@ -17,7 +17,7 @@ public enum ElementParticles
     Fire = 1,
     Ice = 2,
     Land = 3,
-    Lightning = 4,
+    Light = 4,
     FireDot = 5,
     FireBoom = 6,
     IcePassive = 7,
@@ -39,7 +39,7 @@ public class ElementalManager
                 { Element.Fire, 1.0f },
                 { Element.Ice, 1.0f },
                 { Element.Land, 1.0f },
-                { Element.Lightning, 1.0f }
+                { Element.Light, 1.0f }
             }
         },
         {
@@ -49,7 +49,7 @@ public class ElementalManager
                 { Element.Fire, 1.0f },
                 { Element.Ice, 1.25f },
                 { Element.Land, 0.5f },
-                { Element.Lightning, 1.0f }
+                { Element.Light, 1.0f }
             }
         },
         {
@@ -59,7 +59,7 @@ public class ElementalManager
                 { Element.Fire, 0.5f },
                 { Element.Ice, 1.0f },
                 { Element.Land, 1.0f },
-                { Element.Lightning, 1.25f }
+                { Element.Light, 1.25f }
             }
         },
         {
@@ -69,17 +69,17 @@ public class ElementalManager
                 { Element.Fire, 1.25f },
                 { Element.Ice, 1.0f },
                 { Element.Land, 1.0f },
-                { Element.Lightning, 0.5f }
+                { Element.Light, 0.5f }
             }
         },
         {
-            Element.Lightning, new Dictionary<Element, float>
+            Element.Light, new Dictionary<Element, float>
             {
                 { Element.None, 1.0f },
                 { Element.Fire, 1.0f },
                 { Element.Ice, 0.5f },
                 { Element.Land, 1.25f },
-                { Element.Lightning, 1.0f }
+                { Element.Light, 1.0f }
             }
         }
     };
@@ -90,7 +90,7 @@ public class ElementalManager
         { Element.Fire, new FireEffect() },
         { Element.Ice, new IceEffect() },
         { Element.Land, new LandEffect() },
-        { Element.Lightning, new LightningEffect() }
+        { Element.Light, new LightEffect() }
     };
 
     public float GetDamageMultiplier(Element attacker, Element defender)
@@ -142,15 +142,15 @@ public class ElementalManager
                 }
                 else if (effect is IceEffect iceEffect)
                 {
-                    iceEffect.UpdateEffectValues(levelData.Ice_slowEffect, levelData.Ice_duration);
+                    iceEffect.UpdateEffectValues(levelData.Ice_slowEffect, levelData.Ice_duration, levelData.Ice_healthRegenRate, levelData.Ice_maxSlowStacks);
                 }
                 else if (effect is LandEffect landEffect)
                 {
                     landEffect.UpdateEffectValues(levelData.Land_decreaseAttackSpeed, levelData.Land_increaseAttackDamage);
                 }
-                else if (effect is LightningEffect lightningEffect)
+                else if (effect is LightEffect lightEffect)
                 {
-                    lightningEffect.UpdateEffectValues(levelData.Lightning_stunDuration, 0); // 두 번째 값은 필요하지 않음
+                    lightEffect.UpdateEffectValues(levelData.Light_increaseAttackSpeed, levelData.Light_decreaseAttackDamage);
                 }
             }
         }

@@ -31,7 +31,6 @@ public class PlayerSkillState : PlayerAbilityState
         if (GameManager.SharedCombatDataManager.IsPlayerHit)
         {
             skill.ExitSkill();
-            stateMachine.ChangeState(player.HitState);
         }
     }
   

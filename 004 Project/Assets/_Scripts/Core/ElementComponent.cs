@@ -35,8 +35,9 @@ public class ElementalComponent : CoreComponent
 
     private void Start()
     {
+  //      RemovePassiveEffect();
         Element = stats.Element;
-        ApplyPassiveEffect();
+   //     ApplyPassiveEffect();
     }
 
     public void ChangeElement(Element newElement, int level)
@@ -137,7 +138,4 @@ public class ElementalComponent : CoreComponent
             currentEffect = null;
         }
     }
-
-
-   
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    private GameObject player;
+    public GameObject Player { get; private set; }
     private SkillSetup skillSetup;
 
     public PlayerDataCollect PlayerDataCollect { get; private set; }
@@ -16,20 +16,20 @@ public class PlayerManager : MonoBehaviour
 
     private void CreatePlayer()
     {
-        player = GameObject.Find("Player");
+        Player = GameObject.Find("Player");
 
-        if (player == null)
-            player = GameManager.Resource.Instantiate("Player");
+        if (Player == null)
+            Player = GameManager.Resource.Instantiate("Player");
 
 
         PlayerDataCollect = new PlayerDataCollect();
         DataAnalyze = new PlayerDataAnalyze();
-        Camera.main.gameObject.GetComponent<MainCameraController>().SetPlayer(player);
+        Camera.main.gameObject.GetComponent<MainCameraController>().SetPlayer(Player);
     }
 
     private void SetSkills()
     {
-        skillSetup = new SkillSetup(player);
+        skillSetup = new SkillSetup(Player);
     }
 
     public Skill GetCurrentSkill()

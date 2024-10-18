@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IceGenerator : SkillGenerator
 {
-    protected override void InitializeSkillComponents(Skill skill)
+    protected override void InitializeSkillComponents(Skill skill, SkillDataEx data)
     {
         // 예시: SkillMovement 컴포넌트 추가 및 초기화
         SkillMovementData movementData = skill.Data.GetData<SkillMovementData>();

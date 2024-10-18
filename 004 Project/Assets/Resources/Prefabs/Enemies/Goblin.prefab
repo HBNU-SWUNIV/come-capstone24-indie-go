@@ -184,7 +184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ff845ff92539f4a83e353466b07334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathParticles: []
+  deathParticles:
+  - {fileID: 5096148057906189823, guid: 4a122dcc68153794295f6953dd91521e, type: 3}
+  - {fileID: 1962614393226834858, guid: 3d13ef1f52d189642930444f906fc622, type: 3}
 --- !u!1 &737099674221770282
 GameObject:
   m_ObjectHideFlags: 0

@@ -171,34 +171,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2539855008845471692, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2539855008845471692, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 822514808}
-    - target: {fileID: 2539855008845471692, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2539855008845471692, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnGrabInput
-      objectReference: {fileID: 0}
-    - target: {fileID: 2539855008845471692, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerInputHandler, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2539855008845471692, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3635248461550499727, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3757475606936774453, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
+      propertyPath: deathParticles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757475606936774453, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
+      propertyPath: deathParticles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5096148057906189823, guid: 4a122dcc68153794295f6953dd91521e, type: 3}
+    - target: {fileID: 3757475606936774453, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
+      propertyPath: deathParticles.Array.data[1]
+      value: 
+      objectReference: {fileID: 1962614393226834858, guid: 3d13ef1f52d189642930444f906fc622, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -328,17 +316,86 @@ Transform:
   - {fileID: 1086855506}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &822514808 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 766619311859640211, guid: fddb5a3bdc2627f498166d59e85fe5f5, type: 3}
-  m_PrefabInstance: {fileID: 19010752}
+--- !u!1 &790973462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 790973464}
+  - component: {fileID: 790973463}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &790973463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790973462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20bbfd4322babbd42a53defa077430c9, type: 3}
+  m_Script: {fileID: 11500000, guid: b13e8831504a98f41b7b3be36af48cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterPrefabs:
+  - {fileID: 5782836539619579813, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
+  - {fileID: 737099674221770282, guid: 90ae1339c11689143b7cfc8d6b07f049, type: 3}
+  - {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
+  - {fileID: 4794542959853263490, guid: 8186d168b44422b4dae61380998db2e9, type: 3}
+--- !u!4 &790973464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790973462}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.05, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &939994723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 939994724}
+  m_Layer: 0
+  m_Name: DeathParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &939994724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939994723}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &940201204
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,50 +870,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1257953737
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1257953739}
-  - component: {fileID: 1257953738}
-  m_Layer: 0
-  m_Name: Arrows
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1257953738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257953737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03bdaa32d61d6a42a51377da9dc8f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1257953739
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257953737}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.308335, y: -0.7158006, z: -0.006967536}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1315579278
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1623,7 @@ PrefabInstance:
     - target: {fileID: 6789451293403659175, guid: 8186d168b44422b4dae61380998db2e9, type: 3}
       propertyPath: rangedProjectileParent
       value: 
-      objectReference: {fileID: 1257953739}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1691,12 +1704,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4045018937457765823, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: rangedProjectileParent
       value: 
-      objectReference: {fileID: 1257953739}
+      objectReference: {fileID: 0}
     - target: {fileID: 8999160401284285794, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.79
@@ -1752,8 +1765,9 @@ SceneRoots:
   - {fileID: 2090884688}
   - {fileID: 19010752}
   - {fileID: 380630401}
-  - {fileID: 1257953739}
   - {fileID: 6575330251611774003}
   - {fileID: 6826044530346582451}
   - {fileID: 656449400160792392}
   - {fileID: 6032189567401732966}
+  - {fileID: 790973464}
+  - {fileID: 939994724}

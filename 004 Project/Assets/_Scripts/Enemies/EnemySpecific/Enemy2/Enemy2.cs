@@ -9,7 +9,6 @@ public class Enemy2 : Entity
     public E2_PlayerDetectedState playerDetectedState { get; private set; }
     public E2_MeleeAttackState meleeAttackState { get; private set; }
     public E2_LookForPlayerState lookForPlayerState { get; private set; }
-    public E2_DeadState deadState { get; private set; }
     public E2_DodgeState dodgeState { get; private set; }
     public E2_RangedAttackState rangedAttackState { get; private set; }
 
@@ -25,8 +24,7 @@ public class Enemy2 : Entity
     private D_LookForPlayer lookForPlayerStateData;
     [SerializeField]
     private D_StunState stunStateData;
-    [SerializeField]
-    private D_DeadState deadStateData;
+
     [SerializeField]
     public D_DodgeState dodgeStateData;
     [SerializeField]
@@ -36,8 +34,6 @@ public class Enemy2 : Entity
   //  private Transform meleeAttackPosition;
     [SerializeField]
     private Transform rangedAttackPosition;
-    [SerializeField]
-    private Transform rangedProjectileParent;
     public override void Awake()
     {
         base.Awake();
@@ -48,14 +44,20 @@ public class Enemy2 : Entity
 
         lookForPlayerState = new E2_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
         stunState = new E2_StunState(this, stateMachine, "stun", stunStateData, this);
-        deadState = new E2_DeadState(this, stateMachine, "dead", deadStateData, this);
         dodgeState = new E2_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);
-        rangedAttackState = new E2_RangedAttackState(this, stateMachine, "rangedAttack", rangedAttackPosition, rangedProjectileParent, rangeAttackStateData, this);
+        rangedAttackState = new E2_RangedAttackState(this, stateMachine, "rangedAttack", rangedAttackPosition, rangeAttackStateData, this);
         meleeAttackState = new E2_MeleeAttackState(this, stateMachine, "meleeAttack", meleeAttackStateData, this);
+
+        maxParryStunStack = 5;
     }
 
     private void Start()
     {
-        stateMachine.Initialize(moveState);        
+        stateMachine.Initialize(moveState);
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        stateMachine.Initialize(idleState);
     }
 }

@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1332892630525560231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2406907288844794162}
+  - component: {fileID: 3450938248226623787}
+  - component: {fileID: 1355065929104814026}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2406907288844794162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332892630525560231}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.0351799, y: 3.870245, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3450938248226623787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332892630525560231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211adcb8b791c5e4b9f7313206f00707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1355065929104814026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332892630525560231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d41b010b621f44d90baa6349137a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  monster:
+  - {fileID: 5782836539619579813, guid: a2922faaf5400254eba14b1b0e86bd8e, type: 3}
+  - {fileID: 2079268821147475219, guid: 946ee181758b5f7418d2e10537f36b9d, type: 3}
+  - {fileID: 737099674221770282, guid: 90ae1339c11689143b7cfc8d6b07f049, type: 3}
+  spawn_list:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  portal: {fileID: 8342267307883996980, guid: d2e91d2813802ae478551df4ee348efb, type: 3}
+  Tilemap: {fileID: 0}
+  wall: {fileID: 11400000, guid: b26c323d1a9123f4cadbb1b9c7daf4c4, type: 2}
+  Floor: {fileID: 11400000, guid: 76c6150ed258900409cb351620ce6f6e, type: 2}
+  Side: {fileID: 11400000, guid: e101a0c4f404b414d906194aa830f23c, type: 2}
+  Corner: {fileID: 11400000, guid: ce236b589d827f448b0380a84d5d6142, type: 2}
+  Pillar: {fileID: 11400000, guid: 5896b6751c7b44c4aaa84de6bb2d6714, type: 2}
+  Ground: {fileID: 11400000, guid: b798ff690da1c174bb13e623a9c9e02d, type: 2}
+  Clear_Portal: {fileID: 11400000, guid: 13edc83b632e8074db2340675c76031d, type: 2}
+  road: {fileID: 11400000, guid: b798ff690da1c174bb13e623a9c9e02d, type: 2}
+  horizontal: 80
+  vertical: 80
+  is_spawn: 0
+  is_exit: 0
+  minimumDevideRate: 0.4
+  maximumDivideRate: 0.6

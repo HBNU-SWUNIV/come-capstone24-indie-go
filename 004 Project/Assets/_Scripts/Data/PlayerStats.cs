@@ -103,27 +103,35 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if(!transform.root.GetComponentInChildren<Skill>(true).gameObject.activeSelf)
+            if (!transform.root.GetComponentInChildren<Skill>(true).gameObject.activeSelf)
+            {
                 ChangeElement(Element.Fire, fireLevel);
-            Debug.Log("Player ChangeElement : Fire");
+                Debug.Log("Player ChangeElement : Fire");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (!transform.root.GetComponentInChildren<Skill>(true).gameObject.activeSelf)
+            {
                 ChangeElement(Element.Ice, iceLevel);
-            Debug.Log("Player ChangeElement : Ice");
+                Debug.Log("Player ChangeElement : Ice");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             if (!transform.root.GetComponentInChildren<Skill>(true).gameObject.activeSelf)
+            {
                 ChangeElement(Element.Land, landLevel);
-            Debug.Log("Player ChangeElement : Land");
+                Debug.Log("Player ChangeElement : Land");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             if (!transform.root.GetComponentInChildren<Skill>(true).gameObject.activeSelf)
+            {
                 ChangeElement(Element.Light, lightLevel);
-            Debug.Log("Player ChangeElement : Light");
+                Debug.Log("Player ChangeElement : Light");
+            }
         }
     }
 

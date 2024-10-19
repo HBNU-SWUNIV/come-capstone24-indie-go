@@ -25,18 +25,20 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
 
     private void OnDisable()
     {
-        Debug.Log("���� disable");
-        ItemDB.instance.Generate_Item(this.gameObject.transform.position);
-        // ���� ��� �� �÷��̾�� ����ġ �ο�
-        PlayerStats playerStats = GameManager.PlayerManager.Player.GetComponentInChildren<PlayerStats>();
-
-        if (playerStats != null)
+        if (isDead == true)
         {
-            playerStats.AddExp(Exp);
-        }
-        else
-            Debug.Log("playerStats is null");
+            Debug.Log("���� disable");
+            ItemDB.instance.Generate_Item(this.gameObject.transform.position);
+            // ���� ��� �� �÷��̾�� ����ġ �ο�
+            PlayerStats playerStats = GameManager.PlayerManager.Player.GetComponentInChildren<PlayerStats>();
 
+            if (playerStats != null)
+            {
+                playerStats.AddExp(Exp);
+            }
+            else
+                Debug.Log("playerStats is null");
+        }
     }
 
     private IEnumerator AdjustStatsBasedOnPlayerType()

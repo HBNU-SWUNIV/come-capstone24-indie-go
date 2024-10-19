@@ -80,7 +80,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         basedamage = attackDamage;
         baseMoveSpeed = moveSpeed;
         baseAttackSpeed = attackSpeed;
-       // UpdateAnimatorSpeed();
+
         OnsetStats = true;
     }
 

@@ -17,14 +17,18 @@ public class Spawn_Ctrl : MonoBehaviour
                 
                 if (obj.activeSelf)
                 {
-                    Element playerElement = other.GetComponentInChildren<PlayerStats>().Element;
-
-
                     // 몬스터의 속성 설정
                     EnemyStats enemyStats = obj.GetComponentInChildren<EnemyStats>();
 
                     if (enemyStats != null)
-                        enemyStats.ChangeElement(ElementRelations.GetRandomElementBasedOnPlayer(playerElement), Random.Range(1, 4));
+                    {
+                        var playerStats = other.GetComponentInChildren<PlayerStats>();
+                        var (monsterElement, elementLevel) = ElementRelations.GenerateMonsterElementAndLevel(playerStats.Element, playerStats.Level);
+
+                        // 몬스터 생성 시 속성과 속성 레벨 설정
+                        enemyStats.ChangeElement(monsterElement, elementLevel);
+
+                    }
                 }
             }
         }

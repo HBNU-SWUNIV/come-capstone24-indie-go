@@ -2145,24 +2145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldItemPrefab: {fileID: 66151301389416839, guid: d4d889063912e574790c4e80002fbbf4, type: 3}
-  pos:
-  - {x: 1, y: 1, z: 1}
-  - {x: 2, y: 2, z: 2}
-  - {x: 3, y: 3, z: 3}
-  - {x: 4, y: 3, z: 3}
-  - {x: 5, y: 2, z: 2}
-  - {x: 6, y: 1, z: 1}
-  - {x: 12, y: 1, z: 1}
-  - {x: 13, y: 1, z: 1}
-  - {x: 14, y: 1, z: 1}
-  - {x: 15, y: 1, z: 1}
-  - {x: 16, y: 1, z: 1}
-  - {x: 17, y: 1, z: 1}
-  - {x: 18, y: 1, z: 1}
-  - {x: 19, y: 1, z: 1}
-  - {x: 20, y: 1, z: 1}
-  - {x: 21, y: 1, z: 1}
-  - {x: 6, y: 2, z: 1}
   itemDB:
   - Type: 0
     itemName: axe

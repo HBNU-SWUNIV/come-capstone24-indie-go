@@ -17,7 +17,6 @@ public class FieldItem : MonoBehaviour
     }
     public Item GetItem()
     {
-        
         return item;
     }
     public void DestroyItem()

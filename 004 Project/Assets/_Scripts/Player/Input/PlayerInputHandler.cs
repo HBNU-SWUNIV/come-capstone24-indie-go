@@ -52,11 +52,13 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnPrimaryAttackInput(InputAction.CallbackContext context)
     {
-        if (context.started)
-            AttackInputs[(int)CombatInputs.primary] = true;
-
+        if(!InventoryUI.instance.activeInventory)
+        {
+            if (context.started)
+                AttackInputs[(int)CombatInputs.primary] = true;
+        }
         if (context.canceled)
-            AttackInputs[(int)CombatInputs.primary] = false;
+                AttackInputs[(int)CombatInputs.primary] = false;
     }
     public void OnSecondaryAttackInput(InputAction.CallbackContext context)
     {

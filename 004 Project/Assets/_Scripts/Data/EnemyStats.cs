@@ -19,14 +19,15 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
     private void OnEnable()
     {
         InitializeMonsterStats();
-        // ÇÃ·¹ÀÌ¾î Å¸ÀÔ¿¡ µû¸¥ ½ºÅÈ Á¶Á¤        
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½        
         StartCoroutine("AdjustStatsBasedOnPlayerType");
     }
 
     private void OnDisable()
     {
-        Debug.Log("¸ó½ºÅÍ disable");
-        // ¸ó½ºÅÍ »ç¸Á ½Ã ÇÃ·¹ÀÌ¾î¿¡°Ô °æÇèÄ¡ ºÎ¿©
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ disable");
+        ItemDB.instance.Generate_Item(this.gameObject.transform.position);
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½Î¿ï¿½
         PlayerStats playerStats = GameManager.PlayerManager.Player.GetComponentInChildren<PlayerStats>();
 
         if (playerStats != null)
@@ -46,7 +47,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
                 break;
             yield return null;
         }
-        // ½ºÅÈÀ» ±âº» °ªÀ¸·Î ¸®¼Â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         ResetStatsToBaseValues();
         GameManager.PlayerManager.DataAnalyze.AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
         string playerType = GameManager.PlayerManager.DataAnalyze.playerType;
@@ -55,32 +56,32 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         {
             case "High_parry":
             case "parry":
-                // ÇÃ·¹ÀÌ¾î°¡ ÆÐ¸µÀ» ¼±È£ÇÏ´Â °æ¿ì, ¸ó½ºÅÍ´Â ´õ °ø°ÝÀûÀ¸·Î Çàµ¿
-                SetAdjustStatsAttackSpeed(1.2f); // °ø°Ý ¼Óµµ 20% Áõ°¡
-                SetAdjustStatsMoveSpeed(1.1f);   // ÀÌµ¿ ¼Óµµ 10% Áõ°¡
+                // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ð¸ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½àµ¿
+                SetAdjustStatsAttackSpeed(1.2f); // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ 20% ï¿½ï¿½ï¿½ï¿½
+                SetAdjustStatsMoveSpeed(1.1f);   // ï¿½Ìµï¿½ ï¿½Óµï¿½ 10% ï¿½ï¿½ï¿½ï¿½
                 break;
 
             case "High_dash":
             case "dash":
-                // ÇÃ·¹ÀÌ¾î°¡ È¸ÇÇ¸¦ ¼±È£ÇÏ´Â °æ¿ì, ¸ó½ºÅÍ´Â ÃßÀû ´É·Â Çâ»ó
-                SetAdjustStatsAttackSpeed(0.8f); // °ø°Ý ¼Óµµ 10% °¨¼Ò
-                SetAdjustStatsMoveSpeed(1.4f);   // ÀÌµ¿ ¼Óµµ 30% Áõ°¡
+                // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ È¸ï¿½Ç¸ï¿½ ï¿½ï¿½È£ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½
+                SetAdjustStatsAttackSpeed(0.8f); // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ 10% ï¿½ï¿½ï¿½ï¿½
+                SetAdjustStatsMoveSpeed(1.4f);   // ï¿½Ìµï¿½ ï¿½Óµï¿½ 30% ï¿½ï¿½ï¿½ï¿½
                 break;
 
             case "High_run":
             case "run":
-                // ÇÃ·¹ÀÌ¾î°¡ µµ¸ÁÀ» ¼±È£ÇÏ´Â °æ¿ì, ¸ó½ºÅÍ´Â ¿ø°Å¸® °ø°ÝÀ» ´õ ÀÚÁÖ »ç¿ë
-                SetAdjustStatsAttackSpeed(0.8f); // °ø°Ý ¼Óµµ 20% °¨¼Ò
-                SetAdjustStatsMoveSpeed(1.2F);   // ÀÌµ¿ ¼Óµµ 20% Áõ°¡
+                // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+                SetAdjustStatsAttackSpeed(0.8f); // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ 20% ï¿½ï¿½ï¿½ï¿½
+                SetAdjustStatsMoveSpeed(1.2F);   // ï¿½Ìµï¿½ ï¿½Óµï¿½ 20% ï¿½ï¿½ï¿½ï¿½
                 break;
 
             default:
-                //ÀÓ½Ã
-                SetAdjustStatsAttackSpeed(0.8f); // °ø°Ý ¼Óµµ 20% °¨¼Ò
-                SetAdjustStatsMoveSpeed(1.2F);   // ÀÌµ¿ ¼Óµµ 20% Áõ°¡
+                //ï¿½Ó½ï¿½
+                SetAdjustStatsAttackSpeed(0.8f); // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ 20% ï¿½ï¿½ï¿½ï¿½
+                SetAdjustStatsMoveSpeed(1.2F);   // ï¿½Ìµï¿½ ï¿½Óµï¿½ 20% ï¿½ï¿½ï¿½ï¿½
                 break;
         }
-      //  Debug.Log($" playerType : {playerType} ¿¡ ÇØ´çÇÏ´Â °ªÀ¸·Î º¯°æ");
+      //  Debug.Log($" playerType : {playerType} ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
        // UpdateAnimatorSpeed();
     }
 
@@ -93,7 +94,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
 
     protected override void SetStat()
     {
-        // id¿¡ ¸Â´Â µ¥ÀÌÅÍ °Ë»ö
+        // idï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         if (GameManager.Data.EnemyStatsDict.TryGetValue(id, out var stats))
         {
             SetStatsData(stats);

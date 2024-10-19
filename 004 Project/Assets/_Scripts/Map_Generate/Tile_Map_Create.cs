@@ -295,9 +295,10 @@ public class Tile_Map_Create : MonoBehaviour
         }
         if(map_count%4 == 3) 
         {
+            Debug.Log(map_count);
             spawn_list[map_count/4].start = temp_spawn;
             spawn_list[map_count/4].end = spawn_count;
-            Debug.Log(temp_spawn+ " " + spawn_count + " " + spawn_list[map_count/4].start + " " + spawn_list[map_count/4].end);
+            // Debug.Log(temp_spawn+ " " + spawn_count + " " + spawn_list[map_count/4].start + " " + spawn_list[map_count/4].end);
         }
         map_count++;
         position_count++;
@@ -519,6 +520,7 @@ public class Tile_Map_Create : MonoBehaviour
         is_exit = false;
         is_spawn=false;
         position_count = 0;
-        
+        map_count = 0;
+        temp_spawn = 0;
     }
 }

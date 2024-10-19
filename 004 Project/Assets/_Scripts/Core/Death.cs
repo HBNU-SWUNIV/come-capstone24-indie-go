@@ -31,6 +31,8 @@ public class Death : CoreComponent
         {
             ParticleManager.StartParticles(particles, deathParticleParent);
         }
+
+        transform.root.GetComponentInChildren<ICharacterStats>().isDead = true;
         core.transform.parent.gameObject.SetActive(false);
     }
     private void OnEnable()

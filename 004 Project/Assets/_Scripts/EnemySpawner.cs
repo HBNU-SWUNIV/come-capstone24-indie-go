@@ -107,6 +107,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject monsterPrefab = monsterPrefabs[selectedMonsterIndex];
         GameObject monsterInstance = Instantiate(monsterPrefab, transform.position, Quaternion.identity);
 
+        monsterInstance.SetActive(true);
         // 몬스터의 속성 설정
         EnemyStats enemyStats = monsterInstance.GetComponentInChildren<EnemyStats>();
            if (enemyStats != null)
@@ -119,8 +120,8 @@ public class EnemySpawner : MonoBehaviour
                Debug.LogError("EnemyStats component not found on the monster prefab.");
            }
 
-        //selectedMonsterIndex = 5;
-        //selectedElement = Element.None;
-        //selectedElementLevel = 1;
+        selectedMonsterIndex = 5;
+        selectedElement = Element.None;
+        selectedElementLevel = 1;
     }
 }

@@ -11,9 +11,12 @@ public class ObjectPool : MonoBehaviour
     public int poolSize = 350;         // 초기 풀 크기
     private Queue<GameObject> objectPool = new Queue<GameObject>();  // 오브젝트 풀
 
-    private void Start()
+    private void Awake()
     {
-        // 싱글톤 패턴 적용
+
+    }
+    private void Start()
+    {        // 싱글톤 패턴 적용
         if (instance == null)
         {
             instance = this;
@@ -137,7 +140,7 @@ public static class ElementRelations
         }
     };
 
-    public static List<Element> GetOppositeElements(Element playerElement)
+    private static List<Element> GetOppositeElements(Element playerElement)
     {
         List<Element> oppositeElements = new List<Element>();
         var multipliers = damageMultiplier[playerElement];
@@ -164,14 +167,14 @@ public static class ElementRelations
         return advantageousElements;
     }
 
-    public static Element GetRandomElementBasedOnPlayer(Element playerElement)
+    private static Element GetRandomElementBasedOnPlayer(Element playerElement)
     {
-        float randomValue = UnityEngine.Random.Range(0f, 100f);
+        float randomValue = Random.Range(0f, 100f);
 
         if (randomValue < 40f)
         {
             // 40% 확률로 반대되는 속성 선택
-            var oppositeElements = ElementRelations.GetOppositeElements(playerElement);
+            var oppositeElements = GetOppositeElements(playerElement);
             if (oppositeElements.Count > 0)
             {
                 int index = UnityEngine.Random.Range(0, oppositeElements.Count);
@@ -191,7 +194,7 @@ public static class ElementRelations
         else
         {
             // 나머지 30% 확률로 유리한 속성 선택
-            var advantageousElements = ElementRelations.GetAdvantageousElements(playerElement);
+            var advantageousElements = GetAdvantageousElements(playerElement);
             if (advantageousElements.Count > 0)
             {
                 int index = UnityEngine.Random.Range(0, advantageousElements.Count);
@@ -204,4 +207,35 @@ public static class ElementRelations
             }
         }
     }
+    // 플레이어 레벨에 따른 속성 레벨 결정
+    private static int GetElementLevelBasedOnPlayerLevel(int playerLevel)
+    {
+        if (playerLevel >= 1 && playerLevel <= 3)
+        {
+            return 1; // 플레이어 레벨 1~3 -> 속성 레벨 1
+        }
+        else if (playerLevel >= 4 && playerLevel <= 6)
+        {
+            return 2; // 플레이어 레벨 4~6 -> 속성 레벨 2
+        }
+        else if (playerLevel >= 7 && playerLevel <= 9)
+        {
+            return 3; // 플레이어 레벨 7~9 -> 속성 레벨 3
+        }
+        else
+        {
+            Debug.LogWarning("잘못된 플레이어 레벨입니다. 기본 값으로 속성 레벨 1을 반환합니다.");
+            return 1;
+        }
+    }
+
+    // 몬스터 속성을 생성할 때 사용: 플레이어의 레벨과 속성을 기반으로 속성 및 레벨 결정
+    public static (Element, int) GenerateMonsterElementAndLevel(Element playerElement, int playerLevel)
+    {
+        Element monsterElement = GetRandomElementBasedOnPlayer(playerElement);
+        int elementLevel = GetElementLevelBasedOnPlayerLevel(playerLevel);
+
+        return (monsterElement, elementLevel);
+    }
+
 }

@@ -26,6 +26,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     public float Defense { get => defense; set => defense = value; }
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
 
+
     // 각 속성의 레벨을 저장할 변수들
     protected int fireLevel = 1;
     protected int iceLevel = 1;
@@ -46,6 +47,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     protected float effectMoveSpeed;
     protected bool OnsetStats;
     public float TotalMoveSpeedMultiplier => moveSpeedModifier * moveSpeedSlowMultiplier;
+    public bool isDead { get; set; }
 
     public Element Element { get => element; set => element = value; }
 
@@ -78,7 +80,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         basedamage = attackDamage;
         baseMoveSpeed = moveSpeed;
         baseAttackSpeed = attackSpeed;
-       // UpdateAnimatorSpeed();
+
         OnsetStats = true;
     }
 

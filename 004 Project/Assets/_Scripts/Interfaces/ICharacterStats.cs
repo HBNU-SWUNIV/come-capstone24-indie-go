@@ -9,6 +9,7 @@ public interface ICharacterStats
     float AttackSpeed { get; set; }
     float Defense { get; set; }
     float MoveSpeed { get; set; }
+    bool isDead { get; set; }
     Element Element { get; set; }
     
     bool DecreaseHealth(float amount);

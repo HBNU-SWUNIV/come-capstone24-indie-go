@@ -302,6 +302,7 @@ public class Tile_Map_Create : MonoBehaviour
         }
         map_count++;
         position_count++;
+
     }
 
 

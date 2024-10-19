@@ -57,7 +57,7 @@ public class SkillManager
     {
         if (skillDataDict.TryGetValue(newSkillName, out var skillData) && initializers.TryGetValue(newSkillName, out var initializer))
         {
-            Debug.Log("newSkillName : " +newSkillName);
+        //    Debug.Log("newSkillName : " +newSkillName);
             // 기존 이벤트 해제
             if (currentSkill != null && initializers.TryGetValue(currentSkillName, out var currentInitializer))
             {

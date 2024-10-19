@@ -61,7 +61,6 @@ public class SkillComponent<T> : SkillComponent where T : SkillData
             currentSkillData = data.GetData<T>();
             return;
         }
-        Debug.Log($"skill.Data.GetData<T>() : {skill.Data.GetData<T>()}");
         currentSkillData = skill.Data.GetData<T>();
     }
 }

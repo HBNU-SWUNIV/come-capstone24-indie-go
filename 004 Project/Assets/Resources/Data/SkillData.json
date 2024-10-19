@@ -73,7 +73,7 @@
       "key": "LightSkill",
       "value": {
         "damageData": {
-          "Damage": 3,
+          "Damage": 1.5,
           "knockbackAngle": {
             "x": 1,
             "y": 1
@@ -89,10 +89,9 @@
           "Velocity": 10
         },
         "lightData": {
-          "ThrowSpeed": 14,
+          "ThrowSpeed": 10,
           "ThrowDistance": 7
         },
-        "explosionData": null
       }
     },
   ]

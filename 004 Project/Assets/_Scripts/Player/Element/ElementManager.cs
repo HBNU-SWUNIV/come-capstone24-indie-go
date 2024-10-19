@@ -140,19 +140,19 @@ public class ElementalManager
             {
                 if (effect is FireEffect fireEffect)
                 {
-                    fireEffect.UpdateEffectValues(levelData.Fire_dotDamage, levelData.Fire_duration, levelData.Fire_maxStacks);
+                    fireEffect.UpdateEffectValues(levelData.Fire_dotDamage, levelData.Fire_duration, levelData.Fire_maxStacks, level);
                 }
                 else if (effect is IceEffect iceEffect)
                 {
-                    iceEffect.UpdateEffectValues(levelData.Ice_slowEffect, levelData.Ice_duration, levelData.Ice_healthRegenRate, levelData.Ice_maxSlowStacks);
+                    iceEffect.UpdateEffectValues(levelData.Ice_slowEffect, levelData.Ice_duration, levelData.Ice_healthRegenRate, levelData.Ice_maxSlowStacks, level);
                 }
                 else if (effect is LandEffect landEffect)
                 {
-                    landEffect.UpdateEffectValues(levelData.Land_decreaseAttackSpeed, levelData.Land_increaseAttackDamage);
+                    landEffect.UpdateEffectValues(levelData.Land_decreaseAttackSpeed, levelData.Land_increaseAttackDamage, level);
                 }
                 else if (effect is LightEffect lightEffect)
                 {
-                    lightEffect.UpdateEffectValues(levelData.Light_increaseAttackSpeed, levelData.Light_decreaseAttackDamage);
+                    lightEffect.UpdateEffectValues(levelData.Light_increaseAttackSpeed, levelData.Light_decreaseAttackDamage, level);
                 }
             }
         }

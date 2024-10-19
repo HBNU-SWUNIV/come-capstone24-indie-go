@@ -9,7 +9,6 @@ public class NoneEffect : IElementalEffect
     }
 
 
-
     public float CalculateDamage(float baseDamage, float attackerAttackStat)
     {
         return baseDamage;
@@ -32,7 +31,8 @@ public class FireEffect : IElementalEffect
     private float dotDamage;
     private float duration;
     private int maxStacks;
-    private float cooldown = 5.0f;
+
+    private int level;
     // 타겟별 데이터를 저장하기 위한 딕셔너리
     private Dictionary<ElementalComponent, int> currentStacks = new Dictionary<ElementalComponent, int>();
     private Dictionary<ElementalComponent, Coroutine> dotCoroutines = new Dictionary<ElementalComponent, Coroutine>();
@@ -73,8 +73,9 @@ public class FireEffect : IElementalEffect
         }
     }
 
-    public void UpdateEffectValues(float newDotDamage, float newDuration, int newMaxStacks)
+    public void UpdateEffectValues(float newDotDamage, float newDuration, int newMaxStacks, int level)
     {
+        this.level = level;
   //      Debug.Log($"업데이트 전 dotDamage : {dotDamage}");
   //      Debug.Log($"업데이트 전 duration : {duration}");
   //      Debug.Log($"업데이트 전 maxStacks : {maxStacks}");
@@ -134,7 +135,7 @@ public class IceEffect : IElementalEffect
     private float healthRegenRate;
     private float stunTime = 3.0f;
     private float cooldown = 5.0f;
-
+    private int level;
     // 타겟별 데이터를 저장하기 위한 딕셔너리
     private Dictionary<ElementalComponent, int> currentSlowStacks = new Dictionary<ElementalComponent, int>();
     private Dictionary<ElementalComponent, Coroutine> slowCoroutines = new Dictionary<ElementalComponent, Coroutine>();
@@ -243,8 +244,9 @@ public class IceEffect : IElementalEffect
         }
     }
 
-    public void UpdateEffectValues(float newSlowEffect, float newDuration, float newHealthRegenRate, int newMaxSlowStacks)
+    public void UpdateEffectValues(float newSlowEffect, float newDuration, float newHealthRegenRate, int newMaxSlowStacks, int level)
     {
+        this.level = level;
    //     Debug.Log($"업데이트 전 slowEffect : {slowEffect}");
         slowEffect = newSlowEffect;
         duration = newDuration;
@@ -342,15 +344,15 @@ public class LandEffect : IElementalEffect
 {
     private float decreaseAttackSpeed;
     private float increaseAttackDamage;
-    private float cooldown = 5.0f;
-
+    private int level;
     public void ApplyEffect(ElementalComponent attackerComponent, ElementalComponent defenderComponent, float attackerAttackStat)
     {
         // LandEffect는 직접적인 ApplyEffect를 가지지 않음
     }
 
-    public void UpdateEffectValues(float newDecreaseAttackSpeed, float newIncreaseAttackDamage)
+    public void UpdateEffectValues(float newDecreaseAttackSpeed, float newIncreaseAttackDamage, int level)
     {
+        this.level = level;
   //      Debug.Log($"업데이트 전 decreaseAttackSpeed : {decreaseAttackSpeed}");
  //       Debug.Log($"업데이트 전 increaseAttackDamage : {increaseAttackDamage}");
 
@@ -394,17 +396,16 @@ public class LightEffect : IElementalEffect
 {
     private float increaseAttackSpeed;
     private float decreaseAttackDamage;
-
-    private float cooldown = 5.0f;
-
+    private int level;
     public void ApplyEffect(ElementalComponent targetComponent, ElementalComponent selfComponent, float attackerAttackStat)
     {
         // LightEffect 직접적인 ApplyEffect를 가지지 않음
 
     }
 
-    public void UpdateEffectValues(float newIncreaseAttackSpeed, float newDecreaseAttackDamage)
+    public void UpdateEffectValues(float newIncreaseAttackSpeed, float newDecreaseAttackDamage, int level)
     {
+        this.level = level;
         increaseAttackSpeed = newIncreaseAttackSpeed;
         decreaseAttackDamage = newDecreaseAttackDamage;
     }

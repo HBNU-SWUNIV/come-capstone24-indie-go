@@ -11,9 +11,12 @@ public class ObjectPool : MonoBehaviour
     public int poolSize = 350;         // 초기 풀 크기
     private Queue<GameObject> objectPool = new Queue<GameObject>();  // 오브젝트 풀
 
-    private void Start()
+    private void Awake()
     {
-        // 싱글톤 패턴 적용
+
+    }
+    private void Start()
+    {        // 싱글톤 패턴 적용
         if (instance == null)
         {
             instance = this;

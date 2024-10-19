@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InventoryUI : MonoBehaviour
 {
     public static InventoryUI instance;
     public GameObject inventoryPanel;
     public List<Slot> slots = new List<Slot>();
-    bool activeInventory = false;
+    public bool activeInventory = false;
     void Awake()
     {
         instance = this;
@@ -25,6 +26,10 @@ public class InventoryUI : MonoBehaviour
             activeInventory = !activeInventory;
             Check_Inventory();
             inventoryPanel.SetActive(activeInventory);
+        }
+        if(EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Clicked on the UI");
         }
     }
     public void Check_Inventory()

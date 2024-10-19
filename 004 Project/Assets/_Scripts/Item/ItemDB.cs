@@ -6,7 +6,6 @@ public class ItemDB : MonoBehaviour
 {
     public static ItemDB instance;
     public GameObject fieldItemPrefab;
-    public Vector3[] pos;
     public List<Item> itemDB = new List<Item>();
     void Awake()
     {
@@ -15,5 +14,10 @@ public class ItemDB : MonoBehaviour
     public void Start()
     {
         
+    }
+    public void Generate_Item(Vector3 pos)
+    {
+        GameObject go  = Instantiate(fieldItemPrefab,pos,Quaternion.identity);
+        go.GetComponent<FieldItem>().SetItem(itemDB[Random.Range(0,itemDB.Count)]);
     }
 }

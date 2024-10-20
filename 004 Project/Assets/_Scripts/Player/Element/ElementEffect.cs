@@ -16,6 +16,7 @@ public class NoneEffect : IElementalEffect
 
     public void ApplyPassiveEffect(ElementalComponent component)
     {
+
     }
     public void RemovePassiveEffect(ElementalComponent component)
     {
@@ -24,6 +25,11 @@ public class NoneEffect : IElementalEffect
     public void UpdateEffectValues(float value1, float value2)
     {
 
+    }
+
+    public float GetColorAlpha()
+    {
+        return -1;
     }
 }
 public class FireEffect : IElementalEffect
@@ -120,9 +126,35 @@ public class FireEffect : IElementalEffect
 
     public void ApplyPassiveEffect(ElementalComponent component)
     {
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, GetColorAlpha());
+
+
     }
     public void RemovePassiveEffect(ElementalComponent component)
     {
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    public float GetColorAlpha()
+    {
+        float alpha;
+        switch (level)
+        {
+            case 1:
+                alpha = 0.325f;
+                break;
+            case 2:
+                alpha = 0.717f;
+                break;
+            case 3:
+                alpha = 1f;
+                break;
+            default:
+                alpha = 1f;
+                break;
+        }
+
+        return alpha;
     }
 }
 
@@ -315,6 +347,7 @@ public class IceEffect : IElementalEffect
         {
             regenCoroutines[component] = component.StartEffectCoroutine(HealthRegenCoroutine(component));
         }
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, GetColorAlpha());
     }
 
     public void RemovePassiveEffect(ElementalComponent component)
@@ -324,6 +357,7 @@ public class IceEffect : IElementalEffect
             component.StopEffectCoroutine(regenCoroutines[component]);
             regenCoroutines.Remove(component);
         }
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     private IEnumerator HealthRegenCoroutine(ElementalComponent component)
@@ -336,6 +370,27 @@ public class IceEffect : IElementalEffect
             stats.IncreaseHealth(healthRegenRate);
             yield return new WaitForSeconds(1f);
         }
+    }
+    public float GetColorAlpha()
+    {
+        float alpha;
+        switch (level)
+        {
+            case 1:
+                alpha = 0.325f;
+                break;
+            case 2:
+                alpha = 0.717f;
+                break;
+            case 3:
+                alpha = 1f;
+                break;
+            default:
+                alpha = 1f;
+                break;
+        }
+
+        return alpha;
     }
 }
 
@@ -375,6 +430,7 @@ public class LandEffect : IElementalEffect
             stats.ModifyAttackSpeed(1 - decreaseAttackSpeed);
             stats.ChangeDamage(increaseAttackDamage);
         }
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = new Color(0.82f, 0.41f, 0.12f, GetColorAlpha());
     }
 
     public void RemovePassiveEffect(ElementalComponent component)
@@ -386,8 +442,29 @@ public class LandEffect : IElementalEffect
             stats.ReturnAttackSpeed();
             stats.ReturnDamage();
         }
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = Color.white;
     }
+    public float GetColorAlpha()
+    {
+        float alpha;
+        switch (level)
+        {
+            case 1:
+                alpha = 0.325f;
+                break;
+            case 2:
+                alpha = 0.717f;
+                break;
+            case 3:
+                alpha = 1f;
+                break;
+            default:
+                alpha = 1f;
+                break;
+        }
 
+        return alpha;
+    }
 
 }
 
@@ -423,6 +500,7 @@ public class LightEffect : IElementalEffect
             stats.ModifyAttackSpeed(1 + increaseAttackSpeed);
             stats.ChangeDamage(-decreaseAttackDamage);
         }
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = new Color(1, 1, 0, GetColorAlpha());
     }
 
     public void RemovePassiveEffect(ElementalComponent component)
@@ -433,5 +511,28 @@ public class LightEffect : IElementalEffect
             stats.ReturnAttackSpeed();
             stats.ReturnDamage();
         }
+        component.transform.root.Find("ShowElement").GetComponent<SpriteRenderer>().color = Color.white;
+
+    }
+    public float GetColorAlpha()
+    {
+        float alpha;
+        switch (level)
+        {
+            case 1:
+                alpha = 0.325f;
+                break;
+            case 2:
+                alpha = 0.717f;
+                break;
+            case 3:
+                alpha = 1f;
+                break;
+            default:
+                alpha = 1f;
+                break;
+        }
+
+        return alpha;
     }
 }

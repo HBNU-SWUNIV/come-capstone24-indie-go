@@ -7,4 +7,6 @@ public interface IElementalEffect
     //void UpdateEffectValues(float value1, float value2); // Ãß°¡
     void ApplyPassiveEffect(ElementalComponent component);
     void RemovePassiveEffect(ElementalComponent component);
+
+    float GetColorAlpha();
 }

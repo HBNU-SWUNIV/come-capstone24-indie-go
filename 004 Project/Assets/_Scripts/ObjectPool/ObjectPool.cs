@@ -9,11 +9,11 @@ public class ObjectPool : MonoBehaviour
     public List<GameObject> objectPrefab;   // 풀링할 오브젝트의 프리팹
     public List<GameObject> monster;
     public int poolSize = 350;         // 초기 풀 크기
-    private Queue<GameObject> objectPool = new Queue<GameObject>();  // 오브젝트 풀
+    public Queue<GameObject> objectPool = new Queue<GameObject>();  // 오브젝트 풀
 
     private void Awake()
     {
-
+        
     }
     private void Start()
     {        // 싱글톤 패턴 적용
@@ -26,8 +26,7 @@ public class ObjectPool : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        int rand = Random.Range(0, objectPrefab.Count);
-        GameObject obj = Instantiate(objectPrefab[rand]);
+        
         // 풀 초기화
         InitializePool();
     }
@@ -53,9 +52,6 @@ public class ObjectPool : MonoBehaviour
             GameObject obj = objectPool.Dequeue();
             monster.Add(obj);
             obj.transform.position = pos;
-
-            
-
             // obj.SetActive(true);
             return obj;
         }
@@ -71,15 +67,21 @@ public class ObjectPool : MonoBehaviour
             return obj;
         }
     }
-    public void Active_Monster(int start, int end)
-    {
-
-    }
     // 오브젝트 풀에 반환하기
     public void ReturnObjectToPool(GameObject obj)
     {
         obj.SetActive(false);
         objectPool.Enqueue(obj);
+    }
+    public void Reset_Monster()
+    {
+        for(int i = 0 ; i < monster.Count;i++)
+        {
+            Destroy(monster[i]);
+        }
+        monster.Clear();
+        objectPool.Clear();
+        InitializePool();
     }
 }
 

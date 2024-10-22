@@ -5,11 +5,15 @@ using UnityEngine;
 public class Spawn_Ctrl : MonoBehaviour
 {
     public int start,end = 0;
-    void OnTriggerEnter2D(Collider2D other)
+    public bool isTrigger;
+
+
+    void OnTriggerStay2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Player") && isTrigger == false)
         {
-            for(int i = start;i<end;i++)
+            isTrigger = true;
+            for (int i = start;i<end;i++)
             {
                 GameObject obj = ObjectPool.instance.monster[i];
                 if (!obj.GetComponentInChildren<ICharacterStats>().isDead)

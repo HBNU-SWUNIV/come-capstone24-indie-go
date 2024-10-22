@@ -86,7 +86,6 @@ public class LandAttackState : SkillState
     public override void Enter()
     {
         base.Enter();
-
         skill.EventHandler.OnStateFinish += EventHandler;
 
         int facingDirection = skillMovement.GetFacingDirection();

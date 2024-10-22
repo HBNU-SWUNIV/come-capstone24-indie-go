@@ -6,11 +6,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
-
+using UnityEngine.UI;
 
 public class Tile_Map_Create : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    [SerializeField] private Text debugText;
     public List<GameObject> monster;
     public List<Spawn_Ctrl> spawn_list;
     public GameObject portal;
@@ -50,6 +51,7 @@ public class Tile_Map_Create : MonoBehaviour
     void Start()
     {
         Tilemap.ClearAllTiles();
+        player = GameManager.PlayerManager.Player;
     }
     public void Tile_Node(Map_Node root)
     {
@@ -239,6 +241,10 @@ public class Tile_Map_Create : MonoBehaviour
                     {
                         is_spawn = !is_spawn;
                         monster_spawn =true;
+                        if (player == null)
+                        {
+                            player = GameManager.PlayerManager.Player;
+                        }
                         player.transform.position = new Vector3(80 * (position_count / 4) + i + 4, -altitude3+3, 1);
                     }
                     else if (parent.map_type == Map_Node.Map_type.Exit && !is_exit)

@@ -36,6 +36,8 @@ public class Skill : MonoBehaviour
         EventHandler = BaseGameObject.GetComponent<SkillAnimEventHandler>();
         StateMachine = new SkillStateMachine();
     }
+
+    
     private void Start()
     {
         gameObject.SetActive(false);
@@ -82,6 +84,8 @@ public class Skill : MonoBehaviour
     }
     private void OnDisable()
     {
+        if(isSkillActive)
+            ExitSkill();
         EventHandler.OnFinish -= ExitSkill;
     }
 

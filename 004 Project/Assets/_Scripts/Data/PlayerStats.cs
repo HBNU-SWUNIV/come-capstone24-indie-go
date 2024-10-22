@@ -25,9 +25,13 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
         base.SetStatsData(stats);
         MaxExp = stats.MaxExp;
     }
-    private void Start()
+    private void OnEnable()
     {
         InitializePlayerStats();
+
+    }
+    private void Start()
+    {
         ChangeElement(Element.Fire, fireLevel);
     }
 

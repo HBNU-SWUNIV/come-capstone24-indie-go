@@ -65,6 +65,11 @@ public class Player : MonoBehaviour
 
     #region Components
     public Core Core { get; private set; }
+    protected Movement Movement { get => movement ?? Core.GetCoreComponent(ref movement); }
+
+    private Movement movement;
+    private PlayerStats stats;
+
     public Animator Anim { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
@@ -80,6 +85,9 @@ public class Player : MonoBehaviour
     
     private Vector2 workspace;
 
+    Transform effectParticles;
+    Transform elementParticles;
+
     private void Awake()
     {
         Core = GetComponentInChildren<Core>();
@@ -88,6 +96,8 @@ public class Player : MonoBehaviour
         primaryWeapon = GameObject.Find("Sword").GetComponent<Weapon>();
         shieldWeapon = GameObject.Find("Shield").GetComponent<Weapon>();
         skill = GameObject.Find("Skill1").GetComponent<Skill>();
+        stats = GetComponentInChildren<PlayerStats>();
+
         skill.SetCore(Core);
 
         playerData = new PlayerData();
@@ -115,8 +125,37 @@ public class Player : MonoBehaviour
         primaryWeapon.InitializeAttackWeapon(PrimaryAttackState);
         shieldWeapon.InitializeShieldWeapon(ShieldState);
 
-        //PrimaryAttackState.SetWeapon(Inventory.weapon[(int)CombatInputs.primary]);
-        //SecondaryAttackState.SetWeapon(Inventory.weapon[(int)CombatInputs.primary]);
+        effectParticles = transform.Find("Particles");
+        elementParticles = transform.Find("Core/Element");
+    }
+
+    protected void OnEnable()
+    {
+        if(StateMachine.CurrentState != null)
+            StateMachine.ChangeState(IdleState);
+
+        if (effectParticles != null)
+        {
+            RemoveAllChildObjects(effectParticles);
+        }
+        if (elementParticles != null)
+        {
+            RemoveAllChildObjects(elementParticles);
+        }
+    }
+    protected virtual void OnDisable()
+    {
+        Movement?.SetVelocityZero();
+        GameManager.SharedCombatDataManager.IsPlayerNotKnockback = false;
+    }
+
+    protected void RemoveAllChildObjects(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            Debug.Log("child : " + child.name);
+            Destroy(child.gameObject);
+        }
     }
 
 

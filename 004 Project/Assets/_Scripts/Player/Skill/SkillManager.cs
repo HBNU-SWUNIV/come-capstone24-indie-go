@@ -6,7 +6,7 @@ public class SkillManager
     private Dictionary<string, SkillDataEx> skillDataDict = new Dictionary<string, SkillDataEx>();
     private Dictionary<string, Skill> skills = new Dictionary<string, Skill>();
     private Dictionary<string, SkillInitializer> initializers = new Dictionary<string, SkillInitializer>();
-
+    //스킬을 변경한다면 현재 스킬을 받아오기 위해 사용
     private string currentSkillName;
     private Skill currentSkill;
 

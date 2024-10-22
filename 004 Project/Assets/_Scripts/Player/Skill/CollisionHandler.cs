@@ -10,6 +10,7 @@ public class CollisionHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 이미 감지된 콜라이더라면 무시
         if (detectedColliders.Contains(collision))
         {
             return;

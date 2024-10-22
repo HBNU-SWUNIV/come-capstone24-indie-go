@@ -47,6 +47,8 @@ public class Enemy2 : Entity
         dodgeState = new E2_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);
         rangedAttackState = new E2_RangedAttackState(this, stateMachine, "rangedAttack", rangedAttackPosition, rangeAttackStateData, this);
         meleeAttackState = new E2_MeleeAttackState(this, stateMachine, "meleeAttack", meleeAttackStateData, this);
+
+        maxParryStunStack = 5;
     }
 
     private void Start()

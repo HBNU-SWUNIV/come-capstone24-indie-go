@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using System.Diagnostics.Tracing;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using System.Collections;
 
 public class Map_generate : MonoBehaviour
 {
@@ -28,18 +30,29 @@ public class Map_generate : MonoBehaviour
                 map_list[i, j] = new Map_Node(new RectInt(j * 80, -i * 80, 80, 80)); //변경
             }
         }
-        map_generate();
+        StartCoroutine("map_generate");
 
     }
     public void Reamake()
     {
+        GameManager.PlayerManager.Player.SetActive(false);
         tmp.Reset_value();
         tmp.Tilemap.ClearAllTiles();
-        Start();
-        
+        foreach(Spawn_Ctrl sc in tmp.spawn_list)
+        {
+            sc.isTrigger = false;
+        }
+        GameManager.PlayerManager.Player.SetActive(true);
+        Start();        
     }
-    void map_generate()
+    IEnumerator map_generate()
     {
+        while (true)
+        {
+            if (GameManager.PlayerManager.Player != null)
+                break;
+            yield return null;
+        }
         int num = UnityEngine.Random.Range(0, max);
         map_list[0, num].way = 9;
         for (int i = 0; i < max; i++)

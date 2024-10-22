@@ -17,12 +17,12 @@ public class PlayerDataAnalyze : MonoBehaviour
     {
       //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
         // calculaye total Action
-        int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["DefenceAttempt"];
+        int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["RunSuccess"];
 
         // Logistic
         float parryRatio = LogisticFunction((float)actionData["ParryAttempt"] / totalActions);
         float dashRatio = LogisticFunction((float)actionData["DashAttempt"] / totalActions);
-        float runRatio = LogisticFunction((float)actionData["DefenceAttempt"] / totalActions);
+        float runRatio = LogisticFunction((float)actionData["RunSuccess"] / totalActions);
 
         // Ratio normalize
         float ratioSum = parryRatio + dashRatio + runRatio;
@@ -34,7 +34,7 @@ public class PlayerDataAnalyze : MonoBehaviour
         string playStyle = ClassifyPlayer(parryRatio, dashRatio, runRatio);
 
         // print result
-        Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
+        // Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
     }
 
     

@@ -29,7 +29,7 @@ public class ElementalComponent : CoreComponent
 
         stats = transform.root.GetComponentInChildren<ICharacterStats>();
         if (stats == null)
-            Debug.Log("stats ºö");
+            Debug.Log("stats ï¿½ï¿½");
 
     }
     private void OnEnable()
@@ -56,7 +56,7 @@ public class ElementalComponent : CoreComponent
     //    Debug.Log($"Element changed to {Element}");
         if (gameObject.CompareTag("Player"))
         {
-            Debug.Log($"{newElement}·Î ÇÃ·¹ÀÌ¾î ½ºÅ³ º¯°æ");
+            // Debug.Log($"{newElement}ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½");
             GameManager.PlayerManager.ChangeSkill(Element);
         }
         if (elementalManager == null)
@@ -75,7 +75,7 @@ public class ElementalComponent : CoreComponent
     {
         var targetComponent = target.transform.parent.GetComponentInChildren<ElementalComponent>();
         if (targetComponent == null) Debug.Log("targetComponent null");
-        elementalManager.ApplyEffect(attackerElement, attackerComponent, targetComponent, attackerAttackStat); // °ø°ÝÀÚ¿Í ÇÇ°ÝÀÚ ±¸ºÐ
+        elementalManager.ApplyEffect(attackerElement, attackerComponent, targetComponent, attackerAttackStat); // ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½Ç°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public float CalculateDamage(Element element, float baseDamage, float attackerAttackStat)

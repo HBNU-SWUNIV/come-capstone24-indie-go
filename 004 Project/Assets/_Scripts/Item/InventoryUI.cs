@@ -27,7 +27,7 @@ public class InventoryUI : MonoBehaviour
             Check_Inventory();
             inventoryPanel.SetActive(activeInventory);
         }
-        if(EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
+        if(EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonUp(0))
         {
             Debug.Log("Clicked on the UI");
         }

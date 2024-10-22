@@ -53,7 +53,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         ResetStatsToBaseValues();
         GameManager.PlayerManager.DataAnalyze.AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
         string playerType = GameManager.PlayerManager.DataAnalyze.playerType;
-      //  Debug.Log($"GameManager.PlayerManager.DataAnalyze.playerType : {GameManager.PlayerManager.DataAnalyze.playerType}");
+        // Debug.Log($"GameManager.PlayerManager.DataAnalyze.playerType : {GameManager.PlayerManager.DataAnalyze.playerType}");
         switch (playerType)
         {
             case "High_parry":

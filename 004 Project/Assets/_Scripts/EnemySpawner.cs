@@ -1,16 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // ¸ó½ºÅÍ ÇÁ¸®ÆÕµéÀ» ÀúÀåÇÒ ¹è¿­
     public GameObject[] monsterPrefabs;
+    public GameObject healthBarPrefab;
 
-    // ÇöÀç ¼±ÅÃµÈ ¸ó½ºÅÍ ÀÎµ¦½º¿Í ¼Ó¼º
-    private int selectedMonsterIndex = 5;
+    private int selectedMonsterIndex = -1;  // ê¸°ë³¸ê°’ì„ ìœ íš¨í•˜ì§€ ì•Šì€ ê°’ìœ¼ë¡œ ì„¤ì •
     private Element selectedElement = Element.None;
     private int selectedElementLevel = 1;
+
+    public Button[] monsterButtons;
+    public Button[] elementButtons;
+    public Button[] elementLevelButtons;
+    public Button spawnButton;
+
+    private Color activeColor = Color.green;
+    private Color inactiveColor = Color.white;
+
+    void Start()
+    {
+
+        for (int i = 0; i < monsterButtons.Length; i++)
+        {
+            int index = i;  // í´ë¡œì € ë¬¸ì œë¥¼ í”¼í•˜ê¸° ìœ„í•´ ì§€ì—­ ë³€ìˆ˜ë¡œ ì„ ì–¸
+            monsterButtons[i].onClick.AddListener(() => SelectMonster(index));
+        }
+
+        // ì†ì„± ë²„íŠ¼ í´ë¦­ ì‹œ ì†ì„± ì„ íƒ
+        elementButtons[0].onClick.AddListener(() => SelectElement(Element.Fire));
+        elementButtons[1].onClick.AddListener(() => SelectElement(Element.Ice));
+        elementButtons[2].onClick.AddListener(() => SelectElement(Element.Land));
+        elementButtons[3].onClick.AddListener(() => SelectElement(Element.Light));
+
+        // ì†ì„± ë ˆë²¨ ë²„íŠ¼ í´ë¦­ ì‹œ ë ˆë²¨ ì„ íƒ
+        elementLevelButtons[0].onClick.AddListener(() => SelectElementLevel(1));
+        elementLevelButtons[1].onClick.AddListener(() => SelectElementLevel(2));
+        elementLevelButtons[2].onClick.AddListener(() => SelectElementLevel(3));
+
+        // ì†Œí™˜ ë²„íŠ¼ í´ë¦­ ì‹œ ëª¬ìŠ¤í„° ì†Œí™˜
+        spawnButton.onClick.AddListener(SpawnSelectedMonster);
+    }
 
     void Update()
     {
@@ -23,28 +55,23 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-   
     private void HandleMonsterSelection()
     {
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            selectedMonsterIndex = 0;
-            Debug.Log("Selected Monster: Enemy1");
+            SelectMonster(0);  // Enemy1
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            selectedMonsterIndex = 1;
-            Debug.Log("Selected Monster: Goblin");
+            SelectMonster(1);  // Goblin
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            selectedMonsterIndex = 2;
-            Debug.Log("Selected Monster: FlyingEye");
+            SelectMonster(2);  // FlyingEye
         }
         else if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            selectedMonsterIndex = 3;
-            Debug.Log("Selected Monster: Enemy2");
+            SelectMonster(3);  // Enemy2
         }
     }
 
@@ -52,23 +79,19 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            selectedElement = Element.Fire;
-            Debug.Log("Selected Element: Fire");
+            SelectElement(Element.Fire);
         }
         else if (Input.GetKeyDown(KeyCode.J))
         {
-            selectedElement = Element.Ice;
-            Debug.Log("Selected Element: Ice");
+            SelectElement(Element.Ice);
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
-            selectedElement = Element.Land;
-            Debug.Log("Selected Element: Land");
+            SelectElement(Element.Land);
         }
         else if (Input.GetKeyDown(KeyCode.L))
         {
-            selectedElement = Element.Light;
-            Debug.Log("Selected Element: Light");
+            SelectElement(Element.Light);
         }
     }
 
@@ -76,52 +99,96 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            selectedElementLevel = 1;
-            Debug.Log("Selected ElementLevel: 1");
+            SelectElementLevel(1);
         }
         else if (Input.GetKeyDown(KeyCode.I))
         {
-            selectedElementLevel = 2;
-            Debug.Log("Selected ElementLevel: 2");
+            SelectElementLevel(2);
         }
         else if (Input.GetKeyDown(KeyCode.O))
         {
-            selectedElementLevel = 3;
-            Debug.Log("Selected ElementLevel: 3");
+            SelectElementLevel(3);
         }
     }
+
+    private void SelectMonster(int index)
+    {
+        selectedMonsterIndex = index;
+        Debug.Log($"Selected Monster Index: {index}");
+
+        foreach (Button btn in monsterButtons)
+        {
+            btn.image.color = inactiveColor;
+        }
+        if (index >= 0 && index < monsterButtons.Length)
+        {
+            monsterButtons[index].image.color = activeColor;  // ì„ íƒëœ ë²„íŠ¼ì„ ë…¹ìƒ‰ìœ¼ë¡œ ë³€ê²½
+        }
+    }
+
+    private void SelectElement(Element element)
+    {
+        selectedElement = element;
+        Debug.Log($"Selected Element: {element}");
+
+        foreach (Button btn in elementButtons)
+        {
+            btn.image.color = inactiveColor;
+        }
+
+        int elementIndex = (int)element - 1;
+
+        if (elementIndex >= 0 && elementIndex < elementButtons.Length)
+        {
+            elementButtons[elementIndex].image.color = activeColor;
+        }
+        else
+        {
+            Debug.LogError("Element index out of bounds!");
+        }
+    }
+    private void SelectElementLevel(int level)
+    {
+        selectedElementLevel = level;
+        Debug.Log($"Selected Element Level: {level}");
+
+        foreach (Button btn in elementLevelButtons)
+        {
+            btn.image.color = inactiveColor;
+        }
+        elementLevelButtons[level - 1].image.color = activeColor;
+    }
+
     private void SpawnSelectedMonster()
     {
         if (selectedMonsterIndex < 0 || selectedMonsterIndex >= monsterPrefabs.Length)
         {
-            Debug.Log("¸ó½ºÅÍ Á¾·ù ¼±ÅÃ ¾ÈÇÔ");
+            Debug.Log("ìœ íš¨í•˜ì§€ ì•Šì€ ëª¬ìŠ¤í„° ì¸ë±ìŠ¤ì…ë‹ˆë‹¤.");
             return;
         }
+
         if (selectedElement == Element.None)
         {
-            Debug.Log("¸ó½ºÅÍ ¼Ó¼º ¼±ÅÃ ¾ÈÇÔ");
+            Debug.Log("ì†ì„±ì´ ì„ íƒë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
-        
 
         GameObject monsterPrefab = monsterPrefabs[selectedMonsterIndex];
         GameObject monsterInstance = Instantiate(monsterPrefab, transform.position, Quaternion.identity);
 
-        monsterInstance.SetActive(true);
-        // ¸ó½ºÅÍÀÇ ¼Ó¼º ¼³Á¤
+        // ëª¬ìŠ¤í„°ì˜ ì†ì„± ì„¤ì •
         EnemyStats enemyStats = monsterInstance.GetComponentInChildren<EnemyStats>();
-           if (enemyStats != null)
-           {
-               enemyStats.ChangeElement(selectedElement, selectedElementLevel);
-               Debug.Log($"Spawned Monster with Element: {selectedElement}");
-           }
-           else
-           {
-               Debug.LogError("EnemyStats component not found on the monster prefab.");
-           }
+        if (enemyStats != null)
+        {
+            enemyStats.ChangeElement(selectedElement, selectedElementLevel);
+            Debug.Log($"Spawned Monster with Element: {selectedElement}");
+        }
+        else
+        {
+            Debug.LogError("EnemyStats component not found on the monster prefab.");
+        }
 
-        selectedMonsterIndex = 5;
-        selectedElement = Element.None;
-        selectedElementLevel = 1;
     }
+
+
 }

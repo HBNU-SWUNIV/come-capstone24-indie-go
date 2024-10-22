@@ -16,7 +16,7 @@ public class Map_Node
     public Map_Node Right_node;
     public Map_Node Down_node;
     
-    public int[,] tile = new int[Tile_Map_Create.instance.horizontal,Tile_Map_Create.instance.vertical];
+    public int[,] tile = new int[80,80];
     public TileNode node;
     public TileNode Tile_left;
     public TileNode Tile_Right;

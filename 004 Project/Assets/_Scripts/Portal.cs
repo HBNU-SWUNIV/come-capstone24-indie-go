@@ -19,7 +19,7 @@ public class Portal : MonoBehaviour
         {
             Debug.Log(1);
             if(Input.GetKey(KeyCode.F))
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(3);
         }
     }
 

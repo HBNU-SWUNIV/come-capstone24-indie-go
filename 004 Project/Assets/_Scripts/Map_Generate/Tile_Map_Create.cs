@@ -14,7 +14,7 @@ public class Tile_Map_Create : MonoBehaviour
     public List<GameObject> monster;
     public List<Spawn_Ctrl> spawn_list;
     public GameObject portal;
-    public static Tile_Map_Create instance = null;
+    // public static Tile_Map_Create instance = null;
     int position_count = 0;
     public Tilemap Tilemap;
     public TileBase wall;
@@ -45,15 +45,6 @@ public class Tile_Map_Create : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
         
     }
     void Start()

@@ -10,7 +10,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     private CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
 
     private ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
-  //  private ElementalComponent ElementalComponent { get => elementalComponent ?? core.GetCoreComponent(ref elementalComponent);}
+    //  private ElementalComponent ElementalComponent { get => elementalComponent ?? core.GetCoreComponent(ref elementalComponent);}
     private ElementalComponent ElementalComponent => elementalComponent ? elementalComponent : core.GetCoreComponent(ref elementalComponent);
 
 
@@ -32,7 +32,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         base.Awake();
         stats = transform.root.GetComponentInChildren<ICharacterStats>();
         if (stats == null)
-            Debug.Log("stats ºö");
+            Debug.Log("stats ï¿½ï¿½");
     }
 
     public override void LogicUpdate()
@@ -63,13 +63,13 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     {
         float multiplier = ElementalComponent.GetDamageMultiplier(attackerElement);
         float calculatedDamage = ElementalComponent.CalculateDamage(attackerElement, baseDamage, attackerAttackStat);
-       // Debug.Log("¼Ó¼º Ãß°¡ µ¥¹ÌÁö ¹èÀ² : " + multiplier);
-      //  Debug.Log("ÀÔÈ÷´Â µ¥¹ÌÁö : " + calculatedDamage);
+        // Debug.Log("ï¿½Ó¼ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + multiplier);
+        //  Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + calculatedDamage);
         float finalDamage = calculatedDamage * multiplier;
-        Debug.Log("ÃÖÁ¾ µ¥¹ÌÁö : " + finalDamage);
-   //     Debug.Log("(int)attackerElement : " + (int)attackerElement);
-        
-        // Àü´ÞµÈ ÆÄÆ¼Å¬À» »ç¿ëÇÏ¿© ÆÄÆ¼Å¬ È¿°ú ½ÃÀÛ
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + finalDamage);
+        //     Debug.Log("(int)attackerElement : " + (int)attackerElement);
+
+        // ï¿½ï¿½ï¿½Þµï¿½ ï¿½ï¿½Æ¼Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½Æ¼Å¬ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         ParticlesWithRandomRotation(particle, defender);
 
         bool isAlive = stats?.DecreaseHealth(finalDamage) ?? false;
@@ -97,7 +97,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     private void CheckKnockback()
     {
-        if(isKnockbackActive
+        if (isKnockbackActive
             && ((Movement?.CurrentVelocity.y <= 0.01f && CollisionSenses.Ground)
                 || Time.time >= knockbackStartTime + maxKnockbackTime))
         {

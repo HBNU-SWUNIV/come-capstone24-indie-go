@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour, IWeapon
         playerStats = transform.root.GetComponentInChildren<PlayerStats>(); 
         if (playerStats == null)
         {
-            Debug.LogError("PlayerStats ÄÄÆ÷³ÍÆ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("PlayerStats ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
         baseAnimator = transform.Find("Base").GetComponent<Animator>();     //GetComponentInChildren<Animator>();
         weaponAnimator = transform.Find("Weapon").GetComponent<Animator>();
@@ -89,7 +89,7 @@ public class Weapon : MonoBehaviour, IWeapon
 
     private void OnDestroy()
     {
-        collisionHandler.OnColliderDetected -= HandleCollision;
+        // collisionHandler.OnColliderDetected -= HandleCollision;
     }
 
 

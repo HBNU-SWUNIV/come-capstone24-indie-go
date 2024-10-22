@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
-    private bool isPlayerInRange = false;
     public GameObject text;
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player")) text.SetActive(true);

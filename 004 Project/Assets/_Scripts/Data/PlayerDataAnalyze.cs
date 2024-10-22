@@ -7,15 +7,15 @@ public class PlayerDataAnalyze : MonoBehaviour
     public string playerType;
 
     void Start()
-    {   
+    {
         // Analyze Playerdata
-       // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
+        // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
     }
 
-    
+
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
-      //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
+        //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
         // calculaye total Action
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["DefenceAttempt"];
 
@@ -37,13 +37,13 @@ public class PlayerDataAnalyze : MonoBehaviour
         Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
     }
 
-    
+
     float LogisticFunction(float x)
     {
         return 1f / (1f + Mathf.Exp(-x));
     }
 
-    
+
     public string ClassifyPlayer(float parryRatio, float dashRatio, float runRatio)
     {
         Dictionary<string, float> ratios = new Dictionary<string, float>
@@ -53,7 +53,7 @@ public class PlayerDataAnalyze : MonoBehaviour
             { "run", runRatio }
         };
 
-        
+
         float maxRatio = -1;
 
         foreach (var entry in ratios)
@@ -64,7 +64,7 @@ public class PlayerDataAnalyze : MonoBehaviour
                 playerType = entry.Key;
             }
         }
-    //    Debug.Log("playerType : " + playerType);
+        //    Debug.Log("playerType : " + playerType);
         switch (playerType)
         {
             case "parry":

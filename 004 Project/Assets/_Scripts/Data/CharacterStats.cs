@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;  // UI ê´€ë ¨ ë„¤ì„ìŠ¤í˜ì´ìŠ¤ ì¶”ê°€
 using System;
 
 public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T : CharacterStatsData
@@ -27,7 +28,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
 
 
-    // °¢ ¼Ó¼ºÀÇ ·¹º§À» ÀúÀåÇÒ º¯¼öµé
+    // ì†ì„± ë ˆë²¨
     protected int fireLevel = 1;
     protected int iceLevel = 1;
     protected int landLevel = 1;
@@ -35,13 +36,13 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     protected float baseAttackSpeed;
     protected float baseMoveSpeed;
 
-    protected float slowEffectMultiplier = 1f; // µĞÈ­ È¿°úÀÇ ´©Àû ¹èÀ²
-    protected float attackSpeedModifier = 1f; // °ø°İ ¼Óµµ¿¡ ´ëÇÑ ´Ù¸¥ È¿°úÀÇ ¹èÀ²
-    protected float moveSpeedModifier = 1f;   // ÀÌµ¿ ¼Óµµ¿¡ ´ëÇÑ ´Ù¸¥ È¿°úÀÇ ¹èÀ²
-    protected float attackSpeedSlowMultiplier = 1f; // IceEffectÀÇ ´©Àû µĞÈ­ ¹èÀ²
-    protected float moveSpeedSlowMultiplier = 1f;   // IceEffectÀÇ ´©Àû µĞÈ­ ¹èÀ²
-    protected float adjustStatsAttackSpeed = 1f;    // playerType¿¡ µû¸¥ °ø°İ ¼Óµµ ¹èÀ²
-    protected float adjustStatsMoveSpeed = 1f;      // playerType¿¡ µû¸¥ ÀÌµ¿ ¼Óµµ ¹èÀ²
+    protected float slowEffectMultiplier = 1f;
+    protected float attackSpeedModifier = 1f;
+    protected float moveSpeedModifier = 1f;
+    protected float attackSpeedSlowMultiplier = 1f;
+    protected float moveSpeedSlowMultiplier = 1f;
+    protected float adjustStatsAttackSpeed = 1f;
+    protected float adjustStatsMoveSpeed = 1f;
 
     protected float effectAttackSpeed;
     protected float effectMoveSpeed;
@@ -52,18 +53,31 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     public Element Element { get => element; set => element = value; }
 
     private ElementalComponent elementalComponent;
-
     private float basedamage;
+
+    // HPë°”ì™€ í…ìŠ¤íŠ¸ UI ê´€ë ¨ ë³€ìˆ˜
+    public RectTransform hpBarRectTransform;
+    public Image healthBarImage;
+    public Text healthText;
+
+    // ì†ì„±ë³„ ì´ë¯¸ì§€ UI ê´€ë ¨ ë³€ìˆ˜ ì¶”ê°€
+    public Image elementImageUI;
+    public Sprite fireSprite;
+    public Sprite iceSprite;
+    public Sprite landSprite;
+    public Sprite lightSprite;
 
     protected virtual void Awake()
     {
         Element = Element.None;
 
         animator = transform.root.GetComponent<Animator>();
-
         elementalComponent = transform.parent.GetComponentInChildren<ElementalComponent>();
 
         OnsetStats = false;
+
+        // HPë°”ê°€ ì„¤ì •ë˜ì–´ ìˆë‹¤ë©´ ì´ˆê¸°í™”
+        UpdateHealthBar();
     }
 
     protected abstract void SetStat();
@@ -82,42 +96,55 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         baseAttackSpeed = attackSpeed;
 
         OnsetStats = true;
+
+        // HPë°” ì—…ë°ì´íŠ¸
+        UpdateHealthBar();
     }
 
     public bool DecreaseHealth(float amount)
     {
-        float damage = Mathf.Max(0, amount); // Damage ºÎºĞÀº µû·Î °è»êÇÏ´Â ·ÎÁ÷À» ±¸ÇöÇØ¼­ ÃÖÁ¾ µ¥¹ÌÁö¸¦ ³ÖÀ» ¿¹Á¤.
-        CurHp -= (int)damage;
-        Debug.Log(gameObject.transform.root.name + " ³²Àº Ã¼·Â : " + CurHp);
-        if (CurHp <= 0)
+        curHp -= Mathf.RoundToInt(amount);
+        UpdateHealthBar();
+        if (curHp <= 0)
         {
-            CurHp = 0;
+            curHp = 0;
             OnHealthZero?.Invoke();
             return false;
         }
+
         return true;
     }
 
     public void IncreaseHealth(float amount)
     {
-        if (!IsHpMax(amount))
+        curHp = Mathf.Clamp(curHp + Mathf.RoundToInt(amount), 0, maxHp);
+        UpdateHealthBar();
+    }
+
+    // HPë°”ì™€ ì²´ë ¥ í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸ í•¨ìˆ˜
+    private void UpdateHealthBar()
+    {
+        if (healthBarImage != null)
         {
-            int increace = (int)(amount * maxHp);
-            if (increace <= 0)
-                increace = 1;
-            CurHp = Mathf.Clamp(CurHp + increace, 0, maxHp);
+            healthBarImage.fillAmount = (float)curHp / maxHp;
+        }
+
+        if (healthText != null)
+        {
+            healthText.text = $"{curHp} / {maxHp}";
         }
     }
+
     public bool IsHpMax(float amount)
     {
-        if (CurHp /*+ (int)(amount * maxHp)*/ >= maxHp)
-            return true;
-        return false;
+        return CurHp >= MaxHp;
     }
+
     public void ChangeDamage(float currentDamage)
     {
         attackDamage *= (1 + currentDamage);
     }
+
     public void ReturnDamage()
     {
         attackDamage = basedamage;
@@ -134,58 +161,55 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         moveSpeed = baseMoveSpeed * moveSpeedModifier * adjustStatsMoveSpeed * moveSpeedSlowMultiplier;
         UpdateAnimatorMoveSpeed();
     }
-    // ´Ù¸¥ È¿°ú¿¡ ÀÇÇÑ °ø°İ ¼Óµµ º¯°æ (¿¹: Land ¼Ó¼º)
+
     public void ModifyAttackSpeed(float multiplier)
     {
         attackSpeedModifier *= multiplier;
         UpdateAttackSpeed();
     }
-    // IceEffect¿¡ ÀÇÇÑ °ø°İ ¼Óµµ µĞÈ­ Àû¿ë
+
     public void ApplyAttackSpeedSlow(float multiplier)
     {
         attackSpeedSlowMultiplier *= multiplier;
         UpdateAttackSpeed();
-
     }
 
-    // IceEffect¿¡ ÀÇÇÑ °ø°İ ¼Óµµ µĞÈ­ ÇØÁ¦
     public void ResetAttackSpeedSlow()
     {
         attackSpeedSlowMultiplier = 1f;
         UpdateAttackSpeed();
     }
-    // ´Ù¸¥ È¿°ú¿¡ ÀÇÇÑ ÀÌµ¿ ¼Óµµ º¯°æ
+
     public void ModifyMoveSpeed(float multiplier)
     {
         moveSpeedModifier *= multiplier;
         UpdateMoveSpeed();
     }
 
-    // IceEffect¿¡ ÀÇÇÑ ÀÌµ¿ ¼Óµµ µĞÈ­ Àû¿ë
     public void ApplyMoveSpeedSlow(float multiplier, ElementalComponent component)
     {
-        var movement = component.GetMovement();
-
         moveSpeedSlowMultiplier *= multiplier;
         UpdateMoveSpeed();
+
+        var movement = component.GetMovement();
         if (movement != null)
         {
             movement.SetVelocityXEffect(TotalMoveSpeedMultiplier);
         }
     }
 
-    // IceEffect¿¡ ÀÇÇÑ ÀÌµ¿ ¼Óµµ µĞÈ­ ÇØÁ¦
     public void ResetMoveSpeedSlow(ElementalComponent component)
     {
-        var movement = component.GetMovement();
-
         moveSpeedSlowMultiplier = 1f;
         UpdateMoveSpeed();
-        if(movement != null)
+
+        var movement = component.GetMovement();
+        if (movement != null)
         {
             movement.SetVelocityZeroEffect();
         }
     }
+
     protected void SetAdjustStatsAttackSpeed(float multiplier)
     {
         adjustStatsAttackSpeed *= multiplier;
@@ -200,28 +224,54 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     public void ChangeAttackSpeed(float newMultiplier)
     {
-        // »õ·Î¿î µĞÈ­ ¹èÀ²À» Àû¿ëÇÏ¿© ´©Àû ¹èÀ² °è»ê
         slowEffectMultiplier *= newMultiplier;
         attackSpeed = baseAttackSpeed * slowEffectMultiplier;
         UpdateAnimatorAttackSpeed();
     }
+
     public void ReturnAttackSpeed()
     {
         attackSpeedModifier = 1f;
         UpdateAttackSpeed();
     }
+
     public void ChangeElement(Element newElement, int level = 0)
     {
         Element = newElement;
-        if (elementalComponent == null)
-            elementalComponent = transform.parent.GetComponentInChildren<ElementalComponent>();
-        elementalComponent.ChangeElement(newElement, level);
+        elementalComponent?.ChangeElement(newElement, level);
+
+        UpdateElementImageUI(newElement);
+    }
+
+    private void UpdateElementImageUI(Element element)
+    {
+        if (elementImageUI == null) return;
+
+        switch (element)
+        {
+            case Element.Fire:
+                elementImageUI.sprite = fireSprite;
+                break;
+            case Element.Ice:
+                elementImageUI.sprite = iceSprite;
+                break;
+            case Element.Land:
+                elementImageUI.sprite = landSprite;
+                break;
+            case Element.Light:
+                elementImageUI.sprite = lightSprite;
+                break;
+            default:
+                elementImageUI.sprite = null;  // ì†ì„±ì´ Noneì¼ ê²½ìš° ì´ë¯¸ì§€ ì œê±°
+                break;
+        }
     }
 
     public void UpdateElementalEffect(Element element, int level)
     {
-        elementalComponent.UpdateEffectValues(element, level);
+        elementalComponent?.UpdateEffectValues(element, level);
     }
+
     public void ResetStatsToBaseValues()
     {
         adjustStatsAttackSpeed = 1f;
@@ -236,19 +286,19 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         UpdateAnimatorMoveSpeed();
         UpdateAnimatorAttackSpeed();
     }
+
     protected virtual void UpdateAnimatorMoveSpeed()
     {
         if (animator != null)
         {
-          //  Debug.Log($"UpdateAnimatorMoveSpeed : {MoveSpeed}");
             animator.SetFloat("MoveSpeed", moveSpeed);
         }
     }
+
     protected virtual void UpdateAnimatorAttackSpeed()
     {
         if (animator != null)
         {
-      //      Debug.Log($"UpdateAnimatorAttackSpeed : {attackSpeed}");
             animator.SetFloat("AttackSpeed", attackSpeed);
         }
     }

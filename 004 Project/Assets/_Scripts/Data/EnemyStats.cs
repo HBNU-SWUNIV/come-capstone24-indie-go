@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyStats : CharacterStats<EnemyStatsData>
 {
     [SerializeField] private int Exp;
-
+    [SerializeField] private string PlayerType;
     protected override void Awake()
     {
         base.Awake();
@@ -21,6 +21,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         InitializeMonsterStats();
         // �÷��̾� Ÿ�Կ� ���� ���� ����        
         StartCoroutine("AdjustStatsBasedOnPlayerType");
+        PlayerType = GameManager.PlayerManager.DataAnalyze.playerType;
     }
 
     private void OnDisable()
@@ -79,8 +80,6 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
 
             default:
                 //�ӽ�
-                SetAdjustStatsAttackSpeed(0.8f); // ���� �ӵ� 20% ����
-                SetAdjustStatsMoveSpeed(1.2F);   // �̵� �ӵ� 20% ����
                 break;
         }
       //  Debug.Log($" playerType : {playerType} �� �ش��ϴ� ������ ����");

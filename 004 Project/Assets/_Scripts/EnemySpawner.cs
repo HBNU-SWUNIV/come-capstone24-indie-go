@@ -7,7 +7,6 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] monsterPrefabs;
     public GameObject healthBarPrefab;
-
     private int selectedMonsterIndex = -1;  // 기본값을 유효하지 않은 값으로 설정
     private Element selectedElement = Element.None;
     private int selectedElementLevel = 1;
@@ -22,7 +21,33 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        AssignButtons();
+        SetButton();
+    }
 
+  
+    private void AssignButtons()
+    {
+        GameObject canvas = GameObject.Find("SpawnerUI");
+        if (canvas == null)
+        {
+            Debug.LogError("SpawnerUI Canvas를 찾을 수 없습니다.");
+            return;
+        }
+
+        Transform monsterUI = canvas.transform.Find("Monster");
+        monsterButtons = monsterUI?.GetComponentsInChildren<Button>();
+
+        Transform elementUI = canvas.transform.Find("Elementeal");
+        elementButtons = elementUI?.GetComponentsInChildren<Button>();
+
+        Transform levelUI = canvas.transform.Find("Level");
+        elementLevelButtons = levelUI?.GetComponentsInChildren<Button>();
+
+        spawnButton = canvas.transform.Find("Spawn").GetComponent<Button>();
+    }
+    private void SetButton()
+    {
         for (int i = 0; i < monsterButtons.Length; i++)
         {
             int index = i;  // 클로저 문제를 피하기 위해 지역 변수로 선언

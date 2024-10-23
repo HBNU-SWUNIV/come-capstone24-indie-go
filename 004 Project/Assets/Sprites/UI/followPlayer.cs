@@ -12,7 +12,7 @@ public class FollowPlayer : MonoBehaviour
     {
         if (player == null)
         {
-            Debug.LogWarning("Player Transform is not assigned.");
+            //Debug.LogWarning("Player Transform is not assigned.");
             return;
         }
 

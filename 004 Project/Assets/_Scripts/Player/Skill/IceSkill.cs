@@ -80,7 +80,7 @@ public class IceAttackState : SkillState
 {
     protected IceSkill iceSkill;
     protected Coroutine checkAttackReInputCor;
-
+    protected bool finishAttack;
     protected CoroutineHandler coroutineHandler;
     protected bool resetCounter;
 
@@ -93,6 +93,10 @@ public class IceAttackState : SkillState
     public override void Enter()
     {
         base.Enter();
+        if (!finishAttack)
+            ResetAttackCounter();
+        else
+            finishAttack = false;
         skill.EventHandler.OnStateFinish += EventHandler;
 
         resetCounter = false;
@@ -102,6 +106,7 @@ public class IceAttackState : SkillState
     public override void Exit()
     {
         base.Exit();
+        finishAttack = true;
         skill.EventHandler.OnStateFinish -= EventHandler;
 
         if (!resetCounter)
@@ -135,9 +140,6 @@ public class IceAttackState : SkillState
         iceSkill.CurrentAttackCounter =0;
 
     }
-
-    // 공격 도중 피격 시, 애니메이션이 끝나기 직전까지 넉백당하는 문제 발생
-
     private void EventHandler()
     {
         stateMachine.ChangeState(iceSkill.IceSkillExitState);

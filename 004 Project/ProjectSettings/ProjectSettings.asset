@@ -803,11 +803,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 052c9c1a-ecc8-44eb-9bb4-8ec004e3833f
+  cloudProjectId: d2fa873a-e101-4389-8b8f-4226c4286cf3
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: My project (2)
-  organizationId: hsh2001234
+  projectName: My project
+  organizationId: hanbat_indiego
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

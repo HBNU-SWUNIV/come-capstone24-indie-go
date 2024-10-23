@@ -10,13 +10,10 @@ public class ObjectPool : MonoBehaviour
     public List<GameObject> monster;
     public int poolSize = 350;         // 초기 풀 크기
     public Queue<GameObject> objectPool = new Queue<GameObject>();  // 오브젝트 풀
+    bool ispool = false;
 
     private void Awake()
     {
-        
-    }
-    private void Start()
-    {        // 싱글톤 패턴 적용
         if (instance == null)
         {
             instance = this;
@@ -26,12 +23,16 @@ public class ObjectPool : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
-        // 풀 초기화
+    }
+    private void Start()
+    {        // 싱글톤 패턴 적용
         InitializePool();
     }
 
-
+    private void Update()
+    {
+        
+    }
     // 풀 초기화 메서드
     private void InitializePool()
     {

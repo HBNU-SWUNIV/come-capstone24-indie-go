@@ -452,7 +452,12 @@ public class Tile_Map_Create : MonoBehaviour
         rightCenterY = right.y + right.height / 2;
         for (int x = leftCenterX; x < 80; x++)
         {
-            if (parent_Left.tile[x, leftCenterY] != 10) parent_Left.tile[x, leftCenterY] = 11;
+            if (parent_Left.tile[x, leftCenterY] != 10)
+            {
+                parent_Left.tile[x, leftCenterY] = 11;
+                parent_Left.tile[x, leftCenterY+1] = 11;
+            }
+                
         }
         if (leftCenterY > rightCenterY)
         {
@@ -462,10 +467,21 @@ public class Tile_Map_Create : MonoBehaviour
         else
         {
             for (int y = leftCenterY; y <= rightCenterY; y++)
+            {
+                if(y == rightCenterY)
+                {
+                    parent_Left.tile[79, y+1] = 11;
+                }
                 parent_Left.tile[79, y] = 11;
+            }
+                
         }
         for (int x = 0; x <= rightCenterX; x++)
-            if (parent_Right.tile[x, rightCenterY] != 10) parent_Right.tile[x, rightCenterY] = 11;
+            if (parent_Right.tile[x, rightCenterY] != 10)
+            {
+                parent_Right.tile[x, rightCenterY] = 11;
+                parent_Right.tile[x, rightCenterY+1] = 11;
+            } 
     }
 
     public void Vertical_add(Map_Node parent_Up, Map_Node parent_Down, TileNode up, TileNode down)

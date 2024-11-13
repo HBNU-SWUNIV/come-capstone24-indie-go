@@ -12,6 +12,8 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     [SerializeField] protected int curHp;
     [SerializeField] protected int maxHp;
     [SerializeField] protected float attackDamage;
+    [SerializeField] protected float basedamage;
+    [SerializeField] protected float addAttackDamage;
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float defense;
     [SerializeField] protected float moveSpeed;
@@ -22,7 +24,8 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     public int CurHp { get => curHp; set => curHp = value; }
     public int MaxHp { get => maxHp; set => maxHp = value; }
-    public float AttackDamage { get => attackDamage; set => attackDamage = value; }
+    public float AttackDamage { get => attackDamage;  }
+    public float AddAttackDamage { get => addAttackDamage; set { addAttackDamage = value; ChangeDamage(); } }
     public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
     public float Defense { get => defense; set => defense = value; }
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
@@ -43,6 +46,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     protected float moveSpeedSlowMultiplier = 1f;
     protected float adjustStatsAttackSpeed = 1f;
     protected float adjustStatsMoveSpeed = 1f;
+    protected float passiveMultiplier = 1f;
 
     protected float effectAttackSpeed;
     protected float effectMoveSpeed;
@@ -53,7 +57,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     public Element Element { get => element; set => element = value; }
 
     private ElementalComponent elementalComponent;
-    private float basedamage;
 
     // HP바와 텍스트 UI 관련 변수
     public RectTransform hpBarRectTransform;
@@ -86,17 +89,18 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     {
         curHp = stats.curHp;
         maxHp = stats.maxHp;
-        attackDamage = stats.attackDamage;
+        attackDamage = stats.attackDamage + addAttackDamage;
         attackSpeed = stats.attackSpeed;
         defense = stats.defense;
         moveSpeed = stats.moveSpeed;
 
-        basedamage = attackDamage;
+        basedamage = stats.attackDamage;
         baseMoveSpeed = moveSpeed;
         baseAttackSpeed = attackSpeed;
 
         OnsetStats = true;
 
+        ChangeDamage();
         // HP바 업데이트
         UpdateHealthBar();
     }
@@ -142,12 +146,19 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     public void ChangeDamage(float currentDamage)
     {
-        attackDamage *= (1 + currentDamage);
+        passiveMultiplier += currentDamage;
+        ChangeDamage();
+        //attackDamage *= (1 + currentDamage);
     }
 
+    public void ChangeDamage()
+    {
+        attackDamage = (basedamage + addAttackDamage) * passiveMultiplier;
+    }
     public void ReturnDamage()
     {
-        attackDamage = basedamage;
+        passiveMultiplier = 1f;
+        attackDamage = basedamage + addAttackDamage;
     }
 
     private void UpdateAttackSpeed()

@@ -5,7 +5,7 @@ public interface ICharacterStats
     event Action OnHealthZero;
     int CurHp { get; set; }
     int MaxHp { get; set; }
-    float AttackDamage { get; set; }
+    float AttackDamage { get; }
     float AttackSpeed { get; set; }
     float Defense { get; set; }
     float MoveSpeed { get; set; }

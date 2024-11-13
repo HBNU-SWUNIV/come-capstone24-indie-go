@@ -93,10 +93,11 @@ public class IceAttackState : SkillState
     public override void Enter()
     {
         base.Enter();
-        if (!finishAttack)
+        /*if (!finishAttack)
             ResetAttackCounter();
         else
             finishAttack = false;
+        */
         skill.EventHandler.OnStateFinish += EventHandler;
 
         resetCounter = false;

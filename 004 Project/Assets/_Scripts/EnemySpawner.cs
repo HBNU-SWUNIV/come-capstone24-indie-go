@@ -48,25 +48,30 @@ public class EnemySpawner : MonoBehaviour
     }
     private void SetButton()
     {
-        for (int i = 0; i < monsterButtons.Length; i++)
+        GameObject canvas = GameObject.Find("SpawnerUI");
+        if (canvas != null)
         {
-            int index = i;  // 클로저 문제를 피하기 위해 지역 변수로 선언
-            monsterButtons[i].onClick.AddListener(() => SelectMonster(index));
+            for (int i = 0; i < monsterButtons.Length; i++)
+            {
+                int index = i;  // 클로저 문제를 피하기 위해 지역 변수로 선언
+                monsterButtons[i].onClick.AddListener(() => SelectMonster(index));
+            }
+
+            // 속성 버튼 클릭 시 속성 선택
+            elementButtons[0].onClick.AddListener(() => SelectElement(Element.Fire));
+            elementButtons[1].onClick.AddListener(() => SelectElement(Element.Ice));
+            elementButtons[2].onClick.AddListener(() => SelectElement(Element.Land));
+            elementButtons[3].onClick.AddListener(() => SelectElement(Element.Light));
+
+            // 속성 레벨 버튼 클릭 시 레벨 선택
+            elementLevelButtons[0].onClick.AddListener(() => SelectElementLevel(1));
+            elementLevelButtons[1].onClick.AddListener(() => SelectElementLevel(2));
+            elementLevelButtons[2].onClick.AddListener(() => SelectElementLevel(3));
+
+            // 소환 버튼 클릭 시 몬스터 소환
+            spawnButton.onClick.AddListener(SpawnSelectedMonster);
         }
-
-        // 속성 버튼 클릭 시 속성 선택
-        elementButtons[0].onClick.AddListener(() => SelectElement(Element.Fire));
-        elementButtons[1].onClick.AddListener(() => SelectElement(Element.Ice));
-        elementButtons[2].onClick.AddListener(() => SelectElement(Element.Land));
-        elementButtons[3].onClick.AddListener(() => SelectElement(Element.Light));
-
-        // 속성 레벨 버튼 클릭 시 레벨 선택
-        elementLevelButtons[0].onClick.AddListener(() => SelectElementLevel(1));
-        elementLevelButtons[1].onClick.AddListener(() => SelectElementLevel(2));
-        elementLevelButtons[2].onClick.AddListener(() => SelectElementLevel(3));
-
-        // 소환 버튼 클릭 시 몬스터 소환
-        spawnButton.onClick.AddListener(SpawnSelectedMonster);
+        
     }
 
     void Update()

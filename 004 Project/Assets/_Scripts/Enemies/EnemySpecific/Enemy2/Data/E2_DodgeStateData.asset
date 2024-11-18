@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b27b6ff1d388d45ae4a11295b7729d, type: 3}
   m_Name: E2_DodgeStateData
   m_EditorClassIdentifier: 
-  dodgeSpeed: 13
+  dodgeSpeed: 10
   dodgeTime: 0.2
-  dodgeCooldown: 4
+  dodgeCooldown: 3.5
   dodgeAngle: {x: 1, y: 1}

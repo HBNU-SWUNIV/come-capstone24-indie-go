@@ -30,8 +30,10 @@ public class Enemy2 : Entity
     [SerializeField]
     private D_RangeAttackState rangeAttackStateData;
 
-  //  [SerializeField]
-  //  private Transform meleeAttackPosition;
+    public Vector3? lastKnownPlayerPosition; // 플레이어의 마지막 위치 저장
+
+    //  [SerializeField]
+    //  private Transform meleeAttackPosition;
     [SerializeField]
     private Transform rangedAttackPosition;
     public override void Awake()
@@ -69,5 +71,18 @@ public class Enemy2 : Entity
     {
         base.OnDisable();
         stateMachine.Initialize(idleState);
+    }
+
+    public void ClearLastKnownPlayerPosition()
+    {
+        lastKnownPlayerPosition = null; // 위치 초기화
+    }
+
+    public bool IsAtLastKnownPlayerPosition()
+    {
+        if (lastKnownPlayerPosition == null) return true;
+
+        // 마지막 위치와 현재 위치 간의 거리 계산
+        return Mathf.Abs(transform.position.x - lastKnownPlayerPosition.Value.x) < 0.15f;
     }
 }

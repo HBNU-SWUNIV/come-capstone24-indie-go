@@ -6,7 +6,7 @@ public class TitleScreenManager : MonoBehaviour
     // Start 버튼 클릭 시 호출
     public void LoadStartScene()
     {
-        SceneManager.LoadScene("SampleScene"); // "SampleScene"으로 변경
+        SceneManager.LoadScene("Test 2"); // "SampleScene"으로 변경
     }
 
     // Developer Tools 버튼 클릭 시 호출

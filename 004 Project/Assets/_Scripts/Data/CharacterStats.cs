@@ -24,7 +24,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     public int CurHp { get => curHp; set => curHp = value; }
     public int MaxHp { get => maxHp; set => maxHp = value; }
-    public float AttackDamage { get => attackDamage;  }
+    public float AttackDamage { get => attackDamage; }
     public float AddAttackDamage { get => addAttackDamage; set { addAttackDamage = value; ChangeDamage(); } }
     public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
     public float Defense { get => defense; set => defense = value; }
@@ -58,17 +58,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     private ElementalComponent elementalComponent;
 
-    // HP바와 텍스트 UI 관련 변수
-    public RectTransform hpBarRectTransform;
-    public Image healthBarImage;
-    public Text healthText;
 
-    // 속성별 이미지 UI 관련 변수 추가
-    public Image elementImageUI;
-    public Sprite fireSprite;
-    public Sprite iceSprite;
-    public Sprite landSprite;
-    public Sprite lightSprite;
 
     protected virtual void Awake()
     {
@@ -79,8 +69,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
         OnsetStats = false;
 
-        // HP바가 설정되어 있다면 초기화
-        UpdateHealthBar();
+
     }
 
     protected abstract void SetStat();
@@ -101,14 +90,11 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         OnsetStats = true;
 
         ChangeDamage();
-        // HP바 업데이트
-        UpdateHealthBar();
     }
 
     public bool DecreaseHealth(float amount)
     {
         curHp -= Mathf.RoundToInt(amount);
-        UpdateHealthBar();
         if (curHp <= 0)
         {
             curHp = 0;
@@ -122,22 +108,8 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     public void IncreaseHealth(float amount)
     {
         curHp = Mathf.Clamp(curHp + Mathf.RoundToInt(amount), 0, maxHp);
-        UpdateHealthBar();
     }
 
-    // HP바와 체력 텍스트 업데이트 함수
-    private void UpdateHealthBar()
-    {
-        if (healthBarImage != null)
-        {
-            healthBarImage.fillAmount = (float)curHp / maxHp;
-        }
-
-        if (healthText != null)
-        {
-            healthText.text = $"{curHp} / {maxHp}";
-        }
-    }
 
     public bool IsHpMax(float amount)
     {
@@ -251,32 +223,8 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         Element = newElement;
         elementalComponent?.ChangeElement(newElement, level);
 
-        UpdateElementImageUI(newElement);
     }
 
-    private void UpdateElementImageUI(Element element)
-    {
-        if (elementImageUI == null) return;
-
-        switch (element)
-        {
-            case Element.Fire:
-                elementImageUI.sprite = fireSprite;
-                break;
-            case Element.Ice:
-                elementImageUI.sprite = iceSprite;
-                break;
-            case Element.Land:
-                elementImageUI.sprite = landSprite;
-                break;
-            case Element.Light:
-                elementImageUI.sprite = lightSprite;
-                break;
-            default:
-                elementImageUI.sprite = null;  // 속성이 None일 경우 이미지 제거
-                break;
-        }
-    }
 
     public void UpdateElementalEffect(Element element, int level)
     {

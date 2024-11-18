@@ -55,6 +55,16 @@ public class Enemy2 : Entity
     {
         stateMachine.Initialize(moveState);
     }
+    protected override void Update()
+    {
+        base.Update();
+        if (GameManager.PlayerManager.DataAnalyze.changePlayerType)
+        {
+            Debug.Log("수치조정");
+            StartCoroutine(GetComponentInChildren<EnemyStats>().AdjustStatsBasedOnPlayerType());
+            GameManager.PlayerManager.DataAnalyze.changePlayerType = false;
+        }
+    }
     protected override void OnDisable()
     {
         base.OnDisable();

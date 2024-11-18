@@ -31,7 +31,7 @@ public class MoveState : MonsterState
         isDetectingLedge = CollisionSenses.LedgeVertical;
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
-
+        
     }
 
     public override void Enter()

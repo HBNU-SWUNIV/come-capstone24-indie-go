@@ -48,6 +48,7 @@ public class Enemy1 : Entity
     {
         stateMachine.Initialize(moveState);
     }
+
     protected override void OnDisable()
     {
         base.OnDisable();

@@ -539,6 +539,7 @@ GameObject:
   - component: {fileID: 1156023612993947811}
   - component: {fileID: 2251972077070143305}
   - component: {fileID: 8733787987380033715}
+  - component: {fileID: -4458597475630305226}
   m_Layer: 9
   m_Name: Enemy01
   m_TagString: Enemy
@@ -746,6 +747,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8b0cb6945cab7418e3661d07d5eefe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4458597475630305226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782836539619579813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2671ed2e76f1f4ead367c1105081dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5839608812455886292
@@ -1054,10 +1067,20 @@ MonoBehaviour:
   curHp: 0
   maxHp: 0
   attackDamage: 0
+  basedamage: 0
+  addAttackDamage: 0
   attackSpeed: 0
   defense: 0
   moveSpeed: 0
   element: 0
+  hpBarRectTransform: {fileID: 0}
+  healthBarImage: {fileID: 0}
+  healthText: {fileID: 0}
+  elementImageUI: {fileID: 0}
+  fireSprite: {fileID: 0}
+  iceSprite: {fileID: 0}
+  landSprite: {fileID: 0}
+  lightSprite: {fileID: 0}
   Exp: 0
 --- !u!1 &8807989972377990365
 GameObject:

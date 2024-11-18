@@ -7376,6 +7376,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1355065929104814026, guid: c39974bd1b7e2454eb9cfa2d538454a6, type: 3}
+      propertyPath: monster.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355065929104814026, guid: c39974bd1b7e2454eb9cfa2d538454a6, type: 3}
+      propertyPath: monster.Array.data[3]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355065929104814026, guid: c39974bd1b7e2454eb9cfa2d538454a6, type: 3}
       propertyPath: spawn_list.Array.data[0]
       value: 
       objectReference: {fileID: 1568770860}

@@ -13,11 +13,13 @@ public class GameManager : MonoBehaviour
     PlayerManager player;
     SharedCombatDataManager sharedData = new SharedCombatDataManager();
     ElementalManager elemental = new ElementalManager();
+    SoundManager soundManager = new SoundManager();
     public static DataManager Data { get{ return Instance.data; } }
     public static ResourceManager Resource { get { return Instance.resource; } }
     public static PlayerManager PlayerManager { get { return Instance.player; } }
     public static SharedCombatDataManager SharedCombatDataManager { get { return Instance.sharedData; } }
     public static ElementalManager ElementalManager { get { return Instance.elemental; } }
+    public static SoundManager SoundManager { get { return Instance.soundManager; } }
     void Start()
     {
         Init();
@@ -38,6 +40,8 @@ public class GameManager : MonoBehaviour
             s_instance = go.GetComponent<GameManager>();
 
             s_instance.data.Init();
+
+            s_instance.soundManager.LoadAllSounds();
         }
         
     }

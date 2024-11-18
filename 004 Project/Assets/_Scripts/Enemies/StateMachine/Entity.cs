@@ -50,7 +50,7 @@ public class Entity : MonoBehaviour
         elementParticles = transform.Find("Core/Element");
     }
 
-    public virtual void Update()
+    protected virtual void Update()
     {
         Core.LogicUpdate();
         stateMachine.currentState.LogicUpdate();
@@ -77,7 +77,10 @@ public class Entity : MonoBehaviour
     {
         return Physics2D.Raycast(playerCheck.position, transform.right, entityData.closeRangeActionDistance, LayerMasks.Player);
     }
-
+    public virtual bool CheckPlayerInMeleeAttackRangeAction()
+    {
+        return Physics2D.Raycast(playerCheck.position, transform.right, entityData.closeRangeActionDistance - 0.3f, LayerMasks.Player);
+    }
     public void AddcurrentParryStunStack(float stunTime)
     {
         ++currentParryStunStack;
@@ -120,8 +123,6 @@ public class Entity : MonoBehaviour
         Movement?.SetVelocityZero();
         IsKnockbackable = true;
         stats.ChangeElement(Element.None);
-
-
     }
     protected void RemoveAllChildObjects(Transform parent)
     {

@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 4273698179139224347}
   - component: {fileID: 4045018937457765823}
   - component: {fileID: 1019647551724799439}
+  - component: {fileID: 606818427927318555}
   m_Layer: 9
   m_Name: FlyingEye
   m_TagString: Enemy
@@ -444,6 +445,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8b0cb6945cab7418e3661d07d5eefe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &606818427927318555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079268821147475219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2671ed2e76f1f4ead367c1105081dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2139835630311834992
@@ -692,10 +705,20 @@ MonoBehaviour:
   curHp: 0
   maxHp: 0
   attackDamage: 0
+  basedamage: 0
+  addAttackDamage: 0
   attackSpeed: 0
   defense: 0
   moveSpeed: 0
   element: 0
+  hpBarRectTransform: {fileID: 0}
+  healthBarImage: {fileID: 0}
+  healthText: {fileID: 0}
+  elementImageUI: {fileID: 0}
+  fireSprite: {fileID: 0}
+  iceSprite: {fileID: 0}
+  landSprite: {fileID: 0}
+  lightSprite: {fileID: 0}
   Exp: 0
 --- !u!1 &7116101945988584482
 GameObject:

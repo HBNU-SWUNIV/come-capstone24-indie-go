@@ -28,6 +28,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         if (isDead == true)
         {
             Debug.Log("���� disable");
+            transform.root.GetComponent<CharacterAudio>().PlayDeathSound();
             ItemDB.instance.Generate_Item(this.gameObject.transform.position);
             // ���� ��� �� �÷��̾�� ����ġ �ο�
             PlayerStats playerStats = GameManager.PlayerManager.Player.GetComponentInChildren<PlayerStats>();
@@ -41,7 +42,7 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         }
     }
 
-    private IEnumerator AdjustStatsBasedOnPlayerType()
+    public IEnumerator AdjustStatsBasedOnPlayerType()
     {
         while(true)
         {
@@ -79,8 +80,8 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
 
             default:
                 //�ӽ�
-                SetAdjustStatsAttackSpeed(0.8f); // ���� �ӵ� 20% ����
-                SetAdjustStatsMoveSpeed(1.2F);   // �̵� �ӵ� 20% ����
+              //  SetAdjustStatsAttackSpeed(0.8f); // ���� �ӵ� 20% ����
+             //   SetAdjustStatsMoveSpeed(1.2F);   // �̵� �ӵ� 20% ����
                 break;
         }
       //  Debug.Log($" playerType : {playerType} �� �ش��ϴ� ������ ����");

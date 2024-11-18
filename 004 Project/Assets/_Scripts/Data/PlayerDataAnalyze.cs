@@ -5,9 +5,12 @@ using UnityEngine;
 public class PlayerDataAnalyze : MonoBehaviour
 {
     public string playerType;
-
+    public bool changePlayerType;
+    private string currentPlayerType;
     void Start()
     {
+        currentPlayerType = "";
+        changePlayerType = false;
         // Analyze Playerdata
         // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
     }
@@ -30,9 +33,17 @@ public class PlayerDataAnalyze : MonoBehaviour
         dashRatio /= ratioSum;
         runRatio /= ratioSum;
 
-        // Classify player style
-        string playStyle = ClassifyPlayer(parryRatio, dashRatio, runRatio);
-
+        string newPlayerType = ClassifyPlayer(parryRatio, dashRatio, runRatio);
+        if (newPlayerType != currentPlayerType)
+        {
+            changePlayerType = true;
+            currentPlayerType = newPlayerType;
+        }
+        else
+        {
+            changePlayerType = false;
+        }
+        playerType = newPlayerType;
         // print result
         // Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
     }
@@ -46,6 +57,7 @@ public class PlayerDataAnalyze : MonoBehaviour
 
     public string ClassifyPlayer(float parryRatio, float dashRatio, float runRatio)
     {
+        string playerType ="";
         Dictionary<string, float> ratios = new Dictionary<string, float>
         {
             { "parry", parryRatio },
@@ -62,6 +74,7 @@ public class PlayerDataAnalyze : MonoBehaviour
             {
                 maxRatio = entry.Value;
                 playerType = entry.Key;
+
             }
         }
         //    Debug.Log("playerType : " + playerType);

@@ -42,7 +42,11 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     public void NonElementDamage(float amount, Transform defender)
     {
-        stats?.DecreaseHealth(amount);
+        bool isAlive = stats?.DecreaseHealth(amount) ?? false;
+        if(isAlive)
+        {
+            defender.root.GetComponent<CharacterAudio>().PlayHitSound();
+        }
         ParticlesWithRandomRotation(ElementalComponent.damageParticles[0], defender);
     }
     public void SkillDamage(float baseDamage, Element attackerElement, float attackerAttackStat, GameObject attacker, Transform defender)
@@ -77,6 +81,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         {
             var attackerComponent = attacker.GetComponent<ElementalComponent>();
             ElementalComponent.ApplyElementalEffect(attackerElement, gameObject, attackerAttackStat, attackerComponent);
+            defender.root.GetComponent<CharacterAudio>().PlayHitSound();
         }
     }
 

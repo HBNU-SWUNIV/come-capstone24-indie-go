@@ -87,6 +87,7 @@ public class LandAttackState : SkillState
     {
         base.Enter();
         skill.EventHandler.OnStateFinish += EventHandler;
+        GameManager.PlayerManager.Player.GetComponent<CharacterAudio>().PlayOneShotSound("LandSkill");
 
         int facingDirection = skillMovement.GetFacingDirection();
 

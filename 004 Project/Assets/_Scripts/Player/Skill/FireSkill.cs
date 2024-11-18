@@ -77,6 +77,7 @@ public class FireAttackState : SkillState
     public override void Enter()
     {
         base.Enter();
+        GameManager.PlayerManager.Player.GetComponent<CharacterAudio>().PlayOneShotSound("FireSkill");
         skill.EventHandler.OnStateFinish += EventHandler;
 
 

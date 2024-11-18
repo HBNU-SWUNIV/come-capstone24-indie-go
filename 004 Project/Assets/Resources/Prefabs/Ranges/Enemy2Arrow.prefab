@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5641a3923ddf2ea48bd6743d56c5678b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 3
+  gravity: 5
   damageRadius: 0.15
   whatIsGround:
     serializedVersion: 2
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7e203f9196e8c4580207f12d5e50c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invincibilityDuration: 1
+  collisionCooldown: 0.25
 --- !u!1 &6738790779447210884
 GameObject:
   m_ObjectHideFlags: 0

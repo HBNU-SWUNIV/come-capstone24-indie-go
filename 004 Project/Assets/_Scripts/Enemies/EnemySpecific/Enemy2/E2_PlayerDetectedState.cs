@@ -29,8 +29,11 @@ public class E2_PlayerDetectedState : PlayerDetectedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
-        if (performCloseRangeAction)
+        if (performMeleeAttackRangeAction)
+        {
+            stateMachine.ChangeState(enemy.meleeAttackState);
+        }
+        else if (performCloseRangeAction)
         {
             if(Time.time >= enemy.dodgeState.startTime + enemy.dodgeStateData.dodgeCooldown)
             {
@@ -38,8 +41,8 @@ public class E2_PlayerDetectedState : PlayerDetectedState
             }
             else
             {
-                stateMachine.ChangeState(enemy.meleeAttackState);
-            }            
+                stateMachine.ChangeState(enemy.rangedAttackState);
+            }
         }
         else if (performLongRangeAction)
         {

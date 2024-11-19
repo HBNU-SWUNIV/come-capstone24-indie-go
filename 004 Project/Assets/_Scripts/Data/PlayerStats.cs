@@ -6,6 +6,12 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
     [SerializeField] private int MaxExp;
     private int currentExp;
 
+    public static Element currentElement;
+    public static int currentLevel;
+    public static float currentAddAttackDamage;
+    public static int currentHp;
+    public static int currentGoldPoint;
+
     public int Level
     {
         get => level;

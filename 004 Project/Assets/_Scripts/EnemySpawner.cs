@@ -75,13 +75,13 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        HandleMonsterSelection();
-        HandleElementSelection();
-        HandleElementLevelSelection();
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SpawnSelectedMonster();
-        }
+     //   HandleMonsterSelection();
+    //    HandleElementSelection();
+     //   HandleElementLevelSelection();
+      //  if (Input.GetKeyDown(KeyCode.B))
+  //      {
+  //          SpawnSelectedMonster();
+  //      }
     }
 
     private void HandleMonsterSelection()

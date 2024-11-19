@@ -8,6 +8,8 @@ public class ItemGold : Use_Effect
     public override bool ExecuteRole()
     {
         Debug.Log("Player Gold Add" + GoldPoint);
+        PlayerStats.currentGoldPoint += GoldPoint;
+        Debug.Log("currentGoldPoint : " + PlayerStats.currentGoldPoint);
         return true;
     }
 }

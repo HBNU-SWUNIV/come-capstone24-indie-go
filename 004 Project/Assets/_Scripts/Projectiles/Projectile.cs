@@ -86,4 +86,13 @@ public class Projectile : MonoBehaviour
         this.travelDistance = travelDistance;
         //attackDetails.damageAmount = damage;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((1 << collision.gameObject.layer).Equals(LayerMasks.Player))
+        {
+            Destroy(gameObject);
+        }
+    }
+    
 }

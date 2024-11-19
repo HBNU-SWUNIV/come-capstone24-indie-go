@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 4273698179139224347}
   - component: {fileID: 4045018937457765823}
   - component: {fileID: 1019647551724799439}
+  - component: {fileID: 606818427927318555}
   m_Layer: 9
   m_Name: FlyingEye
   m_TagString: Enemy
@@ -396,7 +397,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.128057, y: -0.005538404}
+  m_Offset: {x: 0.11447668, y: 0.021622717}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -407,7 +408,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.1841745, y: 1.8798212}
+  m_Size: {x: 1.8582411, y: 1.6625324}
   m_EdgeRadius: 0
 --- !u!114 &4045018937457765823
 MonoBehaviour:
@@ -422,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: e0910a5d6cff76e43b2a599bd3a52a6a, type: 2}
+  playerTransform: {fileID: 0}
   wallCheck: {fileID: 5500886776960105794}
   ledgeCheck: {fileID: 2803742209880174127}
   playerCheck: {fileID: 1627200772481708631}
@@ -444,6 +446,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8b0cb6945cab7418e3661d07d5eefe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &606818427927318555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079268821147475219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2671ed2e76f1f4ead367c1105081dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2139835630311834992
@@ -607,7 +621,7 @@ Transform:
   m_GameObject: {fileID: 3882937048882798688}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.95, y: -0.41, z: 0}
+  m_LocalPosition: {x: 0.95, y: 0.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -692,6 +706,8 @@ MonoBehaviour:
   curHp: 0
   maxHp: 0
   attackDamage: 0
+  basedamage: 0
+  addAttackDamage: 0
   attackSpeed: 0
   defense: 0
   moveSpeed: 0

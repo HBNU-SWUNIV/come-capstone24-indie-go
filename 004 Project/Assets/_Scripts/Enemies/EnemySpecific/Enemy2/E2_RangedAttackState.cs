@@ -43,7 +43,7 @@ public class E2_RangedAttackState : RangeAttackState
             }
             else
             {
-                stateMachine.ChangeState(enemy.lookForPlayerState);
+                stateMachine.ChangeState(enemy.moveState);
             }
         }
     }

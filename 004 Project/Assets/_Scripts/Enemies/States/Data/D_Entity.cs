@@ -15,6 +15,7 @@ public class D_Entity : ScriptableObject
 
     public float minAgroDistance = 3f;
     public float maxAgroDistance = 4f;
+    public float agroHeight = 2f; // 감지 높이
 
     public float parryStundurationTime = 7f;
 //    public float stunResistance = 3f;
@@ -22,8 +23,12 @@ public class D_Entity : ScriptableObject
 
     public float closeRangeActionDistance = 1f;
 
-   // public GameObject hitParticle;
+    public float maxForwardBias = 1.0f; // 최대 탐지의 전방 이동 정도
+    public float minForwardBias = 0.5f; // 최소 탐지의 전방 이동 정도
+    public float closeForwardBias = 0.2f; // 근접 탐지의 전방 이동 정도
+   
+    // public GameObject hitParticle;
 
-  //  public LayerMask whatIsGround;
- //   public LayerMask whatIsPlayer;
+    //  public LayerMask whatIsGround;
+    //   public LayerMask whatIsPlayer;
 }

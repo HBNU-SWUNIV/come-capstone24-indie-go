@@ -31,7 +31,7 @@ public class E1_MoveState : MoveState
         base.LogicUpdate();
 
 
-        if (isPlayerInMaxAgroRange)
+        if (isPlayerInMinAgroRange)
         {
             stateMachine.ChangeState(enemy.playerDetectedState);
         }

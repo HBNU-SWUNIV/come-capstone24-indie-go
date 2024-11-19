@@ -10,23 +10,37 @@ public class Death : CoreComponent
     private ParticleManager particleManager;
     private ICharacterStats stats;
 
+
     protected override void Awake()
     {
         base.Awake();
         stats = transform.root.GetComponentInChildren<ICharacterStats>();
         if (stats == null)
-            Debug.Log("stats ��");
+            Debug.Log("stats ��");
         GameObject go = GameObject.Find("DeathParticles");
-        if(go == null)
+        if (go == null)
         {
             go = new GameObject() { name = "DeathParticles" };
         }
         deathParticleParent = go.transform;
     }
 
-
     private void Die()
     {
+
+        if (gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            GameOverManager gameOverManager = FindObjectOfType<GameOverManager>();
+            if (gameOverManager != null)
+            {
+                gameOverManager.TriggerGameOver();
+            }
+            else
+            {
+                Debug.LogWarning("GameOverManager를 찾을 수 없습니다.");
+            }
+        }
+
         foreach (var particles in deathParticles)
         {
             ParticleManager.StartParticles(particles, deathParticleParent);

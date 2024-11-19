@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 7983386926649741517}
   - component: {fileID: 6956715224960187362}
   - component: {fileID: 3475847384385301749}
+  - component: {fileID: -4446750183198898773}
   m_Layer: 9
   m_Name: Goblin
   m_TagString: Enemy
@@ -412,6 +413,18 @@ MonoBehaviour:
   meleeAttackStateData2: {fileID: 11400000, guid: e8196625ddea82944961d86da661ec97, type: 2}
   lookForPlayerStateData: {fileID: 11400000, guid: 156c59c9609fa1f4bb09b75c8f34a9d6, type: 2}
   stunStateData: {fileID: 11400000, guid: f1bbbca4a025f3f4193fcd25d766bee0, type: 2}
+--- !u!114 &-4446750183198898773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737099674221770282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2671ed2e76f1f4ead367c1105081dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2518193162529651281
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +593,8 @@ MonoBehaviour:
   curHp: 0
   maxHp: 0
   attackDamage: 0
+  basedamage: 0
+  addAttackDamage: 0
   attackSpeed: 0
   defense: 0
   moveSpeed: 0
@@ -1085,7 +1100,7 @@ Transform:
   m_GameObject: {fileID: 9195316587247820311}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.73, y: -0.41, z: 0}
+  m_LocalPosition: {x: 0.73, y: 0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

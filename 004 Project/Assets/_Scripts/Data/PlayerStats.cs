@@ -30,6 +30,14 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
         InitializePlayerStats();
 
     }
+
+    private void OnDisable()
+    {
+        if (isDead == true)
+        {
+            transform.root.GetComponent<CharacterAudio>().PlayDeathSound();
+        }
+    }
     private void Start()
     {
         ChangeElement(Element.Fire, fireLevel);

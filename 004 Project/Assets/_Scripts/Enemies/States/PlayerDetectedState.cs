@@ -16,6 +16,7 @@ public class PlayerDetectedState : MonsterState
     protected bool isPlayerInMaxAgroRange;
     protected bool performLongRangeAction;
     protected bool performCloseRangeAction;
+    protected bool performMeleeAttackRangeAction;
     protected bool isDetectingLedge;
 
 
@@ -32,6 +33,7 @@ public class PlayerDetectedState : MonsterState
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
         isDetectingLedge = CollisionSeses.LedgeVertical;
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
+        performMeleeAttackRangeAction = entity.CheckPlayerInMeleeAttackRangeAction();
     }
 
     public override void Enter()
@@ -51,7 +53,15 @@ public class PlayerDetectedState : MonsterState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (isPlayerInMaxAgroRange)
+        {
+            int playerPosition = entity.GetPlayerRelativePosition();
 
+            if (playerPosition != 0 && playerPosition != Movement.FacingDirection)
+            {
+                Movement?.Flip();
+            }
+        }
         Movement?.SetVelocityX(0.0f);
 
         if (Time.time >= startTime + stateData.longRangeActionTime)

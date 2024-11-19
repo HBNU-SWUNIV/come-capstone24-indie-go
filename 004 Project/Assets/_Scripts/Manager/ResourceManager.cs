@@ -29,7 +29,6 @@ public class ResourceManager
         go.name = original.name;
         return go;
     }
-
     public GameObject Instantiate(GameObject prefab, Vector3 position,Quaternion rotation, Transform parent = null)
     {
         GameObject original = prefab;
@@ -42,7 +41,16 @@ public class ResourceManager
         go.name = original.name;
         return go;
     }
-
+    public AudioClip LoadSound(string soundName)
+    {
+        string path = $"Sounds/{soundName}";
+        AudioClip clip = Resources.Load<AudioClip>(path);
+        if (clip == null)
+        {
+            Debug.LogWarning($"Failed to load sound: {path}");
+        }
+        return clip;
+    }
     public void Destroy(GameObject go)
     {
         if (go == null)

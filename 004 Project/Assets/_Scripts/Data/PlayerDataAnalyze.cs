@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDataAnalyze : MonoBehaviour
+public class PlayerDataAnalyze
 {
     public string playerType;
     public float[] actionRatios = new float[3];

@@ -75,13 +75,13 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        HandleMonsterSelection();
-        HandleElementSelection();
-        HandleElementLevelSelection();
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SpawnSelectedMonster();
-        }
+     //   HandleMonsterSelection();
+    //    HandleElementSelection();
+     //   HandleElementLevelSelection();
+      //  if (Input.GetKeyDown(KeyCode.B))
+  //      {
+  //          SpawnSelectedMonster();
+  //      }
     }
 
     private void HandleMonsterSelection()
@@ -216,7 +216,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.LogError("EnemyStats component not found on the monster prefab.");
         }
-
+        selectedMonsterIndex = -1;
     }
 
 

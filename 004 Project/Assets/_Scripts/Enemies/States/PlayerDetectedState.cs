@@ -53,7 +53,15 @@ public class PlayerDetectedState : MonsterState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (isPlayerInMaxAgroRange)
+        {
+            int playerPosition = entity.GetPlayerRelativePosition();
 
+            if (playerPosition != 0 && playerPosition != Movement.FacingDirection)
+            {
+                Movement?.Flip();
+            }
+        }
         Movement?.SetVelocityX(0.0f);
 
         if (Time.time >= startTime + stateData.longRangeActionTime)

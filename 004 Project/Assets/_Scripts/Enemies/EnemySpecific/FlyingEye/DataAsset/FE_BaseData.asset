@@ -12,20 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a507e1148a4e0fb4cb0df80b197b5e44, type: 3}
   m_Name: FE_BaseData
   m_EditorClassIdentifier: 
-  maxHealth: 30
-  damageHopSpeed: 3
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
   groundCheckRadius: 0.3
-  minAgroDistance: 3
-  maxAgroDistance: 4
-  stunResistance: 3
-  stunRecoveryTime: 2
+  minAgroDistance: 5
+  maxAgroDistance: 7
+  agroHeight: 0.5
+  parryStundurationTime: 7
   closeRangeActionDistance: 1
-  hitParticle: {fileID: 0}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 256
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 128
+  maxForwardBias: -3
+  minForwardBias: -2
+  closeForwardBias: 0.2

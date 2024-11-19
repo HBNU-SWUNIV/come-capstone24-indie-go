@@ -15,7 +15,7 @@ public class ItemDB : MonoBehaviour
     {
         
     }
-    public void Generate_Item(Vector3 pos,int cost = -1)
+    public void Generate_Item(Vector3 pos)
     {
         GameObject go  = Instantiate(fieldItemPrefab,pos,Quaternion.identity);
         go.GetComponent<FieldItem>().SetItem(itemDB[Random.Range(0,itemDB.Count)]);

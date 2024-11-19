@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool instance;
@@ -26,7 +26,10 @@ public class ObjectPool : MonoBehaviour
     }
     private void Start()
     {        // 싱글톤 패턴 적용
-        InitializePool();
+        if(SceneManager.GetActiveScene().name == "Test 2")
+        {
+            InitializePool();
+        }
     }
 
     private void Update()

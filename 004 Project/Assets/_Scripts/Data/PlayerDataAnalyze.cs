@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerDataAnalyze : MonoBehaviour
 {
     public string playerType;
+    public float  parryRatio;
+    public float  dashRatio;
+    public float  runRatio;
 
     void Start()
     {
@@ -12,69 +15,87 @@ public class PlayerDataAnalyze : MonoBehaviour
         // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
     }
 
-
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
-        //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
-        // calculaye total Action
+        // Calculate total Action
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["RunSuccess"];
 
-        // Logistic
-        float parryRatio = LogisticFunction((float)actionData["ParryAttempt"] / totalActions);
-        float dashRatio = LogisticFunction((float)actionData["DashAttempt"] / totalActions);
-        float runRatio = LogisticFunction((float)actionData["RunSuccess"] / totalActions);
+        // Softmax calculation
+        List<float> softmaxValues = Softmax(new List<float>
+        {
+            (float)actionData["ParryAttempt"] / totalActions,
+            (float)actionData["DashAttempt"] / totalActions,
+            (float)actionData["RunSuccess"] / totalActions
+        });
 
-        // Ratio normalize
-        float ratioSum = parryRatio + dashRatio + runRatio;
-        parryRatio /= ratioSum;
-        dashRatio /= ratioSum;
-        runRatio /= ratioSum;
+        parryRatio = softmaxValues[0];
+        dashRatio = softmaxValues[1];
+        runRatio = softmaxValues[2];
 
         // Classify player style
-        string playStyle = ClassifyPlayer(parryRatio, dashRatio, runRatio);
+        playerType = ClassifyPlayer(parryRatio, dashRatio, runRatio);
 
-        // print result
-        // Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
+        // Debug output
+        Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playerType}");
     }
 
-
-    float LogisticFunction(float x)
+    public List<float> Softmax(List<float> inputs)
     {
-        return 1f / (1f + Mathf.Exp(-x));
-    }
+        float maxInput = Mathf.Max(inputs.ToArray());
+        float sumExp = 0f;
 
+        // Calculate exp for each input
+        List<float> expValues = new List<float>();
+        foreach (var input in inputs)
+        {
+            float expValue = Mathf.Exp(input - maxInput); // Numerical stability
+            expValues.Add(expValue);
+            sumExp += expValue;
+        }
+
+        // Normalize
+        for (int i = 0; i < expValues.Count; i++)
+        {
+            expValues[i] /= sumExp;
+        }
+
+        return expValues;
+    }
 
     public string ClassifyPlayer(float parryRatio, float dashRatio, float runRatio)
     {
         Dictionary<string, float> ratios = new Dictionary<string, float>
         {
             { "parry", parryRatio },
-            { "dodge", dashRatio },
+            { "dash", dashRatio },
             { "run", runRatio }
         };
 
+        string detectedType = "Balanced";
+        float maxRatio = -1f;
 
-        float maxRatio = -1;
-
+        // Find the maximum ratio and corresponding type
         foreach (var entry in ratios)
         {
             if (entry.Value > maxRatio)
             {
                 maxRatio = entry.Value;
-                playerType = entry.Key;
+                detectedType = entry.Key;
             }
         }
-        //    Debug.Log("playerType : " + playerType);
-        switch (playerType)
+
+        // Determine classification
+        if (maxRatio > 0.5f) // High threshold
         {
-            case "parry":
-                return maxRatio > 0.5f ? "High_parry" : maxRatio > 0.4f ? "parry" : "Balanced";
-            case "dash":
-                return maxRatio > 0.5f ? "High_dash" : maxRatio > 0.4f ? "dash" : "Balanced";
-            case "run":
-                return maxRatio > 0.5f ? "High_run" : maxRatio > 0.4f ? "run" : "Balanced";
-            default:
-                return "Balanced";
+            return $"High_{detectedType}";
+        }
+        else if (maxRatio > 0.4f) // Medium threshold
+        {
+            return detectedType;
+        }
+        else
+        {
+            return "Balanced"; // Fallback to Balanced
         }
     }
 }

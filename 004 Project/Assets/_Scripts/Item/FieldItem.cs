@@ -6,13 +6,13 @@ public class FieldItem : MonoBehaviour
 {
     public Item item;
     public SpriteRenderer image;
-    public void SetItem(Item _item)
+    public void SetItem(Item _item,int cost = -1)
     {
         item.itemName = _item.itemName;
         item.itemImage = _item.itemImage;
         item.Type = _item.Type;
         item.effects = _item.effects;
-
+        item.cost = cost;
         image.sprite = item.itemImage;
     }
     public Item GetItem()
@@ -36,7 +36,8 @@ public class FieldItem : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        int player_gold = GameManager.PlayerManager.Player.GetComponentInChildren<CharacterStats<PlayerStatsData>>().Gold;
+        if(collision.CompareTag("Player") && player_gold >= this.GetItem().cost)
         {
             if(AddItem(this.GetItem()))
             {

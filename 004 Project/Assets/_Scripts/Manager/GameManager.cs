@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
 
         // 초기 상태: 비활성화
         pauseMenuCanvas.SetActive(false);
+        DontDestroyOnLoad(pauseMenuCanvas);
 
         // Resume 버튼 생성
         CreateButton("Resume", new Vector2(0, 75), () => TogglePause());
@@ -90,17 +92,34 @@ public class GameManager : MonoBehaviour
 
         if (isPaused)
         {
-            Time.timeScale = 0f; // 게임 일시중지
-            pauseMenuCanvas.SetActive(true); // 메뉴 활성화
+            StopGame();
         }
         else
         {
-            Time.timeScale = 1f; // 게임 재개
-            pauseMenuCanvas.SetActive(false); // 메뉴 비활성화
+            ResumeGame();
         }
+    }
+
+    void StopGame()
+    {
+        Time.timeScale = 0f; // 게임 일시중지
+        pauseMenuCanvas.SetActive(true); // 메뉴 활성화
+    }
+    void ResumeGame()
+    {
+        Time.timeScale = 1f; // 게임 재개
+        pauseMenuCanvas.SetActive(false); // 메뉴 비활성화
     }
     void BackToTitle()
     {
+        isPaused = !isPaused;
+        GameObject map = null;
+        map = GameObject.Find("Map");
+        if(map != null)
+        {
+            map.GetComponent<Tile_Map_Create>().Reset_value();
+        }
+        ResumeGame();
         SceneManager.LoadScene("Title");
     }
     // 게임 종료

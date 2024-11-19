@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject canvas = GameObject.Find("SpawnerUI");
         if (canvas == null)
         {
-            Debug.LogError("SpawnerUI Canvas를 찾을 수 없습니다.");
+            Debug.Log("SpawnerUI Canvas를 찾을 수 없습니다.");
             return;
         }
 

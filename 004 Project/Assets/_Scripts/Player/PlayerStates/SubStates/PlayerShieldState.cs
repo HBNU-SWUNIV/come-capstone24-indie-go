@@ -8,6 +8,7 @@ public class PlayerShieldState : PlayerAbilityState
 
     public bool ShieldInput { get; private set; }
     public bool ShieldHoldInput { get; private set; }
+
     
     public PlayerShieldState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string AnimBoolName, Weapon weapon) : base(player, stateMachine, playerData, AnimBoolName)
     {
@@ -38,7 +39,7 @@ public class PlayerShieldState : PlayerAbilityState
 
         ShieldInput = player.InputHandler.ShieldInput;
         ShieldHoldInput = player.InputHandler.ShieldHoldInput;
-        if (!isExitingState)
+        if(!isExitingState)
             if (GameManager.SharedCombatDataManager.IsPlayerHit)
             {
                 stateMachine.ChangeState(player.HitState);
@@ -49,10 +50,7 @@ public class PlayerShieldState : PlayerAbilityState
     {
         base.PhysicsUpdate();
     }
-    public void OnParrySuccess()
-    {
-        player.InputHandler.OnParrySuccess();
-    }
+
 
     public void SetWeapon(Weapon weapon)
     {

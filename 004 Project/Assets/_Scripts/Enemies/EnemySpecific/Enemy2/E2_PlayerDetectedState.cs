@@ -50,8 +50,6 @@ public class E2_PlayerDetectedState : PlayerDetectedState
         }
         else if (!isPlayerInMaxAgroRange)
         {
-            entity.GetPlayerRelativePosition();
-            enemy.lastKnownPlayerPosition = enemy.playerTransform.position;
             stateMachine.ChangeState(enemy.lookForPlayerState);
         }
     }

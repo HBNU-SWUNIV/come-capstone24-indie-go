@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveState : MonsterState
 {
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    private Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     private CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
 
     private Movement movement;

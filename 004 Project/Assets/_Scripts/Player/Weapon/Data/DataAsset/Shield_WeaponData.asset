@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 320ae1383e8dd7e4b8d7cdcca50eb32d, type: 3}
   m_Name: Shield_WeaponData
   m_EditorClassIdentifier: 
-  parryStun: 1.2
+  parryStun: 0.5
   parryDamage: 2
   knockbackAngle: {x: 1, y: 1}
   knockbackStrength: 5

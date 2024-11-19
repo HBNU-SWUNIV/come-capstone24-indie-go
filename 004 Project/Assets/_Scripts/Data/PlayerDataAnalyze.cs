@@ -5,38 +5,29 @@ using UnityEngine;
 public class PlayerDataAnalyze : MonoBehaviour
 {
     public string playerType;
-    public float  parryRatio;
-    public float  dashRatio;
-    public float  runRatio;
+    public float[] actionRatios = new float[3];
     public bool changePlayerType;
     private string currentPlayerType;
     void Start()
     {
-        currentPlayerType = "";
-        changePlayerType = false;
         // Analyze Playerdata
         // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
     }
 
-
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
     {
-        //  Debug.Log($"parryAttempt : { actionData["ParryAttempt"]}");
-        // calculaye total Action
+        // 총 액션 횟수 계산
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["RunSuccess"];
 
-        // Logistic
-        parryRatio = LogisticFunction((float)actionData["ParryAttempt"] / totalActions);
-        dashRatio = LogisticFunction((float)actionData["DashAttempt"] / totalActions);
-        runRatio = LogisticFunction((float)actionData["RunSuccess"] / totalActions);
+        // 비율 계산
+        
+        actionRatios[0] = (float)actionData["ParryAttempt"] / totalActions;
+        actionRatios[1] = (float)actionData["DashAttempt"] / totalActions;
+        actionRatios[2] = (float)actionData["RunSuccess"] / totalActions;
 
-        // Ratio normalize
-        float ratioSum = parryRatio + dashRatio + runRatio;
-        parryRatio /= ratioSum;
-        dashRatio /= ratioSum;
-        runRatio /= ratioSum;
-
-        string newPlayerType = ClassifyPlayer(parryRatio, dashRatio, runRatio);
+        // Softmax 함수 적용
+        float[] softmaxRatios = Softmax(actionRatios);
+        string newPlayerType = ClassifyPlayer(softmaxRatios[0], softmaxRatios[1], softmaxRatios[2]);
         if (newPlayerType != currentPlayerType)
         {
             changePlayerType = true;
@@ -47,20 +38,38 @@ public class PlayerDataAnalyze : MonoBehaviour
             changePlayerType = false;
         }
         playerType = newPlayerType;
-        // print result
-        // Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playStyle}");
+
+        // 플레이어 스타일 분류
+        
+
+        // 결과 출력 (디버그용)
+        Debug.Log($"Parry Ratio = {softmaxRatios[0]:F4}, Dash Ratio = {softmaxRatios[1]:F4}, Run Ratio = {softmaxRatios[2]:F4}, Play Style = {playerType}");
     }
 
-
-    float LogisticFunction(float x)
+    public float[] Softmax(float[] values)
     {
-        return 1f / (1f + Mathf.Exp(-x));
-    }
+        float offset = Mathf.Max(values); // 가장 큰 값 사용 (값 튐 방지)
+        float sumExp = 0f;
+        float[] expValues = new float[values.Length];
 
+        // 모든 값의 지수 계산 (값이 튀는 것을 방지하기 위해 offset 사용)
+        for (int i = 0; i < values.Length; i++)
+        {
+            expValues[i] = Mathf.Exp(values[i] - offset);
+            sumExp += expValues[i];
+        }
+
+        // 각 값에 대해 소프트맥스 계산
+        for (int i = 0; i < values.Length; i++)
+        {
+            expValues[i] /= sumExp;
+        }
+
+        return expValues;
+    }
 
     public string ClassifyPlayer(float parryRatio, float dashRatio, float runRatio)
     {
-        
         Dictionary<string, float> ratios = new Dictionary<string, float>
         {
             { "parry", parryRatio },
@@ -68,19 +77,21 @@ public class PlayerDataAnalyze : MonoBehaviour
             { "run", runRatio }
         };
 
-
         string detectedType = "Balanced";
         float maxRatio = -1f;
+
+        // Find the maximum ratio and corresponding type
         foreach (var entry in ratios)
         {
             if (entry.Value > maxRatio)
             {
                 maxRatio = entry.Value;
                 detectedType = entry.Key;
-
             }
         }
-         if (maxRatio > 0.5f) // High threshold
+
+        // Determine classification
+        if (maxRatio > 0.6f) // High threshold
         {
             return $"High_{detectedType}";
         }
@@ -90,7 +101,7 @@ public class PlayerDataAnalyze : MonoBehaviour
         }
         else
         {
-            return "Balanced";
+            return "Balanced"; // Fallback to Balanced
         }
     }
 }

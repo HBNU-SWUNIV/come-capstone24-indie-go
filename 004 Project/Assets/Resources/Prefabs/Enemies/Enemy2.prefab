@@ -926,6 +926,14 @@ MonoBehaviour:
   defense: 0
   moveSpeed: 0
   element: 0
+  hpBarRectTransform: {fileID: 0}
+  healthBarImage: {fileID: 0}
+  healthText: {fileID: 0}
+  elementImageUI: {fileID: 0}
+  fireSprite: {fileID: 0}
+  iceSprite: {fileID: 0}
+  landSprite: {fileID: 0}
+  lightSprite: {fileID: 0}
   Exp: 0
 --- !u!1 &6908449316421652216
 GameObject:
@@ -1102,7 +1110,7 @@ Transform:
   m_GameObject: {fileID: 8898906489458790144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.27, z: 0}
+  m_LocalPosition: {x: 0.17300034, y: -0.23000002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

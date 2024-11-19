@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerDataAnalyze : MonoBehaviour
 {
     public string playerType;
+    public float  parryRatio;
+    public float  dashRatio;
+    public float  runRatio;
     public bool changePlayerType;
     private string currentPlayerType;
     void Start()
@@ -23,9 +26,9 @@ public class PlayerDataAnalyze : MonoBehaviour
         int totalActions = actionData["ParryAttempt"] + actionData["DashAttempt"] + actionData["RunSuccess"];
 
         // Logistic
-        float parryRatio = LogisticFunction((float)actionData["ParryAttempt"] / totalActions);
-        float dashRatio = LogisticFunction((float)actionData["DashAttempt"] / totalActions);
-        float runRatio = LogisticFunction((float)actionData["RunSuccess"] / totalActions);
+        parryRatio = LogisticFunction((float)actionData["ParryAttempt"] / totalActions);
+        dashRatio = LogisticFunction((float)actionData["DashAttempt"] / totalActions);
+        runRatio = LogisticFunction((float)actionData["RunSuccess"] / totalActions);
 
         // Ratio normalize
         float ratioSum = parryRatio + dashRatio + runRatio;
@@ -57,37 +60,37 @@ public class PlayerDataAnalyze : MonoBehaviour
 
     public string ClassifyPlayer(float parryRatio, float dashRatio, float runRatio)
     {
-        string playerType ="";
+        
         Dictionary<string, float> ratios = new Dictionary<string, float>
         {
             { "parry", parryRatio },
-            { "dodge", dashRatio },
+            { "dash", dashRatio },
             { "run", runRatio }
         };
 
 
-        float maxRatio = -1;
-
+        string detectedType = "Balanced";
+        float maxRatio = -1f;
         foreach (var entry in ratios)
         {
             if (entry.Value > maxRatio)
             {
                 maxRatio = entry.Value;
-                playerType = entry.Key;
+                detectedType = entry.Key;
 
             }
         }
-        //    Debug.Log("playerType : " + playerType);
-        switch (playerType)
+         if (maxRatio > 0.5f) // High threshold
         {
-            case "parry":
-                return maxRatio > 0.5f ? "High_parry" : maxRatio > 0.4f ? "parry" : "Balanced";
-            case "dash":
-                return maxRatio > 0.5f ? "High_dash" : maxRatio > 0.4f ? "dash" : "Balanced";
-            case "run":
-                return maxRatio > 0.5f ? "High_run" : maxRatio > 0.4f ? "run" : "Balanced";
-            default:
-                return "Balanced";
+            return $"High_{detectedType}";
+        }
+        else if (maxRatio > 0.4f) // Medium threshold
+        {
+            return detectedType;
+        }
+        else
+        {
+            return "Balanced";
         }
     }
 }

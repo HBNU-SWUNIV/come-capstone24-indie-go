@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
         pauseMenuCanvas.AddComponent<CanvasScaler>();
         pauseMenuCanvas.AddComponent<GraphicRaycaster>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        DontDestroyOnLoad(canvas);
 
         // 초기 상태: 비활성화
         pauseMenuCanvas.SetActive(false);

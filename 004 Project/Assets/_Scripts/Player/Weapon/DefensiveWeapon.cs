@@ -341,7 +341,6 @@ public class ShieldParryState : ShieldState
             knockbackable.Knockback(weaponData.knockbackAngle, weaponData.knockbackStrength, playerShieldState.Movement.FacingDirection);
         }
         GameManager.PlayerManager.PlayerDataCollect.RecordAction(PlayerDataCollectName.ParrySuccess);
-        playerShieldState.OnParrySuccess();
 
     }
 

@@ -15,11 +15,7 @@ MonoBehaviour:
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
   groundCheckRadius: 0.3
-  minAgroDistance: 7
-  maxAgroDistance: 9
-  agroHeight: 1
+  minAgroDistance: 4.5
+  maxAgroDistance: 5.5
   parryStundurationTime: 7
   closeRangeActionDistance: 2
-  maxForwardBias: -4
-  minForwardBias: -3
-  closeForwardBias: 0.2

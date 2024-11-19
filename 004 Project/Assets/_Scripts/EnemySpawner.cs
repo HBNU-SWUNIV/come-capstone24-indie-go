@@ -217,7 +217,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.LogError("EnemyStats component not found on the monster prefab.");
         }
-        selectedMonsterIndex = -1;
+
     }
 
 

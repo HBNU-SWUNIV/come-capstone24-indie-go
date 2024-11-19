@@ -19,8 +19,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool ShieldInput { get; private set; }
     public bool ShieldHoldInput { get; private set; }
-    
-
     public bool SkillInput { get; private set; }
     public bool SkillHoldInput { get; private set; }
     public bool SkillChangeInput { get; private set; }
@@ -31,7 +29,6 @@ public class PlayerInputHandler : MonoBehaviour
     private float DashInputStartTime;
     private float ShieldHoldInputStartTime;
     private float SkillHoldInputStartTime;
-    private bool isParrySuccessful;
     public event Action OnSkillChangeInputAction;
 
 
@@ -141,27 +138,16 @@ public class PlayerInputHandler : MonoBehaviour
         
         if(context.canceled)
         {
-            isParrySuccessful = false;
             ShieldInput = false;
             ShieldHoldInput = false;
         }
     }
     private void CheckShieldInputHolding()
     {
-        // 패링 성공 시 추가 실행 방지
-        if (isParrySuccessful) return;
-
         if (ShieldInput && Time.time >= ShieldHoldInputStartTime + inputHoldTime)
         {
             ShieldHoldInput = true;
         }
-    }
-    public void OnParrySuccess()
-    {
-        // 패링 성공 시 플래그 설정 및 입력 초기화
-        isParrySuccessful = true;
-        ShieldInput = false;
-        ShieldHoldInput = false;
     }
 
     public void OnSkillInput(InputAction.CallbackContext context)

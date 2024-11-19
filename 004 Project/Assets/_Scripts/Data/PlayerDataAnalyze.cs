@@ -9,10 +9,12 @@ public class PlayerDataAnalyze : MonoBehaviour
     public float  dashRatio;
     public float  runRatio;
 
+    public bool changePlayerType;
+    private string currentPlayerType;
     void Start()
     {
-        // Analyze Playerdata
-        // AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
+        currentPlayerType = "";
+        changePlayerType = false;
     }
 
     public void AnalyzePlayerData(Dictionary<string, int> actionData)
@@ -33,7 +35,17 @@ public class PlayerDataAnalyze : MonoBehaviour
         runRatio = softmaxValues[2];
 
         // Classify player style
-        playerType = ClassifyPlayer(parryRatio, dashRatio, runRatio);
+        string newPlayerType = ClassifyPlayer(parryRatio, dashRatio, runRatio);
+        if (newPlayerType != currentPlayerType)
+        {
+            changePlayerType = true;
+            currentPlayerType = newPlayerType;
+        }
+        else
+        {
+            changePlayerType = false;
+        }
+        playerType = newPlayerType;
 
         // Debug output
         Debug.Log($"Parry Ratio = {parryRatio:F4}, Dodge Ratio = {dashRatio:F4}, Run Ratio = {runRatio:F4}, Play Style = {playerType}");

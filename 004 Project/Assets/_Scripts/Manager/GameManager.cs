@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     PlayerManager player;
     SharedCombatDataManager sharedData = new SharedCombatDataManager();
     ElementalManager elemental = new ElementalManager();
-    
+    SoundManager soundManager = new SoundManager();
     // Pause 관련 변수들
     private GameObject pauseMenuCanvas;
     private bool isPaused = false;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public static PlayerManager PlayerManager { get { return Instance.player; } }
     public static SharedCombatDataManager SharedCombatDataManager { get { return Instance.sharedData; } }
     public static ElementalManager ElementalManager { get { return Instance.elemental; } }
-
+    public static SoundManager SoundManager { get { return Instance.soundManager; } }
     void Start()
     {
         Init();
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
             s_instance = go.GetComponent<GameManager>();
 
             s_instance.data.Init();
+            s_instance.soundManager.LoadAllSounds();
         }
     }
 

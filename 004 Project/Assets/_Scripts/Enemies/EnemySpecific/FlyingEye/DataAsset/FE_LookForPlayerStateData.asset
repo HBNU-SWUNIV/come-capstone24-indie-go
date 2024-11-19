@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FE_LookForPlayerStateData
   m_EditorClassIdentifier: 
   amountOfTurns: 2
-  timeBetweenTurns: 0.5
+  timeBetweenTurns: 0.75

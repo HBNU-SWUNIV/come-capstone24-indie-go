@@ -9,6 +9,7 @@ public class CharacterStatsData
     public int id;
     public int curHp;
     public int maxHp;
+    public int gold;
     public float attackDamage;
     public float attackSpeed;
     public float defense;

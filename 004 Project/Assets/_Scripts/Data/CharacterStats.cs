@@ -11,6 +11,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     [SerializeField] protected int id;
     [SerializeField] protected int curHp;
     [SerializeField] protected int maxHp;
+    [SerializeField] protected int gold = 0;
     [SerializeField] protected float attackDamage;
     [SerializeField] protected float basedamage;
     [SerializeField] protected float addAttackDamage;
@@ -24,6 +25,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
 
     public int CurHp { get => curHp; set => curHp = value; }
     public int MaxHp { get => maxHp; set => maxHp = value; }
+    public int Gold {get => gold; set => gold = value;}
     public float AttackDamage { get => attackDamage; }
     public float AddAttackDamage { get => addAttackDamage; set { addAttackDamage = value; ChangeDamage(); } }
     public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
@@ -78,6 +80,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     {
         curHp = stats.curHp;
         maxHp = stats.maxHp;
+        gold = stats.gold;
         attackDamage = stats.attackDamage + addAttackDamage;
         attackSpeed = stats.attackSpeed;
         defense = stats.defense;

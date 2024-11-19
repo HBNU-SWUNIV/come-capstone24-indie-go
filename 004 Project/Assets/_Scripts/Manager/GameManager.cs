@@ -2,35 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-
 public class GameManager : MonoBehaviour
 {
     static GameManager s_instance;
     public static GameManager Instance { get { Init(); return s_instance; } }
+
 
     DataManager data = new DataManager();
     ResourceManager resource = new ResourceManager();
     PlayerManager player;
     SharedCombatDataManager sharedData = new SharedCombatDataManager();
     ElementalManager elemental = new ElementalManager();
-    
-    // Pause 관련 변수들
+    SoundManager soundManager = new SoundManager();
     private GameObject pauseMenuCanvas;
     private bool isPaused = false;
 
-    public static DataManager Data { get { return Instance.data; } }
+    
+    public static DataManager Data { get{ return Instance.data; } }
     public static ResourceManager Resource { get { return Instance.resource; } }
     public static PlayerManager PlayerManager { get { return Instance.player; } }
     public static SharedCombatDataManager SharedCombatDataManager { get { return Instance.sharedData; } }
     public static ElementalManager ElementalManager { get { return Instance.elemental; } }
-
+    public static SoundManager SoundManager { get { return Instance.soundManager; } }
     void Start()
     {
         Init();
-
-        // Pause Menu Canvas 생성
         pauseMenuCanvas = new GameObject("PauseMenuCanvas");
         Canvas canvas = pauseMenuCanvas.AddComponent<Canvas>();
         pauseMenuCanvas.AddComponent<CanvasScaler>();
@@ -39,7 +36,6 @@ public class GameManager : MonoBehaviour
 
         // 초기 상태: 비활성화
         pauseMenuCanvas.SetActive(false);
-        DontDestroyOnLoad(pauseMenuCanvas);
 
         // Resume 버튼 생성
         CreateButton("Resume", new Vector2(0, 75), () => TogglePause());
@@ -72,54 +68,38 @@ public class GameManager : MonoBehaviour
             s_instance = go.GetComponent<GameManager>();
 
             s_instance.data.Init();
+
+            s_instance.soundManager.LoadAllSounds();
         }
+        
     }
 
     public void CreatePlayerManager()
     {
         if (PlayerManager == null)
         {
-            GameObject go = new GameObject("PlayerManager") { name = "@PlayerManager" };
+            GameObject go = new GameObject("PlayerManager") { name = "@PlayerManager"};
             player = go.AddComponent<PlayerManager>();
             PlayerManager.Initialize();
         }
     }
-
-    // Pause 상태 전환
     void TogglePause()
     {
         isPaused = !isPaused;
 
         if (isPaused)
         {
-            StopGame();
+            Time.timeScale = 0f; // 게임 일시중지
+            pauseMenuCanvas.SetActive(true); // 메뉴 활성화
         }
         else
         {
-            ResumeGame();
+            Time.timeScale = 1f; // 게임 재개
+            pauseMenuCanvas.SetActive(false); // 메뉴 비활성화
         }
-    }
-
-    void StopGame()
-    {
-        Time.timeScale = 0f; // 게임 일시중지
-        pauseMenuCanvas.SetActive(true); // 메뉴 활성화
-    }
-    void ResumeGame()
-    {
-        Time.timeScale = 1f; // 게임 재개
-        pauseMenuCanvas.SetActive(false); // 메뉴 비활성화
     }
     void BackToTitle()
     {
-        isPaused = !isPaused;
-        GameObject map = null;
-        map = GameObject.Find("Map");
-        if(map != null)
-        {
-            map.GetComponent<Tile_Map_Create>().Reset_value();
-        }
-        ResumeGame();
         SceneManager.LoadScene("Title");
     }
     // 게임 종료
@@ -168,3 +148,4 @@ public class GameManager : MonoBehaviour
         button.onClick.AddListener(onClickAction);
     }
 }
+

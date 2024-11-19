@@ -17,7 +17,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float defense;
     [SerializeField] protected float moveSpeed;
-    [SerializeField] protected int gold = 0;
     [SerializeField] protected Element element;
     protected Animator animator;
 
@@ -30,7 +29,6 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
     public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
     public float Defense { get => defense; set => defense = value; }
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
-    public int Gold { get => gold; set => gold = value; }
 
 
     // 속성 레벨
@@ -84,7 +82,7 @@ public abstract class CharacterStats<T> : MonoBehaviour, ICharacterStats where T
         attackSpeed = stats.attackSpeed;
         defense = stats.defense;
         moveSpeed = stats.moveSpeed;
-        gold = stats.gold;
+
         basedamage = stats.attackDamage;
         baseMoveSpeed = moveSpeed;
         baseAttackSpeed = attackSpeed;

@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class PlayerStats : CharacterStats<PlayerStatsData>
 {
-    [SerializeField] private int level;
-    [SerializeField] private int MaxExp;
-    private int currentExp;
+    [SerializeField] public int level;
+    [SerializeField] public int MaxExp;
+    public int currentExp;
 
+    public static bool savePlayerData = false;
     public static Element currentElement;
     public static int currentLevel;
     public static float currentAddAttackDamage;
     public static int currentHp;
-    public static int currentGoldPoint;
+    public static int exp;
+    public static int currentGoldPoint = 100;
 
-    public int Level
+    public int Level 
     {
         get => level;
         set
@@ -26,14 +28,17 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
         base.Awake();
     }
 
-    protected override void SetStatsData(PlayerStatsData stats)
+    protected override void SetStatsData(PlayerStatsData stats, bool isSave)
     {
-        base.SetStatsData(stats);
+        base.SetStatsData(stats, isSave);
         MaxExp = stats.MaxExp;
     }
     private void OnEnable()
     {
-        InitializePlayerStats();
+        if (savePlayerData)
+            InitializeLoadPlayerStats();
+        else
+            InitializePlayerStats();
 
     }
 
@@ -43,17 +48,39 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
         {
             transform.root.GetComponent<CharacterAudio>().PlayDeathSound();
         }
+        else
+        {
+            currentElement = Element;
+            currentLevel = level;
+            currentAddAttackDamage = addAttackDamage;
+            currentHp = curHp;
+            exp = currentExp;
+        }
     }
     private void Start()
     {
-        ChangeElement(Element.Fire, fireLevel);
+        if (!savePlayerData)
+            ChangeElement(Element.Fire, fireLevel);
+        else
+            ChangeElement(currentElement, fireLevel);
     }
 
+    private void InitializeLoadPlayerStats()
+    {
+        id = 1;
+        level = currentLevel;
+        currentExp = exp;
+        Element = currentElement;
+        curHp = currentHp;
+        addAttackDamage = currentAddAttackDamage;
+        SetStat();
+
+    }
     private void InitializePlayerStats()
     {
-        // ¿©±â¼­ id¿Í levelÀ» ÃÊ±âÈ­
-        id = 1; // ÇÃ·¹ÀÌ¾îÀÇ °íÀ¯ ID ¼³Á¤
-        level = 1; // ÃÊ±â ·¹º§ ¼³Á¤
+        // ï¿½ï¿½ï¿½â¼­ idï¿½ï¿½ levelï¿½ï¿½ ï¿½Ê±ï¿½È­
+        id = 1; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID ï¿½ï¿½ï¿½ï¿½
+        level = 1; // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         currentExp = 0;
         SetStat();
 
@@ -61,13 +88,13 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
 
     protected override void SetStat()
     {
-        // id¿Í level¿¡ ¸Â´Â µ¥ÀÌÅÍ °Ë»ö
+        // idï¿½ï¿½ levelï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         foreach (var kvp in GameManager.Data.PlayerStatsDict)
         {
             var stats = kvp.Value;
             if (stats.id == id && stats.level == level)
             {
-                SetStatsData(stats);
+                SetStatsData(stats, savePlayerData);
                 return;
             }
         }
@@ -77,7 +104,7 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
     public void AddExp(int exp)
     {
         currentExp += exp;
-        Debug.Log($"°æÇèÄ¡ È¹µæ: {exp}, ÇöÀç °æÇèÄ¡: {currentExp}/{MaxExp}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½Ä¡ È¹ï¿½ï¿½: {exp}, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡: {currentExp}/{MaxExp}");
 
         if (currentExp >= MaxExp)
         {
@@ -87,9 +114,9 @@ public class PlayerStats : CharacterStats<PlayerStatsData>
 
     public void LevelUp()
     {
-        currentExp -= MaxExp; // ÃÊ°úµÈ °æÇèÄ¡´Â ´ÙÀ½ ·¹º§·Î ÀÌ¾îÁü
-        Level++; // ·¹º§ Áõ°¡
-        Debug.Log($"·¹º§¾÷! ÇöÀç ·¹º§: {Level}");
+        currentExp -= MaxExp; // ï¿½Ê°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¾ï¿½ï¿½ï¿½
+        Level++; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {Level}");
     }
 
     protected override void UpdateAnimatorMoveSpeed()

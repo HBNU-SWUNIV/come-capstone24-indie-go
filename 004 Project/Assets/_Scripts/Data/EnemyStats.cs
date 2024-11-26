@@ -52,30 +52,42 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
         }
         // ������ �⺻ ������ ����
         ResetStatsToBaseValues();
-        GameManager.PlayerManager.DataAnalyze.AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
-        string playerType = GameManager.PlayerManager.DataAnalyze.playerType;
+        PlayerDataAnalyze.Instance.AnalyzePlayerData(GameManager.PlayerManager.PlayerDataCollect.actionData);
+        string playerType = PlayerDataAnalyze.Instance.playerType;
         // Debug.Log($"GameManager.PlayerManager.DataAnalyze.playerType : {GameManager.PlayerManager.DataAnalyze.playerType}");
         switch (playerType)
         {
             case "High_parry":
+                SetAdjustStatsAttackSpeed(1.5f); // ���� �ӵ� 20% ����
+                SetAdjustStatsMoveSpeed(0.8f);   // �̵� �ӵ� 10% ����
+                break;
+
             case "parry":
                 // �÷��̾ �и��� ��ȣ�ϴ� ���, ���ʹ� �� ���������� �ൿ
-                SetAdjustStatsAttackSpeed(1.2f); // ���� �ӵ� 20% ����
-                SetAdjustStatsMoveSpeed(1.1f);   // �̵� �ӵ� 10% ����
+                SetAdjustStatsAttackSpeed(1.25f); // ���� �ӵ� 20% ����
+                SetAdjustStatsMoveSpeed(0.9f);   // �̵� �ӵ� 10% ����
                 break;
 
             case "High_dash":
+                SetAdjustStatsAttackSpeed(0.8f); // ���� �ӵ� 20% ����
+                SetAdjustStatsMoveSpeed(1.5f);   // �̵� �ӵ� 10% ����
+                break;
+
             case "dash":
                 // �÷��̾ ȸ�Ǹ� ��ȣ�ϴ� ���, ���ʹ� ���� �ɷ� ���
-                SetAdjustStatsAttackSpeed(0.8f); // ���� �ӵ� 10% ����
-                SetAdjustStatsMoveSpeed(1.4f);   // �̵� �ӵ� 30% ����
+                SetAdjustStatsAttackSpeed(0.9f); // ���� �ӵ� 10% ����
+                SetAdjustStatsMoveSpeed(1.25f);   // �̵� �ӵ� 30% ����
                 break;
 
             case "High_run":
+                SetAdjustStatsAttackSpeed(1.3f); // ���� �ӵ� 20% ����
+                SetAdjustStatsMoveSpeed(1.3f);   // �̵� �ӵ� 10% ����
+                break;
+
             case "run":
                 // �÷��̾ ������ ��ȣ�ϴ� ���, ���ʹ� ���Ÿ� ������ �� ���� ���
-                SetAdjustStatsAttackSpeed(0.8f); // ���� �ӵ� 20% ����
-                SetAdjustStatsMoveSpeed(1.2F);   // �̵� �ӵ� 20% ����
+                SetAdjustStatsAttackSpeed(1.15f); // ���� �ӵ� 20% ����
+                SetAdjustStatsMoveSpeed(1.15F);   // �̵� �ӵ� 20% ����
                 break;
 
             default:
@@ -84,8 +96,8 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
              //   SetAdjustStatsMoveSpeed(1.2F);   // �̵� �ӵ� 20% ����
                 break;
         }
-      //  Debug.Log($" playerType : {playerType} �� �ش��ϴ� ������ ����");
-       // UpdateAnimatorSpeed();
+        //  Debug.Log($" playerType : {playerType} �� �ش��ϴ� ������ ����");
+        // UpdateAnimatorSpeed();
     }
 
 
@@ -107,9 +119,9 @@ public class EnemyStats : CharacterStats<EnemyStatsData>
             Debug.LogError("Failed to load monster stats for id: " + id);
         }
     }
-    protected override void SetStatsData(EnemyStatsData stats)
+    protected override void SetStatsData(EnemyStatsData stats, bool isSave = false)
     {
-        base.SetStatsData(stats);
+        base.SetStatsData(stats, isSave);
         Exp = stats.Exp;
     }
 
